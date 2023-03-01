@@ -1,14 +1,22 @@
 // import Todo from "../models/todoModel.js";
 // import TodoList from "../models/todoListModel.js";
 
+import Post from "../models/postModel.js";
+
 // export const getAllTodos = async (req, res) => {
 //     const todos = await Todo.find({});
 //     res.json(todos);
 // };
 
 export const createPost = async (req, res) => {
-    console.log(req.body);
-    res.send(JSON.stringify(req.body));
+    try {
+        const data = req.body;
+        const newPost = new Post(data);
+        await newPost.save();
+        res.json({ message: "Create Success!" });
+    } catch (e) {
+        res.json({ error: "An error occurred!" });
+    }
 };
 
 // export const deleteTodo = async (req, res) => {

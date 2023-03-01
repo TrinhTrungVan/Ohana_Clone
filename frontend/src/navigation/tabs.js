@@ -13,7 +13,13 @@ const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
     return (
-        <Tab.Navigator screenOptions={{ headerShown: false, tabBarShowLabel: false, tabBarStyle: { position: "absolute", height: 68 } }}>
+        <Tab.Navigator
+            screenOptions={{
+                headerShown: false,
+                tabBarShowLabel: false,
+                tabBarStyle: { position: "absolute", height: 68 },
+            }}
+        >
             <Tab.Screen
                 name='Home'
                 component={HomeScreen}
@@ -21,11 +27,23 @@ const Tabs = () => {
                     tabBarIcon: ({ focused }) => (
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
                             <Image
-                                source={focused ? require("../../assets/icons/home_focused.png") : require("../../assets/icons/home.png")}
+                                source={
+                                    focused
+                                        ? require("../../assets/icons/home_focused.png")
+                                        : require("../../assets/icons/home.png")
+                                }
                                 resizeMode='contain'
-                                style={{ width: 25, height: 25, tintColor: focused ? COLORS.red : COLORS.grey }}
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    tintColor: focused ? COLORS.red : COLORS.grey,
+                                }}
                             />
-                            <Text style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}>Home</Text>
+                            <Text
+                                style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}
+                            >
+                                Home
+                            </Text>
                         </View>
                     ),
                 }}
@@ -37,11 +55,23 @@ const Tabs = () => {
                     tabBarIcon: ({ focused }) => (
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
                             <Image
-                                source={focused ? require("../../assets/icons/love_focused.png") : require("../../assets/icons/love.png")}
+                                source={
+                                    focused
+                                        ? require("../../assets/icons/love_focused.png")
+                                        : require("../../assets/icons/love.png")
+                                }
                                 resizeMode='contain'
-                                style={{ width: 25, height: 25, tintColor: focused ? COLORS.red : COLORS.grey }}
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    tintColor: focused ? COLORS.red : COLORS.grey,
+                                }}
                             />
-                            <Text style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}>Saved</Text>
+                            <Text
+                                style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}
+                            >
+                                Saved
+                            </Text>
                         </View>
                     ),
                 }}
@@ -86,11 +116,23 @@ const Tabs = () => {
                     tabBarIcon: ({ focused }) => (
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
                             <Image
-                                source={focused ? require("../../assets/icons/chat_focused.png") : require("../../assets/icons/chat.png")}
+                                source={
+                                    focused
+                                        ? require("../../assets/icons/chat_focused.png")
+                                        : require("../../assets/icons/chat.png")
+                                }
                                 resizeMode='contain'
-                                style={{ width: 25, height: 25, tintColor: focused ? COLORS.red : COLORS.grey }}
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    tintColor: focused ? COLORS.red : COLORS.grey,
+                                }}
                             />
-                            <Text style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}>Chat</Text>
+                            <Text
+                                style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}
+                            >
+                                Chat
+                            </Text>
                         </View>
                     ),
                 }}
@@ -102,11 +144,23 @@ const Tabs = () => {
                     tabBarIcon: ({ focused }) => (
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
                             <Image
-                                source={focused ? require("../../assets/icons/user_focused.png") : require("../../assets/icons/user.png")}
+                                source={
+                                    focused
+                                        ? require("../../assets/icons/user_focused.png")
+                                        : require("../../assets/icons/user.png")
+                                }
                                 resizeMode='contain'
-                                style={{ width: 25, height: 25, tintColor: focused ? COLORS.red : COLORS.grey }}
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    tintColor: focused ? COLORS.red : COLORS.grey,
+                                }}
                             />
-                            <Text style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}>Account</Text>
+                            <Text
+                                style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}
+                            >
+                                Account
+                            </Text>
                         </View>
                     ),
                 }}
@@ -141,6 +195,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: "500",
+        zIndex: 10,
     },
     cancelBtn: {
         position: "absolute",

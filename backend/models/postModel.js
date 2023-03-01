@@ -1,19 +1,15 @@
 import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema({
-    title: {
-        type: String,
+    roomArea: {
+        type: Number,
         require: true,
     },
     capacity: {
         type: Number,
         require: true,
     },
-    gender: {
-        type: String,
-        ref: "gender",
-    },
-    rentalPrice: {
+    expenses: {
         type: Number,
         require: true,
     },
@@ -33,14 +29,50 @@ const postSchema = new mongoose.Schema({
         type: Number,
         require: true,
     },
-    parkingSpace: {
-        available: {
-            type: Boolean,
-            require: true,
+    parkingAvailable: {
+        type: Boolean,
+        require: true,
+    },
+    parkingCost: {
+        type: Number,
+        require: true,
+    },
+    city: {
+        type: String,
+        require: true,
+    },
+    district: {
+        type: String,
+        require: true,
+    },
+    ward: {
+        type: String,
+        require: true,
+    },
+    streetName: {
+        type: String,
+        require: true,
+    },
+    houseNumber: {
+        type: String,
+        require: true,
+    },
+    images: [
+        {
+            type: String,
         },
-        cost: {
-            type: Number,
-        },
+    ],
+    phoneNumber: {
+        type: String,
+        require: true,
+    },
+    title: {
+        type: String,
+        require: true,
+    },
+    description: {
+        type: String,
+        require: true,
     },
 });
 

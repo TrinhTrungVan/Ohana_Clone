@@ -1,29 +1,44 @@
 import React from "react";
-import { Text, StyleSheet, Pressable } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/color";
 
-export default function Button({ title, onPress }) {
+export default function Button({ children, onPress, type = "Primary" }) {
     return (
-        <Pressable style={styles.button} onPress={onPress}>
-            <Text style={styles.text}>{title}</Text>
-        </Pressable>
+        <TouchableOpacity
+            style={{
+                ...styles.button,
+                backgroundColor: type === "Secondary" ? COLORS.white : COLORS.red,
+            }}
+            onPress={onPress}
+        >
+            {typeof children === "string" ? (
+                <Text
+                    style={{
+                        ...styles.text,
+                        color: type === "Secondary" ? COLORS.blue : COLORS.abs_white,
+                    }}
+                >
+                    {children}
+                </Text>
+            ) : (
+                <View>{children}</View>
+            )}
+        </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     button: {
+        width: "100%",
         height: 55,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 4,
-        elevation: 3,
-        backgroundColor: COLORS.red,
     },
     text: {
-        fontSize: 20,
+        fontSize: 14,
         lineHeight: 55,
         fontWeight: "bold",
         letterSpacing: 1,
-        color: "white",
     },
 });
