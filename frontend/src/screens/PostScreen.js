@@ -12,7 +12,6 @@ const PostScreen = ({ navigation }) => {
 
     const handleChangeForm = (index) => {
         setFormIndex(index);
-    };
 
     const LABEL = ["Information", "Address", "Image", "Confirmation"];
     return (
@@ -31,7 +30,7 @@ const PostScreen = ({ navigation }) => {
             </ScrollView>
         </SafeAreaView>
     );
-};
+}};
 
 export default PostScreen;
 
