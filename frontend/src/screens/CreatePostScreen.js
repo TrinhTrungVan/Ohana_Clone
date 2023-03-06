@@ -3,8 +3,8 @@ import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import PostForm from "../components/PostForm";
 import ProgressSteps from "../components/ProgressSteps";
 import COLORS from "../constants/color";
-import AddressScreen from "../screens/AddressScreen";
-import UploadImageScreen from "../screens/UploadImageScreen";
+import AddressScreen from "./AddressScreen";
+import UploadImageScreen from "./UploadImageScreen";
 import ConfirmationScreen from "./ConfirmationScreen";
 
 const PostScreen = ({ navigation }) => {
@@ -12,7 +12,7 @@ const PostScreen = ({ navigation }) => {
 
     const handleChangeForm = (index) => {
         setFormIndex(index);
-
+    };
     const LABEL = ["Information", "Address", "Image", "Confirmation"];
     return (
         <SafeAreaView style={styles.container}>
@@ -30,7 +30,7 @@ const PostScreen = ({ navigation }) => {
             </ScrollView>
         </SafeAreaView>
     );
-}};
+};
 
 export default PostScreen;
 
