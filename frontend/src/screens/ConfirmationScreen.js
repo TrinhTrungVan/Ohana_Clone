@@ -52,7 +52,7 @@ const ConfirmationScreen = (props) => {
 
     const clearStorage = async () => {
         try {
-            await AsyncStorage.clear();
+            await AsyncStorage.removeItem("@postInfo");
         } catch (e) {
             alert("Failed to save the data to the storage");
         }

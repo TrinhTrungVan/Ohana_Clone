@@ -7,14 +7,6 @@ import Button from "../components/Button";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const initialState = {
-    city: null,
-    district: null,
-    ward: null,
-    streetName: "",
-    houseNumber: "",
-};
-
 const AddressScreen = (props) => {
     const { handleChangeForm } = props;
     const [data, setData] = useState(null);

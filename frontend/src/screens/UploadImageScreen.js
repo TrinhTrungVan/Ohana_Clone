@@ -64,7 +64,7 @@ const UploadImageScreen = (props) => {
                 setData(parseData.images);
             }
         } catch (e) {
-            alert("Failed to fetch the input from storage");
+            setData([]);
         }
     };
 

@@ -1,25 +1,32 @@
 import React, { useState } from "react";
-import { View, SafeAreaView, ScrollView, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import {
+    View,
+    SafeAreaView,
+    ScrollView,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    TextInput,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
 import { loginUser } from "../redux/apiRequest";
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+function LoginScreen({ setIsCheckAuthen, navigation, route }) {
+    const BASE_URL = "http://10.0.3.2:2001/api/auth";
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [textError, setTextError] = useState("");
 
-function LoginScreen({setIsCheckAuthen, navigation, route}) {
-    const BASE_URL = "http://10.0.3.2:2001/api/auth"
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [textError, setTextError] = useState("")
-
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     // const navigate = useNavigate()
 
     const fetchLogin = async (user) => {
-        console.log('login')
+        console.log("login");
         try {
             const res = await fetch(`${BASE_URL}/login`, {
                 method: "POST",
@@ -29,63 +36,61 @@ function LoginScreen({setIsCheckAuthen, navigation, route}) {
                 },
                 body: JSON.stringify({
                     username: user.username,
-                    password: user.password
+                    password: user.password,
                 }),
-            })
-            console.log('3')
-            const json = await res.json()
-            console.log(JSON.stringify(json))
-            console.log('2')
+            });
+            console.log("3");
+            const json = await res.json();
+            console.log(JSON.stringify(json));
+            console.log("2");
             // if(res.status == '403') setTextError("Wrong username!")
             // else if(res.status == '404') setTextError('Wrong password!')
             // else {
             //     console.log(JSON.stringify(json))
             //     setTextError('')
             // }
+        } catch (e) {
+            console.error(e);
         }
-        catch (e) {
-            console.error(e)
-        }
-    }
-    
+    };
+
     // const ress = useSelector(state => state.auth.login.currentUser._id)
     const handleClickLogin = () => {
         const user = {
             username: username,
-            password: password
-        }
-        loginUser(user, dispatch)
+            password: password,
+        };
+        loginUser(user, dispatch);
         // fetchLogin(user)
         // setIsCheckAuthen(false)
-        navigation.navigate('Home')
+        navigation.navigate("Home");
         // console.log(ress)
-    }
+    };
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
                 <View style={{ paddingTop: 8, paddingBottom: 32 }}>
-                    <Input 
-                        label='Username' 
-                        placeholder='Enter the username' 
-                        onChangeText={text => setUsername(text)} 
+                    <Input
+                        label='Username'
+                        placeholder='Enter the username'
+                        onChangeText={(text) => setUsername(text)}
                     />
-                    <Input 
-                        label='Password' 
-                        placeholder='Enter the password' 
-                        onChangeText={text => setPassword(text)} 
-                        secureTextEntry={true} 
+                    <Input
+                        label='Password'
+                        placeholder='Enter the password'
+                        onChangeText={(text) => setPassword(text)}
+                        secureTextEntry={true}
                     />
-                    <Button onPress={handleClickLogin} title='Sign In' />
+                    <Button onPress={handleClickLogin}>Login</Button>
                     <Text style={styles.textError}>{textError}</Text>
                 </View>
             </ScrollView>
         </SafeAreaView>
-    )
+    );
 }
 
-export default LoginScreen
-
+export default LoginScreen;
 
 const styles = StyleSheet.create({
     container: {

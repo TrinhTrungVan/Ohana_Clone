@@ -3,10 +3,10 @@
 
 import Post from "../models/postModel.js";
 
-// export const getAllTodos = async (req, res) => {
-//     const todos = await Todo.find({});
-//     res.json(todos);
-// };
+export const getPosts = async (req, res) => {
+    const todos = await Post.find({});
+    res.json(todos);
+};
 
 export const createPost = async (req, res) => {
     try {

@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import HomeScreen from "../../src/screens/HomeScreen";
 import SavedScreen from "../../src/screens/SavedScreen";
-import PostScreen from "../../src/screens/PostScreen";
+import CreatePostScreen from "../screens/CreatePostScreen";
 import ChatScreen from "../../src/screens/ChatScreen";
 import AccountScreen from "../../src/screens/AccountScreen";
 import COLORS from "../constants/color";
@@ -13,9 +13,8 @@ import LoginScreen from "../screens/LoginScreen";
 import InformationScreen from "../screens/InformationScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 
-
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator();
 
 const Tabs = () => {
     return (
@@ -27,7 +26,7 @@ const Tabs = () => {
             }}
         >
             <Tab.Screen
-                name='Home'
+                name='App'
                 component={App}
                 options={{
                     tabBarIcon: ({ focused }) => (
@@ -84,7 +83,7 @@ const Tabs = () => {
             />
             <Tab.Screen
                 name='Post'
-                component={PostScreen}
+                component={CreatePostScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View
@@ -185,13 +184,13 @@ const Tabs = () => {
 export default Tabs;
 function App() {
     return (
-        <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Information" component={InformationScreen} />
-            <Stack.Screen name="SignUp" component={RegisterScreen} />
+        <Stack.Navigator initialRouteName='App'>
+            <Stack.Screen name='Home' component={HomeScreen} />
+            <Stack.Screen name='Login' component={LoginScreen} />
+            <Stack.Screen name='Information' component={InformationScreen} />
+            <Stack.Screen name='SignUp' component={RegisterScreen} />
         </Stack.Navigator>
-    )
+    );
 }
 // export default App
 const styles = StyleSheet.create({
