@@ -92,26 +92,42 @@ export default function HomeSearch() {
             for (var key in data) {
                 console.log(option)
                 if (option == 'title') {
-                    if (data.hasOwnProperty(key)) {
-                        console.log(key + " -> " + data[key].title);
-                        setData(
-                            data.filter((item) =>
-                                item.title.toUpperCase().includes(searchTerm.toUpperCase())
-                            )
-                        );
-            
-                    }
+                    // if (data.hasOwnProperty(key)) {
+                    //     console.log(key + " -> " + data[key].title);
+                    //     setData(
+                    //         data.filter((item) =>
+                    //             item.title.toUpperCase().includes(searchTerm.toUpperCase())
+                    //         )
+                    //     );
+
+                    // }
+                    setData(
+                        data.filter((item) =>
+                            item.title.toUpperCase().includes(searchTerm.toUpperCase())
+                        )
+                    );
                 } else if (option == 'id') {
-                    if (data.hasOwnProperty(key)) {
-                        console.log(key + " -> " + data[key].id);
-                        setData(
-                            data.filter((item) =>
-                                item.id.toString().toUpperCase().includes(searchTerm.toUpperCase())
-                            )
-                        );
-            
+                    // if (data.hasOwnProperty(key)) {
+                    //     console.log(key + " -> " + data[key].id);
+                    //     setData(
+                    //         data.filter((item) =>
+                    //             item.id.toString().toUpperCase().includes(searchTerm.toUpperCase())
+                    //         )
+                    //     );
+
+                    // }
+                    setData(
+                        data.filter((item) =>
+                            item.id.toString().toUpperCase().includes(searchTerm.toUpperCase())
+                        )
+                    );
+                } else if (!option) {
+                    setData(
+                        data.filter((item) =>
+                            item.title.toUpperCase().includes(searchTerm.toUpperCase())
+                        )
+                    );
                 }
-            }
             }
             // setData(
             //     data.filter((item) =>
