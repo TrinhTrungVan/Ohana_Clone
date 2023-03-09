@@ -3,8 +3,7 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 import { ScrollView, Modal, View, Text, Button, StyleSheet, SafeAreaView, TextInput } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
-import Post from "../components/Post";
-import COLORS from "../constants/color";
+
 
 export default function HomeSearch() {
 
@@ -44,8 +43,9 @@ export default function HomeSearch() {
 
     //All 3 scenario: Quas, Aut, Molestias
     function handleFilter(searchTerm) {
-        var newData = mainData;
-        if (searchTerm) {
+        var newData;
+        if (searchTerm || 
+            (!searchTerm && ((option1) || (option2) || (option3) ) ) ) {
 
             if (option == 'title') {
 
@@ -58,53 +58,93 @@ export default function HomeSearch() {
                 //     );
 
                 // }
-                newData = mainData.filter((item) =>
+                var newData = mainData.filter((item) =>
                     item.title.toUpperCase().includes(searchTerm.toUpperCase())
                 )
+                if (option1) {
+                    newData =
+                        newData.filter((item) =>
+                            item.title.toUpperCase().includes(option1.toUpperCase())
+                        )
+
+                }
+                if (option2) {
+                    newData =
+                        newData.filter((item) =>
+                            item.title.toUpperCase().includes(option2.toUpperCase())
+                        )
+
+                }
+                if (option3) {
+                    newData =
+                        newData.filter((item) =>
+                            item.title.toUpperCase().includes(option3.toUpperCase())
+                        )
+
+                }
+
+                setData(newData);
 
             } else if (option == 'id') {
-                newData = mainData.filter((item) =>
+                var newData = mainData.filter((item) =>
                     item.id.toString().toUpperCase().includes(searchTerm.toUpperCase())
                 )
+                if (option1) {
+                    newData =
+                        newData.filter((item) =>
+                            item.title.toUpperCase().includes(option1.toUpperCase())
+                        )
 
+                }
+                if (option2) {
+                    newData =
+                        newData.filter((item) =>
+                            item.title.toUpperCase().includes(option2.toUpperCase())
+                        )
+
+                }
+                if (option3) {
+                    newData =
+                        newData.filter((item) =>
+                            item.title.toUpperCase().includes(option3.toUpperCase())
+                        )
+
+                }
+
+                setData(newData);
             } else if (!option) {
                 setOption("title")
-                newData = mainData.filter((item) =>
+                var newData = mainData.filter((item) =>
                     item.title.toUpperCase().includes(searchTerm.toUpperCase())
                 )
+                if (option1) {
+                    newData =
+                        newData.filter((item) =>
+                            item.title.toUpperCase().includes(option1.toUpperCase())
+                        )
 
+                }
+                if (option2) {
+                    newData =
+                        newData.filter((item) =>
+                            item.title.toUpperCase().includes(option2.toUpperCase())
+                        )
+
+                }
+                if (option3) {
+                    newData =
+                        newData.filter((item) =>
+                            item.title.toUpperCase().includes(option3.toUpperCase())
+                        )
+
+                }
+
+                setData(newData);
             }
-        } 
-
-        if (option1 || option2 || option3) {
-
-            if (option1) {
-                newData =
-                    newData.filter((item) =>
-                        item.title.toUpperCase().includes(option1.toUpperCase())
-                    )
-
-            }
-            if (option2) {
-                newData =
-                    newData.filter((item) =>
-                        item.title.toUpperCase().includes(option2.toUpperCase())
-                    )
-
-            }
-            if (option3) {
-                newData =
-                    newData.filter((item) =>
-                        item.title.toUpperCase().includes(option3.toUpperCase())
-                    )
-
-            }
-
-            setData(newData);
-        }
-        if (!searchTerm && !option1 && !option2 && !option3) {
+        } else if (!searchTerm) {
             updateData();
-        } 
+        }
+
 
     }
 
