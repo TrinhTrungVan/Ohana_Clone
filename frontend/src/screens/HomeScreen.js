@@ -61,90 +61,45 @@ export default function HomeSearch() {
                 var newData = mainData.filter((item) =>
                     item.title.toUpperCase().includes(searchTerm.toUpperCase())
                 )
-                if (option1) {
-                    newData =
-                        newData.filter((item) =>
-                            item.title.toUpperCase().includes(option1.toUpperCase())
-                        )
-
-                }
-                if (option2) {
-                    newData =
-                        newData.filter((item) =>
-                            item.title.toUpperCase().includes(option2.toUpperCase())
-                        )
-
-                }
-                if (option3) {
-                    newData =
-                        newData.filter((item) =>
-                            item.title.toUpperCase().includes(option3.toUpperCase())
-                        )
-
-                }
-
-                setData(newData);
+                
 
             } else if (option == 'id') {
                 var newData = mainData.filter((item) =>
                     item.id.toString().toUpperCase().includes(searchTerm.toUpperCase())
                 )
-                if (option1) {
-                    newData =
-                        newData.filter((item) =>
-                            item.title.toUpperCase().includes(option1.toUpperCase())
-                        )
-
-                }
-                if (option2) {
-                    newData =
-                        newData.filter((item) =>
-                            item.title.toUpperCase().includes(option2.toUpperCase())
-                        )
-
-                }
-                if (option3) {
-                    newData =
-                        newData.filter((item) =>
-                            item.title.toUpperCase().includes(option3.toUpperCase())
-                        )
-
-                }
-
-                setData(newData);
+                
             } else if (!option) {
                 setOption("title")
                 var newData = mainData.filter((item) =>
                     item.title.toUpperCase().includes(searchTerm.toUpperCase())
                 )
-                if (option1) {
-                    newData =
-                        newData.filter((item) =>
-                            item.title.toUpperCase().includes(option1.toUpperCase())
-                        )
-
-                }
-                if (option2) {
-                    newData =
-                        newData.filter((item) =>
-                            item.title.toUpperCase().includes(option2.toUpperCase())
-                        )
-
-                }
-                if (option3) {
-                    newData =
-                        newData.filter((item) =>
-                            item.title.toUpperCase().includes(option3.toUpperCase())
-                        )
-
-                }
-
-                setData(newData);
+                
             }
+            if (option1) {
+                newData =
+                    newData.filter((item) =>
+                        item.title.toUpperCase().includes(option1.toUpperCase())
+                    )
+
+            }
+            if (option2) {
+                newData =
+                    newData.filter((item) =>
+                        item.title.toUpperCase().includes(option2.toUpperCase())
+                    )
+
+            }
+            if (option3) {
+                newData =
+                    newData.filter((item) =>
+                        item.title.toUpperCase().includes(option3.toUpperCase())
+                    )
+
+            }
+            setData(newData);
         } else if (!searchTerm) {
             updateData();
         }
-
 
     }
 
@@ -188,7 +143,8 @@ export default function HomeSearch() {
                     onRequestClose={() => {
                         console.log('Modal has been closed.');
                     }}>
-                   
+                    {/*All views of Modal*/}
+                    {/*Animation can be slide, slide, none*/}
                     <View style={styles.modal}>
                         <Button
                             title="Close search filter"
@@ -200,6 +156,7 @@ export default function HomeSearch() {
                         <Picker
                             selectedValue={option1}
                             onValueChange={(itemValue, itemIndex) => {
+                                //console.log(filtersearchOpt1(data,itemValue))
                                 setOption1(itemValue);
                                 console.log(option1);
                             }}
@@ -246,6 +203,11 @@ export default function HomeSearch() {
                         <Button
                             title="Search"
                             onPress={() => {
+                                //updateData();
+                                //setData(mainData);
+                                // if (!searchInp) {
+                                //     searchInp = ''
+                                // }
                                 if (!option) {
                                     setOption("title")
                                 }
@@ -266,7 +228,6 @@ export default function HomeSearch() {
 
             <ScrollView contentContainerStyle={styles.resultContainer}>
                 {
-
                     data.map((post, i) => (
                         <View key={i}>
                             <Text>{post.id}. {post.title}</Text>
