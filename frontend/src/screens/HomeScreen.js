@@ -3,6 +3,10 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 import { ScrollView, Modal, View, Text, Button, StyleSheet, SafeAreaView, TextInput } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
+import Select from "../components/Select";
+import PROVINCE from "../constants/province";
+import COLORS from "../constants/color";
+
 
 
 export default function HomeSearch() {
@@ -44,8 +48,8 @@ export default function HomeSearch() {
     //All 3 scenario: Quas, Aut, Molestias
     function handleFilter(searchTerm) {
         var newData;
-        if (searchTerm || 
-            (!searchTerm && ((option1) || (option2) || (option3) ) ) ) {
+        if (searchTerm ||
+            (!searchTerm && (idRange))) {
 
             if (option == 'title') {
 
@@ -61,42 +65,69 @@ export default function HomeSearch() {
                 var newData = mainData.filter((item) =>
                     item.title.toUpperCase().includes(searchTerm.toUpperCase())
                 )
-                
+
 
             } else if (option == 'id') {
                 var newData = mainData.filter((item) =>
                     item.id.toString().toUpperCase().includes(searchTerm.toUpperCase())
                 )
-                
+
             } else if (!option) {
                 setOption("title")
                 var newData = mainData.filter((item) =>
                     item.title.toUpperCase().includes(searchTerm.toUpperCase())
                 )
-                
-            }
-            if (option1) {
-                newData =
-                    newData.filter((item) =>
-                        item.title.toUpperCase().includes(option1.toUpperCase())
-                    )
 
             }
-            if (option2) {
-                newData =
-                    newData.filter((item) =>
-                        item.title.toUpperCase().includes(option2.toUpperCase())
-                    )
+            // if (option1) {
+            //     newData =
+            //         newData.filter((item) =>
+            //             item.title.toUpperCase().includes(option1.toUpperCase())
+            //         )
 
-            }
-            if (option3) {
-                newData =
-                    newData.filter((item) =>
-                        item.title.toUpperCase().includes(option3.toUpperCase())
-                    )
+            // }
+            // if (option2) {
+            //     newData =
+            //         newData.filter((item) =>
+            //             item.title.toUpperCase().includes(option2.toUpperCase())
+            //         )
 
+            // }
+            // if (option3) {
+            //     newData =
+            //         newData.filter((item) =>
+            //             item.title.toUpperCase().includes(option3.toUpperCase())
+            //         )
+
+            // }
+
+            if (idRange) {
+                if (idRange == 1) {
+                    newData =
+                    newData.filter((item) =>
+                        //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+                        item.id <=10
+
+                    )
+                } else if (idRange == 2) {
+                    newData =
+                    newData.filter((item) =>
+                        //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+                        item.id <=20 && item.id >10
+                        
+                    )
+                } else if (idRange == 3) {
+                    newData =
+                    newData.filter((item) =>
+                        //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+                        item.id >20
+                        
+                    )
+                }
+
+                //setData(newData)
             }
-            setData(newData);
+            setData(newData)
         } else if (!searchTerm) {
             updateData();
         }
@@ -111,6 +142,47 @@ export default function HomeSearch() {
     const [option3, setOption3] = useState();
 
     const [searchInp, setSearchInp] = useState();
+
+    const [districtList, setDistrictList] = useState([]);
+    const [wardList, setWardList] = useState([]);
+
+    const [cdata, setcData] = useState(null);
+
+    const [idRange, setidRange] = useState([]);
+
+
+
+    const handleSelectCity = async (item) => {
+        // setLoading(true);
+        setcData({ ...cdata, city: item.name, district: null, ward: null });
+        await fetch(`https://provinces.open-api.vn/api/p/${item.code}?depth=2`)
+            .then((res) => res.json())
+            .then((res) => setDistrictList(res.districts));
+        // setLoading(false);
+    };
+
+    const handleSelectDistrict = async (item) => {
+        // setLoading(true);
+        setcData({ ...cdata, district: item.name });
+        await fetch(`https://provinces.open-api.vn/api/d/${item.code}?depth=2`)
+            .then((res) => res.json())
+            .then((res) => setWardList(res.wards));
+        // setLoading(false);
+    };
+
+    // const handleIdRange = async (item) => {
+    //     var newData = mainData.filter((item) =>
+    //         item.title.toUpperCase().includes(searchTerm.toUpperCase())
+    //     )
+    //     setData(newData);
+    // };
+
+    const handleSelectWard = (item) => {
+        setcData({ ...cdata, ward: item.name });
+    };
+
+
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -129,8 +201,8 @@ export default function HomeSearch() {
             </ScrollView> */}
             <TextInput
                 style={styles.textInputStyle}
-                //onChangeText={(text) => handleFilter(text)}
-                onChangeText={(text) => setSearchInp(text)}
+                onChangeText={(text) => handleFilter(text)}
+                //onChangeText={(text) => setSearchInp(text)}
                 value={data}
                 placeholder="Search Here"
             />
@@ -152,6 +224,28 @@ export default function HomeSearch() {
                                 setShowModal(!showModal);
                             }}
                         />
+
+                        <Select
+                            label='Thanh Pho'
+                            value={cdata?.city}
+                            options={PROVINCE}
+                            handleSelect={handleSelectCity}
+                        />
+                        <Select
+                            label='Quan'
+                            value={cdata?.district}
+                            options={districtList}
+                            handleSelect={handleSelectDistrict}
+
+                        />
+                        <Select
+                            label='Phuong'
+                            value={cdata?.ward}
+                            options={wardList}
+                            handleSelect={handleSelectWard}
+
+                        />
+                        {/* 
                         <Text>Option 1 (Thanh Pho):</Text>
                         <Picker
                             selectedValue={option1}
@@ -187,10 +281,10 @@ export default function HomeSearch() {
                             <Picker.Item label="None" value={null} />
                             <Picker.Item label="Molestias" value="molestias" />
                             <Picker.Item label="Dolor" value="dolor" />
-                        </Picker>
-                        <Text>Tim theo:</Text>
+                        </Picker> */}
+                        {/* <Text>Tim theo:</Text>
                         <Picker
-
+                            style={styles.selectSpace}
                             selectedValue={option}
                             onValueChange={(itemValue, itemIndex) => {
                                 setOption(itemValue);
@@ -198,24 +292,30 @@ export default function HomeSearch() {
                             }
                             }>
                             <Picker.Item label="Title" value="title" />
-                            <Picker.Item label="Id" value="id" />
+                            <Picker.Item label="None" value={null} />
+                        </Picker> */}
+                        {/* <Select
+                            label='Id'
+                            // value={idRange}
+                            // options={[{name:"1"},{name:"2"},{name:"3"}]}
+                            // handleSelect={handleIdRange}
+                            
+                        /> */}
+
+                        <Text>Id:</Text>
+                        <Picker
+                            style={styles.selectSpace}
+                            selectedValue={idRange}
+                            onValueChange={(itemValue, itemIndex) => {
+                                setidRange(itemValue);
+                                console.log(idRange);
+                            }
+                            }>
+                            <Picker.Item label="None" value={null} />
+                            <Picker.Item label="0-10" value="1" />
+                            <Picker.Item label="11-20" value="2" />
+                            <Picker.Item label="20<" value="3" />
                         </Picker>
-                        <Button
-                            title="Search"
-                            onPress={() => {
-                                //updateData();
-                                //setData(mainData);
-                                // if (!searchInp) {
-                                //     searchInp = ''
-                                // }
-                                if (!option) {
-                                    setOption("title")
-                                }
-                                console.log(option)
-                                handleFilter(searchInp);
-                                setShowModal(!showModal);
-                            }}
-                        />
                     </View>
                 </Modal>
                 <Button
@@ -266,5 +366,9 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         color: 'white',
         height: 60,
-    }
+    },
+    selectSpace: {
+        color: "white",
+        backgroundColor: "grey",
+    },
 });
