@@ -179,6 +179,7 @@ export default function HomeSearch() {
 
     const handleSelectWard = (item) => {
         setcData({ ...cdata, ward: item.name });
+        console.log(cdata.ward)
     };
 
 
@@ -303,8 +304,8 @@ export default function HomeSearch() {
                         /> */}
 
                         <Text>Id:</Text>
+                        <View style={styles.pickerTest}>
                         <Picker
-                            style={styles.selectSpace}
                             selectedValue={idRange}
                             onValueChange={(itemValue, itemIndex) => {
                                 setidRange(itemValue);
@@ -316,6 +317,7 @@ export default function HomeSearch() {
                             <Picker.Item label="11-20" value="2" />
                             <Picker.Item label="20<" value="3" />
                         </Picker>
+                        </View>
                     </View>
                 </Modal>
                 <Button
@@ -367,8 +369,10 @@ const styles = StyleSheet.create({
         color: 'white',
         height: 60,
     },
-    selectSpace: {
-        color: "white",
-        backgroundColor: "grey",
+    pickerTest: {
+        borderColor: "black",
+        borderRadius: 5,
+        borderWidth: .5,
+        //backgroundColor: "green",
     },
 });
