@@ -1,16 +1,15 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import React from 'react'
-import LoginScreen from '../screens/LoginScreen'
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from "react";
+import LoginScreen from "../screens/LoginScreen";
 
-
-const NavigateLogin = createNativeStackNavigator()
+const NavigateLogin = createNativeStackNavigator();
 
 function stackNavigation() {
-  return (
-    <NavigateLogin.Navigator>
-        <NavigateLogin.Screen name='login' component={LoginScreen} />
-    </NavigateLogin.Navigator>
-  )
+    return (
+        <NavigateLogin.Navigator>
+            <NavigateLogin.Screen name='login' component={LoginScreen} />
+        </NavigateLogin.Navigator>
+    );
 }
 
-export default stackNavigation
+export default stackNavigation;

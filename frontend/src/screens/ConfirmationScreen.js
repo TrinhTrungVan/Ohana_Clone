@@ -77,30 +77,33 @@ const ConfirmationScreen = (props) => {
     return (
         <View>
             <Input
-                label='Phone Number'
-                placeholder='Enter your phone number'
+                label='Số điện thoại'
+                placeholder='Nhập số điện thoại'
                 value={data?.phone}
-                maxLength={20}
+                maxLength={10}
                 onChangeText={(value) => handleChange("phone", value)}
             />
             <Input
-                label='Title of the post'
-                placeholder='Enter the title of the post'
+                label='Tiêu đề bài đăng'
+                placeholder='Nhập tiêu đề bài đăng'
                 value={data?.title}
-                maxLength={20}
+                maxLength={100}
+                multiline
                 onChangeText={(value) => handleChange("title", value)}
             />
             <Input
-                label='Description'
-                placeholder='Enter the description'
+                label='Nội dung mô tả'
+                placeholder='Nhập nội dung mô tả'
                 value={data?.description}
+                maxLength={200}
+                multiline
                 onChangeText={(value) => handleChange("description", value)}
             />
             <View style={{ width: "50%", flexDirection: "row" }}>
                 <Button onPress={handlePrevious} type='Secondary'>
-                    Previous
+                    Quay lại
                 </Button>
-                <Button onPress={handlePublish}>{loading ? <Loading /> : "Publish Post"}</Button>
+                <Button onPress={handlePublish}>{loading ? <Loading /> : "Đăng bài"}</Button>
             </View>
         </View>
     );

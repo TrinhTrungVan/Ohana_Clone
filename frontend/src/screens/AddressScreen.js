@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
-import Select from "../components/Select";
-import Input from "../components/Input";
-import PROVINCE from "../constants/province";
-import Button from "../components/Button";
-import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import provinceServices from "../api/services/provinceServices";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import Select from "../components/Select";
+import PROVINCE from "../constants/province";
 
 const AddressScreen = (props) => {
     const { handleChangeForm } = props;
@@ -24,18 +24,16 @@ const AddressScreen = (props) => {
     const handleSelectCity = async (item) => {
         setLoading(true);
         setData({ ...data, city: item.name, district: null, ward: null });
-        await fetch(`https://provinces.open-api.vn/api/p/${item.code}?depth=2`)
-            .then((res) => res.json())
-            .then((res) => setDistrictList(res.districts));
+        const res = await provinceServices.getDistrictList(item.code);
+        setDistrictList(res.data.districts);
         setLoading(false);
     };
 
     const handleSelectDistrict = async (item) => {
         setLoading(true);
         setData({ ...data, district: item.name });
-        await fetch(`https://provinces.open-api.vn/api/d/${item.code}?depth=2`)
-            .then((res) => res.json())
-            .then((res) => setWardList(res.wards));
+        const res = await provinceServices.getWardList(item.code);
+        setWardList(res.data.wards);
         setLoading(false);
     };
 
@@ -75,43 +73,43 @@ const AddressScreen = (props) => {
     return (
         <View style={{ paddingTop: 8, paddingBottom: 16 }}>
             <Select
-                label='City'
+                label='Thành phố'
                 value={data?.city}
                 options={PROVINCE}
                 handleSelect={handleSelectCity}
                 loading={loading}
             />
             <Select
-                label='District'
+                label='Quận/Huyện'
                 value={data?.district}
                 options={districtList}
                 handleSelect={handleSelectDistrict}
                 loading={loading}
             />
             <Select
-                label='Ward'
+                label='Phường/Xã'
                 value={data?.ward}
                 options={wardList}
                 handleSelect={handleSelectWard}
                 loading={loading}
             />
             <Input
-                label='Street Name'
-                placeholder='Enter the street name'
+                label='Tên đường'
+                placeholder='Nhập tên đường'
                 value={data?.streetName}
                 onChangeText={(value) => handleChange("streetName", value)}
             />
             <Input
-                label='House Number'
-                placeholder='Enter the house number'
+                label='Số nhà'
+                placeholder='Nhập số nhà'
                 value={data?.houseNumber}
                 onChangeText={(value) => handleChange("houseNumber", value)}
             />
             <View style={{ width: "50%", flexDirection: "row" }}>
                 <Button onPress={() => handleChangeForm(0)} type='Secondary'>
-                    Previous
+                    Quay lại
                 </Button>
-                <Button onPress={handleNext}>Next</Button>
+                <Button onPress={handleNext}>Tiếp theo</Button>
             </View>
         </View>
     );

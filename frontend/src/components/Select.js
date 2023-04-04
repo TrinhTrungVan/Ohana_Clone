@@ -1,18 +1,28 @@
 import React, { useState } from "react";
-import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, View } from "react-native";
+import {
+    Image,
+    Modal,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    Touchable,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import COLORS from "../constants/color";
 
 import Button from "./Button";
 import Loading from "./Loading";
 
-const Select = ({ label, options, value, handleSelect, loading }) => {
+const Select = ({ label, options = [], value, handleSelect, loading }) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <>
             <Text style={styles.label}>{label}</Text>
             <Pressable style={{ ...styles.inputContainer }} onPress={() => setModalVisible(true)}>
-                <Text>{value ? value : `Press to choose ${label}`}</Text>
+                <Text>{value ? value : `Nhấn để chọn ${label}`}</Text>
                 <Image
                     source={require("../../assets/icons/arrow-down-sign-to-navigate.png")}
                     resizeMode='contain'
@@ -22,7 +32,11 @@ const Select = ({ label, options, value, handleSelect, loading }) => {
             <View style={styles.centeredView}>
                 <Modal animationType='slide' transparent={true} visible={modalVisible}>
                     <View style={styles.centeredView}>
-                        <TouchableOpacity style={styles.modalView} activeOpacity={1} onPress={() => setModalVisible(false)}>
+                        <TouchableOpacity
+                            style={styles.modalView}
+                            activeOpacity={1}
+                            onPress={() => setModalVisible(false)}
+                        >
                             <TouchableOpacity activeOpacity={1} style={styles.content}>
                                 <Text style={styles.label}>{label}</Text>
                                 <ScrollView style={styles.selectSpace}>
@@ -33,17 +47,26 @@ const Select = ({ label, options, value, handleSelect, loading }) => {
                                                     key={index}
                                                     style={{
                                                         ...styles.optionItem,
-                                                        backgroundColor: value === item.name ? "rgba(0,0,0,0.1)" : COLORS.abs_white,
+                                                        backgroundColor:
+                                                            value === item.name
+                                                                ? "rgba(0,0,0,0.1)"
+                                                                : COLORS.abs_white,
                                                     }}
                                                     onPress={() => handleSelect(item)}
                                                 >
-                                                    <Text style={{ ...styles.label, paddingLeft: 16 }}>{item.name}</Text>
+                                                    <Text
+                                                        style={{ ...styles.label, paddingLeft: 16 }}
+                                                    >
+                                                        {item.name}
+                                                    </Text>
                                                 </Pressable>
                                             );
                                         })}
                                     </View>
                                 </ScrollView>
-                                <Button onPress={() => setModalVisible(false)}>{loading ? <Loading /> : "OK"}</Button>
+                                <Button onPress={() => setModalVisible(false)}>
+                                    {loading ? <Loading /> : "OK"}
+                                </Button>
                             </TouchableOpacity>
                         </TouchableOpacity>
                     </View>

@@ -6,7 +6,8 @@ import Button from "../components/Button";
 import Loading from "../components/Loading";
 import UploadedImage from "../components/UploadedImage";
 import COLORS from "../constants/color";
-import { uploadImage } from "../utils/uploadImage";
+import { uploadImage } from "../api/services/cloudinaryServices";
+// import { uploadImage } from "../utils/uploadImage";
 
 const UploadImageScreen = (props) => {
     const { handleChangeForm } = props;
@@ -101,9 +102,9 @@ const UploadImageScreen = (props) => {
             </View>
             <View style={{ width: "50%", flexDirection: "row" }}>
                 <Button onPress={() => handleChangeForm(1)} type='Secondary'>
-                    Previous
+                    Quay lại
                 </Button>
-                <Button onPress={handleNext}>Next</Button>
+                <Button onPress={handleNext}>Tiếp theo</Button>
             </View>
         </>
     );

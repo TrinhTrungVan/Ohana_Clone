@@ -15,10 +15,10 @@ const Post = ({ data }) => {
                 <View style={styles.info}>
                     <Text style={styles.price}>5.0M VNĐ/phòng</Text>
                     <Text style={styles.title} numberOfLines={2}>
-                        Titleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+                        {data.title}
                     </Text>
                     <Text style={styles.address} numberOfLines={2}>
-                        Addresssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+                        {data.description}
                     </Text>
                 </View>
                 <Image
