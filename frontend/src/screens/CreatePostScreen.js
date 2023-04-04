@@ -7,13 +7,13 @@ import AddressScreen from "./AddressScreen";
 import UploadImageScreen from "./UploadImageScreen";
 import ConfirmationScreen from "./ConfirmationScreen";
 
-const PostScreen = ({ navigation }) => {
+const CreatePostScreen = ({ navigation }) => {
     const [formIndex, setFormIndex] = useState(0);
 
     const handleChangeForm = (index) => {
         setFormIndex(index);
     };
-    const LABEL = ["Information", "Address", "Image", "Confirmation"];
+    const LABEL = ["Thông tin", "Địa chỉ", "Hình ảnh", "Xác nhận"];
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
@@ -32,7 +32,7 @@ const PostScreen = ({ navigation }) => {
     );
 };
 
-export default PostScreen;
+export default CreatePostScreen;
 
 const styles = StyleSheet.create({
     container: {

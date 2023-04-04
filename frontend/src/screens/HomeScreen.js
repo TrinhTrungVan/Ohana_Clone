@@ -1,58 +1,67 @@
-import * as React from 'react';
-import { useState, useEffect, useLayoutEffect } from 'react';
-import { ScrollView, Modal, View, Text, Button, StyleSheet, SafeAreaView, TextInput } from "react-native";
-import { useNavigation } from '@react-navigation/native';
-import { Picker } from '@react-native-picker/picker';
+import * as React from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
+import {
+    ScrollView,
+    Modal,
+    View,
+    Text,
+    Button,
+    StyleSheet,
+    SafeAreaView,
+    TextInput,
+    TouchableOpacity,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Picker } from "@react-native-picker/picker";
 import Select from "../components/Select";
 import PROVINCE from "../constants/province";
 import COLORS from "../constants/color";
+import postServices from "../api/services/postServices";
+import axios from "axios";
+import Post from "../components/Post";
 
-
-
-export default function HomeSearch() {
-
-    const navigation = useNavigation();
-
+export default function HomeSearch({ navigation }) {
+    // const navigation = useNavigation();
+    const [data, setData] = useState([]);
 
     const [option, setOption] = useState();
+    const [filteredData, setFilteredData] = useState([]);
 
-    const [data, setData] = useState([]);
-    const [mainData, setmainData] = useState([]);
-
-    const url = "https://jsonplaceholder.typicode.com/posts";
+    // const url = "https://jsonplaceholder.typicode.com/posts";
 
     React.useEffect(() => {
-        fetch(url)
-            .then((response) => response.json())
-            .then((json) => {
-                setData(json);
-                setmainData(json);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
+        // fetch(url)
+        //     .then((response) => response.json())
+        //     .then((json) => {
+        //         setData(json);
+        //         setmainData(json);
+        //     })
+        //     .catch((error) => {
+        //         console.error(error);
+        //     });
+        const getPost = async () => {
+            const res = await postServices.getPosts();
+            setData(res);
+            setFilteredData(res);
+        };
+        getPost();
+    }, []);
 
-    }, [])
-
-    const updateData = () => {
-        fetch(url)
-            .then((response) => response.json())
-            .then((json) => {
-                setData(json);
-            })
-    }
+    // const updateData = () => {
+    //     fetch(url)
+    //         .then((response) => response.json())
+    //         .then((json) => {
+    //             setData(json);
+    //         });
+    // };
 
     const [isSearched, setIsSearched] = useState(false);
-
 
     //All 3 scenario: Quas, Aut, Molestias
     function handleFilter(searchTerm) {
         var newData;
-        if (searchTerm ||
-            (!searchTerm && (idRange))) {
-
-            if (option == 'title') {
-
+        if (searchTerm || (!searchTerm && idRange)) {
+            if (option == "title") {
                 // if (data.hasOwnProperty(key)) {
                 //     console.log(key + " -> " + data[key].title);
                 //     setData(
@@ -64,20 +73,16 @@ export default function HomeSearch() {
                 // }
                 var newData = mainData.filter((item) =>
                     item.title.toUpperCase().includes(searchTerm.toUpperCase())
-                )
-
-
-            } else if (option == 'id') {
+                );
+            } else if (option == "id") {
                 var newData = mainData.filter((item) =>
                     item.id.toString().toUpperCase().includes(searchTerm.toUpperCase())
-                )
-
+                );
             } else if (!option) {
-                setOption("title")
+                setOption("title");
                 var newData = mainData.filter((item) =>
                     item.title.toUpperCase().includes(searchTerm.toUpperCase())
-                )
-
+                );
             }
             // if (option1) {
             //     newData =
@@ -103,37 +108,32 @@ export default function HomeSearch() {
 
             if (idRange) {
                 if (idRange == 1) {
-                    newData =
-                    newData.filter((item) =>
-                        //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
-                        item.id <=10
-
-                    )
+                    newData = newData.filter(
+                        (item) =>
+                            //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+                            item.id <= 10
+                    );
                 } else if (idRange == 2) {
-                    newData =
-                    newData.filter((item) =>
-                        //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
-                        item.id <=20 && item.id >10
-                        
-                    )
+                    newData = newData.filter(
+                        (item) =>
+                            //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+                            item.id <= 20 && item.id > 10
+                    );
                 } else if (idRange == 3) {
-                    newData =
-                    newData.filter((item) =>
-                        //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
-                        item.id >20
-                        
-                    )
+                    newData = newData.filter(
+                        (item) =>
+                            //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+                            item.id > 20
+                    );
                 }
 
                 //setData(newData)
             }
-            setData(newData)
+            setData(newData);
         } else if (!searchTerm) {
             updateData();
         }
-
     }
-
 
     const [showModal, setShowModal] = useState(false);
 
@@ -149,8 +149,6 @@ export default function HomeSearch() {
     const [cdata, setcData] = useState(null);
 
     const [idRange, setidRange] = useState([]);
-
-
 
     const handleSelectCity = async (item) => {
         // setLoading(true);
@@ -181,9 +179,6 @@ export default function HomeSearch() {
         setcData({ ...cdata, ward: item.name });
     };
 
-
-
-
     return (
         <SafeAreaView style={styles.container}>
             {/* <ScrollView style={styles.pickerStyle} >
@@ -204,22 +199,23 @@ export default function HomeSearch() {
                 onChangeText={(text) => handleFilter(text)}
                 //onChangeText={(text) => setSearchInp(text)}
                 value={data}
-                placeholder="Search Here"
+                placeholder='Search Here'
             />
 
             <View style={styles.container}>
                 <Modal
-                    animationType={'slide'}
+                    animationType={"slide"}
                     transparent={false}
                     visible={showModal}
                     onRequestClose={() => {
-                        console.log('Modal has been closed.');
-                    }}>
+                        console.log("Modal has been closed.");
+                    }}
+                >
                     {/*All views of Modal*/}
                     {/*Animation can be slide, slide, none*/}
                     <View style={styles.modal}>
                         <Button
-                            title="Close search filter"
+                            title='Close search filter'
                             onPress={() => {
                                 setShowModal(!showModal);
                             }}
@@ -236,14 +232,12 @@ export default function HomeSearch() {
                             value={cdata?.district}
                             options={districtList}
                             handleSelect={handleSelectDistrict}
-
                         />
                         <Select
                             label='Phuong'
                             value={cdata?.ward}
                             options={wardList}
                             handleSelect={handleSelectWard}
-
                         />
                         {/* 
                         <Text>Option 1 (Thanh Pho):</Text>
@@ -309,17 +303,17 @@ export default function HomeSearch() {
                             onValueChange={(itemValue, itemIndex) => {
                                 setidRange(itemValue);
                                 console.log(idRange);
-                            }
-                            }>
-                            <Picker.Item label="None" value={null} />
-                            <Picker.Item label="0-10" value="1" />
-                            <Picker.Item label="11-20" value="2" />
-                            <Picker.Item label="20<" value="3" />
+                            }}
+                        >
+                            <Picker.Item label='None' value={null} />
+                            <Picker.Item label='0-10' value='1' />
+                            <Picker.Item label='11-20' value='2' />
+                            <Picker.Item label='20<' value='3' />
                         </Picker>
                     </View>
                 </Modal>
                 <Button
-                    title="Search Filter"
+                    title='Search Filter'
                     onPress={() => {
                         setShowModal(!showModal);
                     }}
@@ -327,17 +321,17 @@ export default function HomeSearch() {
             </View>
 
             <ScrollView contentContainerStyle={styles.resultContainer}>
-                {
-                    data.map((post, i) => (
-                        <View key={i}>
-                            <Text>{post.id}. {post.title}</Text>
-                        </View>
-                    ))
-
-                }
+                {filteredData.map((post, index) => (
+                    <TouchableOpacity
+                        key={index}
+                        onPress={() => navigation.navigate("Post Detail", { id: post._id })}
+                    >
+                        <Post data={post} />
+                    </TouchableOpacity>
+                ))}
             </ScrollView>
         </SafeAreaView>
-    )
+    );
 }
 const styles = StyleSheet.create({
     container: {
@@ -349,22 +343,21 @@ const styles = StyleSheet.create({
     resultContainer: {
         flexGrow: 1,
         alignItems: "center",
-
     },
     textInputStyle: {
         height: 40,
-        alignSelf: 'stretch',
+        alignSelf: "stretch",
         borderWidth: 1,
         paddingLeft: 20,
         margin: 5,
-        borderColor: '#009688',
-        backgroundColor: '#FFFFFF',
+        borderColor: "#009688",
+        backgroundColor: "#FFFFFF",
         //position: 'absolute',
     },
     pickerStyle: {
-        backgroundColor: 'white',
-        alignSelf: 'stretch',
-        color: 'white',
+        backgroundColor: "white",
+        alignSelf: "stretch",
+        color: "white",
         height: 60,
     },
     selectSpace: {

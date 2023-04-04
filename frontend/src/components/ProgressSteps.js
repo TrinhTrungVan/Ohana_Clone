@@ -10,7 +10,7 @@ const ProgressSteps = (props) => {
             <View style={styles.step}>
                 <Image source={require("../../assets/icons/rec.png")} style={styles.circle} />
                 <Text style={styles.number}>1</Text>
-                <Text style={{ ...styles.label, color: COLORS.red }}>{label[0]}</Text>
+                <Text style={{ ...styles.label, left: -12, color: COLORS.red }}>{label[0]}</Text>
             </View>
             <View style={styles.step}>
                 <Image
@@ -23,7 +23,7 @@ const ProgressSteps = (props) => {
                 <Text
                     style={{
                         ...styles.label,
-                        left: -10,
+                        left: -5,
                         color: step > 0 ? COLORS.red : COLORS.grey,
                     }}
                 >
@@ -45,7 +45,7 @@ const ProgressSteps = (props) => {
                 <Text
                     style={{
                         ...styles.label,
-                        left: -3,
+                        left: -10,
                         color: step > 1 ? COLORS.red : COLORS.grey,
                     }}
                 >
@@ -67,6 +67,7 @@ const ProgressSteps = (props) => {
                 <Text
                     style={{
                         ...styles.label,
+                        left: -12,
                         color: step > 2 ? COLORS.red : COLORS.grey,
                     }}
                 >

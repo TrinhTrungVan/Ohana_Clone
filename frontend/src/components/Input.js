@@ -35,7 +35,7 @@ const Input = ({
         <View style={{ marginBottom: 16 }}>
             <Text style={styles.label}>{label}</Text>
             <View style={styles.container}>
-                <View style={{ ...styles.inputContainer, width: optionFree ? "80%" : "100%" }}>
+                <View style={{ ...styles.inputContainer, width: optionFree ? "75%" : "100%" }}>
                     <TextInput
                         value={value === 0 ? "Free" : value}
                         {...props}
@@ -45,7 +45,7 @@ const Input = ({
                     {suffix && <Text>{suffix}</Text>}
                 </View>
                 {optionFree && (
-                    <CheckBox isChecked={isChecked} onPress={handleClick} label='Free' />
+                    <CheckBox isChecked={isChecked} onPress={handleClick} label='Miễn phí' />
                 )}
             </View>
         </View>
@@ -66,12 +66,13 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: "80%",
-        height: 55,
+        minHeight: 55,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         borderWidth: 0.5,
         paddingHorizontal: 16,
+        paddingVertical: 12,
         borderRadius: 6,
     },
 });

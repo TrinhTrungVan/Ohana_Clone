@@ -58,41 +58,41 @@ const PostForm = (props) => {
     return (
         <View style={{ paddingTop: 8, paddingBottom: 16 }}>
             <Input
-                label='Room Area'
+                label='Diện tích'
                 suffix='m&sup2;'
-                placeholder='Enter the room area'
+                placeholder='Nhập diện tích phòng'
                 value={data?.roomArea}
                 maxLength={20}
                 onChangeText={(value) => handleChange("roomArea", value)}
             />
             <Input
-                label='Capacity'
+                label='Sức chứa'
                 suffix='person(s)/room'
-                placeholder='Number of people/room'
+                placeholder='Nhập số người/phòng'
                 value={data?.capacity}
                 maxLength={20}
                 onChangeText={(value) => handleChange("capacity", value)}
             />
             <Input
-                label='Expenses'
+                label='Giá cho thuê'
                 suffix='VND/month'
-                placeholder='Enter the rental price'
+                placeholder='Nhập giá cho thuê'
                 value={data?.expenses}
                 maxLength={20}
                 onChangeText={(value) => handleChange("expenses", value)}
             />
             <Input
-                label='Deposit'
+                label='Đặt cọc'
                 suffix='VND'
-                placeholder='The amount of money'
+                placeholder='Nhập số tiền'
                 value={data?.deposit}
                 maxLength={20}
                 onChangeText={(value) => handleChange("deposit", value)}
             />
             <Input
-                label='Electricity Cost'
+                label='Tiền điện'
                 suffix='VND'
-                placeholder='The amount of money'
+                placeholder='Nhập số tiền'
                 value={data?.electricityCost}
                 maxLength={20}
                 onChangeText={(value) => handleChange("electricityCost", value)}
@@ -100,9 +100,9 @@ const PostForm = (props) => {
                 onChangeFree={(value) => handleChangeFree("electricityCost", value)}
             />
             <Input
-                label='Water Cost'
+                label='Tiền nước'
                 suffix='VND'
-                placeholder='The amount of money'
+                placeholder='Nhập số tiền'
                 value={data?.waterCost}
                 maxLength={20}
                 onChangeText={(value) => handleChange("waterCost", value)}
@@ -110,9 +110,9 @@ const PostForm = (props) => {
                 onChangeFree={(value) => handleChangeFree("waterCost", value)}
             />
             <Input
-                label='Internet Cost'
+                label='Tiền Internet'
                 suffix='VND'
-                placeholder='The amount of money'
+                placeholder='Nhập số tiền'
                 value={data?.internetCost}
                 maxLength={20}
                 onChangeText={(value) => handleChange("internetCost", value)}
@@ -122,13 +122,13 @@ const PostForm = (props) => {
             <CheckBox
                 isChecked={data?.parkingAvailable}
                 onPress={toggleParking}
-                label='Is there space for parking?'
+                label='Có chỗ để xe'
             />
             {data?.parkingAvailable && (
                 <Input
-                    label='Parking Cost'
+                    label='Phí giữ xe'
                     suffix='VND'
-                    placeholder='The amount of money'
+                    placeholder='Nhập số tiền'
                     value={data?.parkingCost}
                     maxLength={20}
                     onChangeText={(value) => handleChange("parkingCost", value)}
@@ -139,7 +139,7 @@ const PostForm = (props) => {
             {/* <Button onPress={() => navigation.navigate("Address", { screen: "PostScreen" })}>
                 Next
             </Button> */}
-            <Button onPress={handleNext}>Next</Button>
+            <Button onPress={handleNext}>Tiếp theo</Button>
         </View>
     );
 };

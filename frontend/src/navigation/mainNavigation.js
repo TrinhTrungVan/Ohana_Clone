@@ -2,21 +2,21 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import HomeScreen from "../../src/screens/HomeScreen";
-import SavedScreen from "../../src/screens/SavedScreen";
+import HomeScreen from "../screens/HomeScreen";
+import SavedScreen from "../screens/SavedScreen";
 import CreatePostScreen from "../screens/CreatePostScreen";
-import ChatScreen from "../../src/screens/ChatScreen";
-import AccountScreen from "../../src/screens/AccountScreen";
+import ChatScreen from "../screens/ChatScreen";
+import AccountScreen from "../screens/AccountScreen";
 import COLORS from "../constants/color";
-import stackNavigation from "./stackNavigation";
 import LoginScreen from "../screens/LoginScreen";
 import InformationScreen from "../screens/InformationScreen";
 import RegisterScreen from "../screens/RegisterScreen";
+import PostScreen from "../screens/PostScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const Tabs = () => {
+const MainNavigation = () => {
     return (
         <Tab.Navigator
             screenOptions={{
@@ -47,7 +47,7 @@ const Tabs = () => {
                             <Text
                                 style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}
                             >
-                                Home
+                                Trang chủ
                             </Text>
                         </View>
                     ),
@@ -75,7 +75,7 @@ const Tabs = () => {
                             <Text
                                 style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}
                             >
-                                Saved
+                                Yêu thích
                             </Text>
                         </View>
                     ),
@@ -108,8 +108,8 @@ const Tabs = () => {
                     headerShown: true,
                     header: () => (
                         <View style={styles.header}>
-                            <Text style={styles.title}>Create Post</Text>
-                            <Text style={styles.cancelBtn}>Cancel</Text>
+                            <Text style={styles.title}>Đăng bài</Text>
+                            <Text style={styles.cancelBtn}>Huỷ</Text>
                         </View>
                     ),
                 }}
@@ -136,7 +136,7 @@ const Tabs = () => {
                             <Text
                                 style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}
                             >
-                                Chat
+                                Tin nhắn
                             </Text>
                         </View>
                     ),
@@ -164,15 +164,15 @@ const Tabs = () => {
                             <Text
                                 style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}
                             >
-                                Account
+                                Tài khoản
                             </Text>
                         </View>
                     ),
                     headerShown: true,
                     header: () => (
                         <View style={styles.header}>
-                            <Text style={styles.title}>Acount</Text>
-                            <Text style={styles.cancelBtn}>Logout</Text>
+                            <Text style={styles.title}>Tài khoản</Text>
+                            <Text style={styles.cancelBtn}>Đăng xuất</Text>
                         </View>
                     ),
                 }}
@@ -181,7 +181,7 @@ const Tabs = () => {
     );
 };
 
-export default Tabs;
+export default MainNavigation;
 function App() {
     return (
         <Stack.Navigator initialRouteName='App'>
@@ -189,6 +189,32 @@ function App() {
             <Stack.Screen name='Login' component={LoginScreen} />
             <Stack.Screen name='Information' component={InformationScreen} />
             <Stack.Screen name='SignUp' component={RegisterScreen} />
+            <Stack.Screen
+                name='Post Detail'
+                component={PostScreen}
+                options={{
+                    headerShown: true,
+                    header: ({ navigation }) => (
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Chi tiết phòng</Text>
+                            <TouchableOpacity
+                                onPress={() => navigation.goBack()}
+                                style={styles.backBtn}
+                            >
+                                <Image
+                                    source={require("../../assets/icons/back.png")}
+                                    resizeMode='contain'
+                                    style={{
+                                        width: 25,
+                                        height: 25,
+                                        tintColor: COLORS.grey,
+                                    }}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
+                }}
+            />
         </Stack.Navigator>
     );
 }
@@ -222,5 +248,9 @@ const styles = StyleSheet.create({
     cancelBtn: {
         position: "absolute",
         right: 24,
+    },
+    backBtn: {
+        position: "absolute",
+        left: 24,
     },
 });
