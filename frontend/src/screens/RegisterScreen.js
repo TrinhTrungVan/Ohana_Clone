@@ -1,23 +1,30 @@
 import React, { useState } from "react";
-import { View, SafeAreaView, ScrollView, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import {
+    View,
+    SafeAreaView,
+    ScrollView,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    TextInput,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
 import { registerUser } from "../redux/apiRequest";
 
-
-function RegisterScreen(props) {
-    const BASE_URL = "http://10.0.2.2:2001/api/auth"
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [password2, setPassword2] = useState("")
-    const [email, setEmail] = useState("")
-    const [textError, setTextError] = useState("")
-    const dispatch = useDispatch()
+function RegisterScreen({ navigation }) {
+    const BASE_URL = "http://10.0.2.2:2001/api/auth";
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [password2, setPassword2] = useState("");
+    const [email, setEmail] = useState("");
+    const [textError, setTextError] = useState("");
+    const dispatch = useDispatch();
 
     const fetchRegister = async (user) => {
-        console.log('register')
+        console.log("register");
         try {
             const res = await fetch(`${BASE_URL}/register`, {
                 method: "POST",
@@ -28,69 +35,81 @@ function RegisterScreen(props) {
                 body: JSON.stringify({
                     username: user.username,
                     email: user.email,
-                    password: user.password
-                })
-            })
-            console.log(user)
-            const json = await res.json()
-            console.log(JSON.stringify(json))
+                    password: user.password,
+                }),
+            });
+            console.log(user);
+            const json = await res.json();
+            console.log(JSON.stringify(json));
+        } catch (e) {
+            console.error({ error: e });
         }
-        catch (e) {
-            console.error({error: e})
-        }
-    }
+    };
 
-    const handleClickRegister = () => {
+    const handleRegister = () => {
         const user = {
             username: username,
             password: password,
-            email: email
-        }
-        if(password2 != user.password) setTextError("Password don't match")
-        else if(!user.email.includes('@gmail.com')) setTextError('Email must be in the format @gmail.com')
+            email: email,
+        };
+        if (password2 != user.password) setTextError("Password don't match");
+        else if (!user.email.includes("@gmail.com"))
+            setTextError("Email must be in the format @gmail.com");
         else {
-            setTextError('')
+            setTextError("");
             // fetchRegister(user)
-            props.setIsCheckSignUp(false)
-            registerUser(user, dispatch)
+            props.setIsCheckSignUp(false);
+            registerUser(user, dispatch);
         }
-    }
+    };
+
+    const handleChangeSignin = () => {
+        navigation.navigate("SignIn");
+    };
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
                 <View style={{ paddingTop: 8, paddingBottom: 32 }}>
-                    <Input 
-                        label='Username' 
-                        placeholder='Enter the username' 
-                        onChangeText={text => setUsername(text)}
+                    <Input
+                        label='Tài khoản'
+                        placeholder='Nhập email'
+                        onChangeText={(text) => setUsername(text)}
                     />
-                    <Input 
-                        label='Password' 
-                        placeholder='Enter the password' 
-                        onChangeText={text => setPassword(text)} 
-                        secureTextEntry={true} 
+                    <Input
+                        label='Mật khẩu'
+                        placeholder='Nhập mật khẩu'
+                        onChangeText={(text) => setPassword(text)}
+                        secureTextEntry={true}
                     />
-                    <Input 
-                        label='Confirm Password' 
-                        placeholder='Enter the password' 
-                        onChangeText={text => setPassword2(text)}
-                        secureTextEntry={true} 
+                    <Input
+                        label='Xác nhận mật khẩu'
+                        placeholder='Nhập lại mật khẩu'
+                        onChangeText={(text) => setPassword2(text)}
+                        secureTextEntry={true}
                     />
-                    <Input 
-                        label='Email' 
-                        placeholder='Enter the email' 
-                        onChangeText={(text) => setEmail(text)} 
+                    <Input
+                        label='Email'
+                        placeholder='Nhập email'
+                        onChangeText={(text) => setEmail(text)}
                     />
-                    <Button title='Sign Up' onPress={handleClickRegister} />
+                    <Button title='Sign Up' onPress={handleRegister}>
+                        Đăng ký
+                    </Button>
                     <Text style={styles.textError}>{textError}</Text>
+                    <View style={styles.signinContainer}>
+                        <Text>Bạn đã có tài khoản?</Text>
+                        <TouchableOpacity onPress={handleChangeSignin}>
+                            <Text style={styles.signinBtn}>Đăng nhập</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
-    )
+    );
 }
 
-export default RegisterScreen
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -100,5 +119,16 @@ const styles = StyleSheet.create({
     },
     textError: {
         color: COLORS.red,
-    }
+    },
+    signinContainer: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    signinBtn: {
+        fontWeight: "bold",
+        marginLeft: 8,
+        marginBottom: 1,
+    },
 });

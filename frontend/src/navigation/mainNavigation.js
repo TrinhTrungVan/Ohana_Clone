@@ -1,33 +1,28 @@
-import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import COLORS from "../constants/color";
+import AccountScreen from "../screens/AccountScreen";
+import ChatScreen from "../screens/ChatScreen";
+import CreatePostScreen from "../screens/CreatePostScreen";
 import HomeScreen from "../screens/HomeScreen";
 import SavedScreen from "../screens/SavedScreen";
-import CreatePostScreen from "../screens/CreatePostScreen";
-import ChatScreen from "../screens/ChatScreen";
-import AccountScreen from "../screens/AccountScreen";
-import COLORS from "../constants/color";
-import LoginScreen from "../screens/LoginScreen";
-import InformationScreen from "../screens/InformationScreen";
-import RegisterScreen from "../screens/RegisterScreen";
-import PostScreen from "../screens/PostScreen";
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
 const MainNavigation = () => {
     return (
         <Tab.Navigator
             screenOptions={{
-                headerShown: false,
+                headerShown: true,
+                headerStyle: {},
                 tabBarShowLabel: false,
                 tabBarStyle: { position: "absolute", height: 68 },
             }}
         >
             <Tab.Screen
-                name='App'
-                component={App}
+                name='Home'
+                component={HomeScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -51,6 +46,7 @@ const MainNavigation = () => {
                             </Text>
                         </View>
                     ),
+                    headerShown: true,
                 }}
             />
             <Tab.Screen
@@ -182,43 +178,7 @@ const MainNavigation = () => {
 };
 
 export default MainNavigation;
-function App() {
-    return (
-        <Stack.Navigator initialRouteName='App'>
-            <Stack.Screen name='Home' component={HomeScreen} />
-            <Stack.Screen name='Login' component={LoginScreen} />
-            <Stack.Screen name='Information' component={InformationScreen} />
-            <Stack.Screen name='SignUp' component={RegisterScreen} />
-            <Stack.Screen
-                name='Post Detail'
-                component={PostScreen}
-                options={{
-                    headerShown: true,
-                    header: ({ navigation }) => (
-                        <View style={styles.header}>
-                            <Text style={styles.title}>Chi tiết phòng</Text>
-                            <TouchableOpacity
-                                onPress={() => navigation.goBack()}
-                                style={styles.backBtn}
-                            >
-                                <Image
-                                    source={require("../../assets/icons/back.png")}
-                                    resizeMode='contain'
-                                    style={{
-                                        width: 25,
-                                        height: 25,
-                                        tintColor: COLORS.grey,
-                                    }}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                    ),
-                }}
-            />
-        </Stack.Navigator>
-    );
-}
-// export default App
+
 const styles = StyleSheet.create({
     // shadow: {
     //     shadowColor: "#7F5DF0",

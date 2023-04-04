@@ -177,7 +177,7 @@ export default function HomeSearch({ navigation }) {
 
     const handleSelectWard = (item) => {
         setcData({ ...cdata, ward: item.name });
-        console.log(cdata.ward)
+        console.log(cdata.ward);
     };
 
     return (
@@ -299,18 +299,18 @@ export default function HomeSearch({ navigation }) {
 
                         <Text>Id:</Text>
                         <View style={styles.pickerTest}>
-                        <Picker
-                            selectedValue={idRange}
-                            onValueChange={(itemValue, itemIndex) => {
-                                setidRange(itemValue);
-                                console.log(idRange);
-                            }}
-                        >
-                            <Picker.Item label='None' value={null} />
-                            <Picker.Item label='0-10' value='1' />
-                            <Picker.Item label='11-20' value='2' />
-                            <Picker.Item label='20<' value='3' />
-                        </Picker>
+                            <Picker
+                                selectedValue={idRange}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    setidRange(itemValue);
+                                    console.log(idRange);
+                                }}
+                            >
+                                <Picker.Item label='None' value={null} />
+                                <Picker.Item label='0-10' value='1' />
+                                <Picker.Item label='11-20' value='2' />
+                                <Picker.Item label='20<' value='3' />
+                            </Picker>
                         </View>
                     </View>
                 </Modal>
@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
         margin: 5,
         borderColor: "#009688",
         backgroundColor: "#FFFFFF",
-        //position: 'absolute',
+        //position: 'absolute'
     },
     pickerStyle: {
         backgroundColor: "white",
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
     pickerTest: {
         borderColor: "black",
         borderRadius: 5,
-        borderWidth: .5,
+        borderWidth: 0.5,
         //backgroundColor: "green",
     },
 });

@@ -23,7 +23,6 @@ function LoginScreen({ setIsCheckAuthen, navigation, route }) {
     const [textError, setTextError] = useState("");
 
     const dispatch = useDispatch();
-    // const navigate = useNavigate()
 
     const fetchLogin = async (user) => {
         console.log("login");
@@ -55,16 +54,20 @@ function LoginScreen({ setIsCheckAuthen, navigation, route }) {
     };
 
     // const ress = useSelector(state => state.auth.login.currentUser._id)
-    const handleClickLogin = () => {
-        const user = {
-            username: username,
-            password: password,
-        };
-        loginUser(user, dispatch);
+    const handleLogin = () => {
+        // const user = {
+        //     username: username,
+        //     password: password,
+        // };
+        // loginUser(user, dispatch);
         // fetchLogin(user)
         // setIsCheckAuthen(false)
-        navigation.navigate("Home");
+        navigation.navigate("Main", { screen: "Home" });
         // console.log(ress)
+    };
+
+    const handleChangeSignup = () => {
+        navigation.navigate("SignUp");
     };
 
     return (
@@ -72,18 +75,24 @@ function LoginScreen({ setIsCheckAuthen, navigation, route }) {
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
                 <View style={{ paddingTop: 8, paddingBottom: 32 }}>
                     <Input
-                        label='Username'
-                        placeholder='Enter the username'
+                        label='Email'
+                        placeholder='Nhập email'
                         onChangeText={(text) => setUsername(text)}
                     />
                     <Input
-                        label='Password'
-                        placeholder='Enter the password'
+                        label='Mật khẩu'
+                        placeholder='Nhập mật khẩu'
                         onChangeText={(text) => setPassword(text)}
                         secureTextEntry={true}
                     />
-                    <Button onPress={handleClickLogin}>Login</Button>
+                    <Button onPress={handleLogin}>Đăng nhập</Button>
                     <Text style={styles.textError}>{textError}</Text>
+                    <View style={styles.signupContainer}>
+                        <Text>Bạn không có tài khoản?</Text>
+                        <TouchableOpacity onPress={handleChangeSignup}>
+                            <Text style={styles.signupBtn}>Đăng ký</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -97,5 +106,16 @@ const styles = StyleSheet.create({
         // flex: 1,
         backgroundColor: COLORS.white,
         marginBottom: 68,
+    },
+    signupContainer: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    signupBtn: {
+        fontWeight: "bold",
+        marginLeft: 8,
+        marginBottom: 1,
     },
 });
