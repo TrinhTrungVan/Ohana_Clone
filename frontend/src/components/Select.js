@@ -24,9 +24,9 @@ const Select = ({ label, options = [], value, handleSelect, loading }) => {
             <Pressable style={{ ...styles.inputContainer }} onPress={() => setModalVisible(true)}>
                 <Text>{value ? value : `Nhấn để chọn ${label}`}</Text>
                 <Image
-                    source={require("../../assets/icons/arrow-down-sign-to-navigate.png")}
+                    source={require("../../assets/icons/arrow-down-sign-to-navigate2.png")}
                     resizeMode='contain'
-                    style={{ width: 25, height: 25, tintColor: COLORS.grey }}
+                    style={{ width: 10, height: 9, paddingRight: 15, tintColor: COLORS.grey }}
                 />
             </Pressable>
             <View style={styles.centeredView}>
