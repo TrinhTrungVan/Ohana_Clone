@@ -23,30 +23,8 @@ function RegisterScreen({ navigation }) {
     const [textError, setTextError] = useState("");
     const dispatch = useDispatch();
 
-    const fetchRegister = async (user) => {
-        console.log("register");
-        try {
-            const res = await fetch(`${BASE_URL}/register`, {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username: user.username,
-                    email: user.email,
-                    password: user.password,
-                }),
-            });
-            console.log(user);
-            const json = await res.json();
-            console.log(JSON.stringify(json));
-        } catch (e) {
-            console.error({ error: e });
-        }
-    };
-
     const handleRegister = () => {
+        console.log('hi')
         const user = {
             username: username,
             password: password,
@@ -57,9 +35,8 @@ function RegisterScreen({ navigation }) {
             setTextError("Email must be in the format @gmail.com");
         else {
             setTextError("");
-            // fetchRegister(user)
-            props.setIsCheckSignUp(false);
             registerUser(user, dispatch);
+            navigation.navigate("SignIn")
         }
     };
 

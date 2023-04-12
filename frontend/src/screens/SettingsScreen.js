@@ -19,14 +19,6 @@ function SettingsScreen({ navigation }) {
 
     let axiosJWT = axios.create()
 
-    const saveStorage = async (name, data) => {
-        try {
-            await AsyncStorage.setItem(name, JSON.stringify(data))
-        } catch (e) {
-            alert("Failed to save the data to the storage")
-        }
-    }
-
     const refreshToken = async () => {
         try {
             const res = await axios.post(`http://10.0.2.2:2001/api/auth/refresh`, {
@@ -69,12 +61,21 @@ function SettingsScreen({ navigation }) {
     const handleClickUpdate = () => {
         console.log('click update')
         updateUser(user?._id, user, isLogin.currentUser.accessToken, dispatch, axiosJWT)
+        saveStorage("@userLogin", user)
         alert('Update Successful!')
         navigation.navigate('Profile')
     }
 
     const handleClickOut = () => {
         navigation.navigate('Profile')
+    }
+
+    const saveStorage = async (name, data) => {
+        try {
+            await AsyncStorage.setItem(name, JSON.stringify(data))
+        } catch (e) {
+            alert("Failed to save the data to the storage")
+        }
     }
 
     const readData = async () => {
