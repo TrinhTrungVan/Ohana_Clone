@@ -5,7 +5,7 @@ import { ENV } from '../constants/env'
 const BASE_URL = ENV.BASE_URL + "/api"
 
 export const registerUser = async (user, dispatch) => {
-    dispatch(registerStart())
+    dispatch(registerStart());
     try {
         const res = await fetch(`${BASE_URL}/auth/register`, {
             method: "POST",
@@ -26,10 +26,10 @@ export const registerUser = async (user, dispatch) => {
     catch (e) {
         dispatch(registerFailed())
     }
-}
+};
 
 export const loginUser = async (user, dispatch) => {
-    dispatch(loginStart())
+    dispatch(loginStart());
     try {
         const res = await fetch(`${BASE_URL}/auth/login`, {
             method: "POST",
@@ -49,10 +49,10 @@ export const loginUser = async (user, dispatch) => {
         console.log("errorLoginUser", e)
         dispatch(loginFailed())
     }
-}
+};
 
 export const logoutUser = async (dispatch, accessToken, axiosJWT) => {
-    dispatch(logoutStart())
+    dispatch(logoutStart());
     try {
         const res = await axiosJWT.post(`${BASE_URL}/auth/logout`,
             {
@@ -70,10 +70,10 @@ export const logoutUser = async (dispatch, accessToken, axiosJWT) => {
         console.log('errorLogout', e)
         dispatch(logoutFailed())
     }
-}
+};
 
 export const updateUser = async (id, newUser, accessToken, dispatch, axiosJWT) => {
-    dispatch(loginStart())
+    dispatch(loginStart());
     try {
         const res = await axiosJWT.put(`${BASE_URL}/user/${id}`, newUser,
             {
@@ -90,4 +90,4 @@ export const updateUser = async (id, newUser, accessToken, dispatch, axiosJWT) =
         console.log("errorUpdate", e)
         dispatch(loginFailed())
     }
-}
+};
