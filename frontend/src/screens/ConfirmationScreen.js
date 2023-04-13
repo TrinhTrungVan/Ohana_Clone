@@ -1,14 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
-import { useSelector } from "react-redux";
+import { StyleSheet, Text, View } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Loading from "../components/Loading";
+import { validateConfirmForm } from "../utils/validateForm";
 
 const ConfirmationScreen = (props) => {
     const { handleChangeForm, navigation } = props;
     const [data, setData] = useState(null);
+    const [textError, setTextError] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handleChange = (name, value) => {
@@ -20,6 +21,11 @@ const ConfirmationScreen = (props) => {
         handleChangeForm(2);
     };
     const handlePublish = async () => {
+        const errorText = validateConfirmForm(data);
+        if (errorText) {
+            setTextError(errorText);
+            return;
+        }
         setLoading(true);
         try {
             const response = await fetch("http://10.0.3.2:2001/api/post/create", {
@@ -99,6 +105,7 @@ const ConfirmationScreen = (props) => {
                 multiline
                 onChangeText={(value) => handleChange("description", value)}
             />
+            <Text style={styles.textError}>{textError}</Text>
             <View style={{ width: "50%", flexDirection: "row" }}>
                 <Button onPress={handlePrevious} type='Secondary'>
                     Quay lại
@@ -110,3 +117,12 @@ const ConfirmationScreen = (props) => {
 };
 
 export default ConfirmationScreen;
+
+const styles = StyleSheet.create({
+    textError: {
+        textAlign: "center",
+        color: "red",
+        fontSize: 14,
+        marginBottom: 8,
+    },
+});

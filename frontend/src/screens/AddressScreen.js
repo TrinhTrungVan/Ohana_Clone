@@ -1,15 +1,17 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import provinceServices from "../api/services/provinceServices";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Select from "../components/Select";
 import PROVINCE from "../constants/province";
+import { validateAddress } from "../utils/validateForm";
 
 const AddressScreen = (props) => {
     const { handleChangeForm } = props;
     const [data, setData] = useState(null);
+    const [textError, setTextError] = useState("");
     const [districtList, setDistrictList] = useState([]);
     const [wardList, setWardList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -43,6 +45,11 @@ const AddressScreen = (props) => {
 
     const handleNext = () => {
         saveData();
+        const errorText = validateAddress(data);
+        if (errorText) {
+            setTextError(errorText);
+            return;
+        }
         handleChangeForm(2);
     };
 
@@ -105,6 +112,7 @@ const AddressScreen = (props) => {
                 value={data?.houseNumber}
                 onChangeText={(value) => handleChange("houseNumber", value)}
             />
+            <Text style={styles.textError}>{textError}</Text>
             <View style={{ width: "50%", flexDirection: "row" }}>
                 <Button onPress={() => handleChangeForm(0)} type='Secondary'>
                     Quay lại
@@ -116,3 +124,12 @@ const AddressScreen = (props) => {
 };
 
 export default AddressScreen;
+
+const styles = StyleSheet.create({
+    textError: {
+        textAlign: "center",
+        color: "red",
+        fontSize: 14,
+        marginBottom: 8,
+    },
+});

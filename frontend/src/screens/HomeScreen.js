@@ -9,6 +9,7 @@ import {
     StyleSheet,
     SafeAreaView,
     TextInput,
+    Image,
     TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -43,6 +44,7 @@ export default function HomeSearch({ navigation }) {
             const res = await postServices.getPosts();
             setData(res);
             setFilteredData(res);
+            //console.log(res);
         };
         getPost();
     }, []);
@@ -59,80 +61,150 @@ export default function HomeSearch({ navigation }) {
 
     //All 3 scenario: Quas, Aut, Molestias
     function handleFilter(searchTerm) {
-        var newData;
-        if (searchTerm || (!searchTerm && idRange)) {
-            if (option == "title") {
-                // if (data.hasOwnProperty(key)) {
-                //     console.log(key + " -> " + data[key].title);
-                //     setData(
-                //         data.filter((item) =>
-                //             item.title.toUpperCase().includes(searchTerm.toUpperCase())
-                //         )
-                //     );
+        // var newData;
+        // if (searchTerm || (!searchTerm && idRange)) {
+        //     if (option == "title") {
+        //         // if (data.hasOwnProperty(key)) {
+        //         //     console.log(key + " -> " + data[key].title);
+        //         //     setData(
+        //         //         data.filter((item) =>
+        //         //             item.title.toUpperCase().includes(searchTerm.toUpperCase())
+        //         //         )
+        //         //     );
 
-                // }
-                var newData = mainData.filter((item) =>
-                    item.title.toUpperCase().includes(searchTerm.toUpperCase())
-                );
-            } else if (option == "id") {
-                var newData = mainData.filter((item) =>
-                    item.id.toString().toUpperCase().includes(searchTerm.toUpperCase())
-                );
-            } else if (!option) {
-                setOption("title");
-                var newData = mainData.filter((item) =>
-                    item.title.toUpperCase().includes(searchTerm.toUpperCase())
-                );
+        //         // }
+        //         var newData = filteredData.filter((item) =>
+        //             item.title.toUpperCase().includes(searchTerm.toUpperCase())
+        //         );
+        //     } 
+        //     // else if (option == "id") {
+        //     //     var newData = mainData.filter((item) =>
+        //     //         item.id.toString().toUpperCase().includes(searchTerm.toUpperCase())
+        //     //     );
+        //     // } 
+        //     else if (!option) {
+        //         setOption("title");
+        //         var newData = filteredData.filter((item) =>
+        //             item.title.toUpperCase().includes(searchTerm.toUpperCase())
+        //         );
+        //     }
+
+        //     if (idRange) {
+        //         if (idRange == 1) {
+        //             newData = newData.filter(
+        //                 (item) =>
+        //                     //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+        //                     item.id <= 10
+        //             );
+        //         } else if (idRange == 2) {
+        //             newData = newData.filter(
+        //                 (item) =>
+        //                     //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+        //                     item.id <= 20 && item.id > 10
+        //             );
+        //         } else if (idRange == 3) {
+        //             newData = newData.filter(
+        //                 (item) =>
+        //                     //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+        //                     item.id > 20
+        //             );
+        //         }
+
+        //         //setData(newData)
+        //     }
+        //     setData(newData);
+        // } else if (!searchTerm) {
+        //     updateData();
+        // }
+        if (searchTerm != null
+            || (searchTerm == null && seCity != null)) {
+            var newData = [];
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].title != undefined && data[i].title.toUpperCase().includes(searchTerm.toUpperCase())) {
+                    //console.log(data[i])
+                    newData.push(data[i])
+                }
             }
-            // if (option1) {
-            //     newData =
-            //         newData.filter((item) =>
-            //             item.title.toUpperCase().includes(option1.toUpperCase())
-            //         )
+            //console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+            //console.log(newData);
 
-            // }
-            // if (option2) {
-            //     newData =
-            //         newData.filter((item) =>
-            //             item.title.toUpperCase().includes(option2.toUpperCase())
-            //         )
+            //setFilteredData(newData);
+            if (seCity.length != 0) {
+                // if (data[i].city != undefined && data[i].city.toUpperCase().includes(seCity.toUpperCase())) {
+                //     console.log(data[i].city)
+                //     //newData[i] = data[i]
+                // }
+                console.log("---------------------------------------------------------------")
+                // for (let i =0; i<newData.length; i++) {
+                //     console.log(newData[i].title + ", " +newData[i].city)
+                //     if (!newData[i].city.toUpperCase().includes(seCity.toUpperCase())) {
+                //         // console.log("Exist: \n" + newData[i].title + "; " +newData[i].city  + "\n")
+                //         //console.log(newData[i].title)
+                //         // var newstuff = newData[i];
+                //         // newData[i] = newData[newData.length-1];
+                //         // newData[newData.length-1] = newstuff;
+                //         console.log(", 0" )
+                //         //newData.pop()
+                //         //console.log(", 0" )
+                //         newData = 
+                //     } 
+                //     console.log("\n")
+                // }
+                newData = newData.filter(i => i.city.toUpperCase().includes(seCity.toUpperCase()))
+                //console.log(newData)
 
-            // }
-            // if (option3) {
-            //     newData =
-            //         newData.filter((item) =>
-            //             item.title.toUpperCase().includes(option3.toUpperCase())
-            //         )
-
-            // }
-
-            if (idRange) {
-                if (idRange == 1) {
+                console.log(newData.length)
+                console.log("---------------------------------------------------------------")
+            }
+            if (seDistrict.length != 0) {
+                newData = newData.filter(i => i.district.toUpperCase().includes(seDistrict.toUpperCase()))
+                console.log('123123123123123123123213')
+            }
+            if (seWard.length != 0) {
+                newData = newData.filter(i => i.ward.toUpperCase().includes(seWard.toUpperCase()))
+                //console.log(seWard)
+            }
+            if (priceRange) {
+                if (priceRange == 1) {
                     newData = newData.filter(
                         (item) =>
                             //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
-                            item.id <= 10
+                            item.expenses <= 1000
                     );
-                } else if (idRange == 2) {
+                } else if (priceRange == 2) {
                     newData = newData.filter(
                         (item) =>
                             //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
-                            item.id <= 20 && item.id > 10
+                            item.expenses <= 10000 && item.expenses > 1000
                     );
-                } else if (idRange == 3) {
+                } else if (priceRange == 3) {
                     newData = newData.filter(
                         (item) =>
                             //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
-                            item.id > 20
+                            item.expenses > 10000
                     );
                 }
 
-                //setData(newData)
             }
-            setData(newData);
+            setFilteredData(newData);
+            console.log(newData)
+            // console.log(data.filter((item) => {
+            //     if (item.title != undefined && item.title.toUpperCase().includes(searchTerm.toUpperCase())) {
+            //         console.log("-----\n"+item.title +"\n-----\n")
+            //     }
+            // }))
+            //setFilteredData(newData)
+            //console.log(data[0].title)
+
+            // data.filter((item)=> {
+            //     if (item.title != undefined) {
+            //         console.log("-----\n"+item.title +"\n-----\n")
+            //     }
+            // });
         } else if (!searchTerm) {
-            updateData();
+            getPost()
         }
+
     }
 
     const [showModal, setShowModal] = useState(false);
@@ -148,7 +220,11 @@ export default function HomeSearch({ navigation }) {
 
     const [cdata, setcData] = useState(null);
 
-    const [idRange, setidRange] = useState([]);
+    const [priceRange, setPriceRange] = useState([]);
+
+    const [seCity, setSeCity] = useState([]);
+    const [seDistrict, setSeDistrict] = useState([]);
+    const [seWard, setSeWard] = useState([]);
 
     const handleSelectCity = async (item) => {
         // setLoading(true);
@@ -157,6 +233,11 @@ export default function HomeSearch({ navigation }) {
             .then((res) => res.json())
             .then((res) => setDistrictList(res.districts));
         // setLoading(false);
+        //console.log(cdata.city)
+        setSeCity(item.name)
+        console.log(seCity)
+        setSeDistrict([])
+        setSeWard([])
     };
 
     const handleSelectDistrict = async (item) => {
@@ -166,6 +247,9 @@ export default function HomeSearch({ navigation }) {
             .then((res) => res.json())
             .then((res) => setWardList(res.wards));
         // setLoading(false);
+        //console.log(cdata.district)
+        setSeDistrict(item.name)
+        console.log(seDistrict)
     };
 
     // const handleIdRange = async (item) => {
@@ -177,7 +261,10 @@ export default function HomeSearch({ navigation }) {
 
     const handleSelectWard = (item) => {
         setcData({ ...cdata, ward: item.name });
-        console.log(cdata.ward);
+        //console.log(cdata.ward);
+        setSeWard(item.name)
+        console.log(seWard)
+
     };
 
     return (
@@ -200,7 +287,7 @@ export default function HomeSearch({ navigation }) {
                 onChangeText={(text) => handleFilter(text)}
                 //onChangeText={(text) => setSearchInp(text)}
                 value={data}
-                placeholder='Search Here'
+                placeholder='Tìm kiếm'
             />
 
             <View style={styles.container}>
@@ -216,106 +303,53 @@ export default function HomeSearch({ navigation }) {
                     {/*Animation can be slide, slide, none*/}
                     <View style={styles.modal}>
                         <Button
-                            title='Close search filter'
+                            title='Đóng bộ lọc'
                             onPress={() => {
                                 setShowModal(!showModal);
                             }}
                         />
 
                         <Select
-                            label='Thanh Pho'
+                            label='Thành Phố'
                             value={cdata?.city}
                             options={PROVINCE}
                             handleSelect={handleSelectCity}
                         />
                         <Select
-                            label='Quan'
+                            label='Quận'
                             value={cdata?.district}
                             options={districtList}
                             handleSelect={handleSelectDistrict}
                         />
                         <Select
-                            label='Phuong'
+                            label='Phường'
                             value={cdata?.ward}
                             options={wardList}
                             handleSelect={handleSelectWard}
                         />
-                        {/* 
-                        <Text>Option 1 (Thanh Pho):</Text>
-                        <Picker
-                            selectedValue={option1}
-                            onValueChange={(itemValue, itemIndex) => {
-                                //console.log(filtersearchOpt1(data,itemValue))
-                                setOption1(itemValue);
-                                console.log(option1);
-                            }}
-                        >
-                            <Picker.Item label="None" value={null} />
-                            <Picker.Item label="Odio" value="odio" />
-                            <Picker.Item label="Quas" value="quas" />
-                        </Picker>
-                        <Text>Option 2 (Huyen):</Text>
-                        <Picker
-                            selectedValue={option2}
-                            onValueChange={(itemValue, itemIndex) => {
-                                setOption2(itemValue);
-                                console.log(option2);
-                            }}>
-                            <Picker.Item label="None" value={null} />
-                            <Picker.Item label="Aut" value="aut" />
-                            <Picker.Item label="Sunt" value="sunt" />
-                        </Picker>
-                        <Text>Option 3 (Xa):</Text>
-                        <Picker
-                            selectedValue={option3}
-                            onValueChange={(itemValue, itemIndex) => {
-                                setOption3(itemValue);
-                                console.log(option3);
-                            }}
-                        >
-                            <Picker.Item label="None" value={null} />
-                            <Picker.Item label="Molestias" value="molestias" />
-                            <Picker.Item label="Dolor" value="dolor" />
-                        </Picker> */}
-                        {/* <Text>Tim theo:</Text>
-                        <Picker
-                            style={styles.selectSpace}
-                            selectedValue={option}
-                            onValueChange={(itemValue, itemIndex) => {
-                                setOption(itemValue);
-                                console.log(option);
-                            }
-                            }>
-                            <Picker.Item label="Title" value="title" />
-                            <Picker.Item label="None" value={null} />
-                        </Picker> */}
-                        {/* <Select
-                            label='Id'
-                            // value={idRange}
-                            // options={[{name:"1"},{name:"2"},{name:"3"}]}
-                            // handleSelect={handleIdRange}
-                            
-                        /> */}
 
-                        <Text>Id:</Text>
+
+                        <Text>Giá</Text>
                         <View style={styles.pickerTest}>
                             <Picker
-                                selectedValue={idRange}
+                                selectedValue={priceRange}
                                 onValueChange={(itemValue, itemIndex) => {
-                                    setidRange(itemValue);
-                                    console.log(idRange);
+                                    setPriceRange(itemValue);
+                                    console.log(priceRange);
                                 }}
                             >
-                                <Picker.Item label='None' value={null} />
-                                <Picker.Item label='0-10' value='1' />
-                                <Picker.Item label='11-20' value='2' />
-                                <Picker.Item label='20<' value='3' />
+                                <Picker.Item label='Không chọn' value={null} />
+                                <Picker.Item label='0-1000' value='1' />
+                                <Picker.Item label='1000-10000' value='2' />
+                                <Picker.Item label='10000<' value='3' />
+
                             </Picker>
+
                         </View>
                     </View>
                 </Modal>
                 <Button
-                    title='Search Filter'
+                    title='Lọc kết quả'
                     onPress={() => {
                         setShowModal(!showModal);
                     }}
@@ -331,6 +365,8 @@ export default function HomeSearch({ navigation }) {
                         <Post data={post} />
                     </TouchableOpacity>
                 ))}
+                <View style={{ height: 120}} />
+
             </ScrollView>
         </SafeAreaView>
     );
@@ -344,6 +380,7 @@ const styles = StyleSheet.create({
     },
     resultContainer: {
         flexGrow: 1,
+        //flex: 1,
         alignItems: "center",
     },
     textInputStyle: {

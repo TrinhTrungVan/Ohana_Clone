@@ -22,8 +22,8 @@ export const getData = async (key) => {
 
 export const clearData = async () => {
     try {
-        await AsyncStorage.clear()
+        await AsyncStorage.clear();
     } catch (e) {
         alert('Đã xảy ra lỗi')
     }
-}
+};
