@@ -7,7 +7,6 @@ import Loading from "../components/Loading";
 import UploadedImage from "../components/UploadedImage";
 import COLORS from "../constants/color";
 import { uploadImage } from "../api/services/cloudinaryServices";
-// import { uploadImage } from "../utils/uploadImage";
 
 const UploadImageScreen = (props) => {
     const { handleChangeForm } = props;
@@ -99,6 +98,7 @@ const UploadImageScreen = (props) => {
                         </Pressable>
                     </View>
                 </View>
+                <Text style={styles.note}>Lưu ý: Tải lên tối thiểu 4 ảnh và tối đa 8 ảnh</Text>
             </View>
             <View style={{ width: "50%", flexDirection: "row" }}>
                 <Button onPress={() => handleChangeForm(1)} type='Secondary'>
@@ -120,7 +120,8 @@ const styles = StyleSheet.create({
         width: 368,
         height: 250,
         padding: 8,
-        marginVertical: 32,
+        marginTop: 32,
+        marginBottom: 16,
         marginHorizontal: 5,
         justifyContent: "flex-start",
         alignItems: "flex-start",
@@ -148,5 +149,9 @@ const styles = StyleSheet.create({
         width: 36,
         height: 36,
         tintColor: COLORS.grey,
+    },
+    note: {
+        color: COLORS.red,
+        marginBottom: 32,
     },
 });
