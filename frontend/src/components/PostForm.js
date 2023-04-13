@@ -1,13 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Button from "./Button";
 import CheckBox from "./CheckBox";
 import Input from "./Input";
+import { validatePostInfo } from "../utils/validateForm";
 
 const PostForm = (props) => {
     const { handleChangeForm } = props;
-    const [data, setData] = useState(null);
+    const [data, setData] = useState({});
+    const [textError, setTextError] = useState("");
     const toggleParking = () => {
         setData({ ...data, parkingAvailable: !data?.parkingAvailable });
     };
@@ -27,6 +29,11 @@ const PostForm = (props) => {
 
     const handleNext = () => {
         saveData();
+        const errorText = validatePostInfo(data);
+        if (errorText) {
+            setTextError(errorText);
+            return;
+        }
         handleChangeForm(1);
     };
 
@@ -43,7 +50,6 @@ const PostForm = (props) => {
         try {
             const value = await AsyncStorage.getItem("@postInfo");
             if (value !== null) {
-                console.log(value);
                 setData(JSON.parse(value));
             }
         } catch (e) {
@@ -139,9 +145,19 @@ const PostForm = (props) => {
             {/* <Button onPress={() => navigation.navigate("Address", { screen: "PostScreen" })}>
                 Next
             </Button> */}
+            <Text style={styles.textError}>{textError}</Text>
             <Button onPress={handleNext}>Tiếp theo</Button>
         </View>
     );
 };
 
 export default PostForm;
+
+const styles = StyleSheet.create({
+    textError: {
+        textAlign: "center",
+        color: "red",
+        fontSize: 14,
+        marginBottom: 8,
+    },
+});

@@ -22,8 +22,8 @@ export const getData = async (key) => {
 
 export const clearData = async () => {
     try {
-        await AsyncStorage.clear()
+        await AsyncStorage.clear();
     } catch (e) {
-        alert('Delete data failed')
+        alert("Delete data failed");
     }
-}
+};

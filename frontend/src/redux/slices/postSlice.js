@@ -1,9 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getData } from "../../utils/asyncStorage";
 
-const data = getData("postInfo");
-console.log(data);
-
 const initialState = {
     roomArea: 0,
     capacity: 0,

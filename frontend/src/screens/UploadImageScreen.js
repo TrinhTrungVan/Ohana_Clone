@@ -12,6 +12,7 @@ const UploadImageScreen = (props) => {
     const { handleChangeForm } = props;
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -40,6 +41,10 @@ const UploadImageScreen = (props) => {
 
     const handleNext = () => {
         saveData();
+        if (data.length < 3 || data.length > 6) {
+            setError(true);
+            return;
+        }
         handleChangeForm(3);
     };
 
@@ -85,21 +90,27 @@ const UploadImageScreen = (props) => {
                             />
                         );
                     })}
-                    <View style={styles.btnContainer}>
-                        <Pressable onPress={pickImage} style={styles.uploadBtn}>
-                            {loading ? (
-                                <Loading color={COLORS.red} />
-                            ) : (
-                                <Image
-                                    source={require("../../assets/icons/upload.png")}
-                                    style={styles.uploadIcon}
-                                />
-                            )}
-                        </Pressable>
-                    </View>
+                    {data.length < 6 && (
+                        <View style={styles.btnContainer}>
+                            <Pressable onPress={pickImage} style={styles.uploadBtn}>
+                                {loading ? (
+                                    <Loading color={COLORS.red} />
+                                ) : (
+                                    <Image
+                                        source={require("../../assets/icons/upload.png")}
+                                        style={styles.uploadIcon}
+                                    />
+                                )}
+                            </Pressable>
+                        </View>
+                    )}
                 </View>
-                <Text style={styles.note}>Lưu ý: Tải lên tối thiểu 4 ảnh và tối đa 8 ảnh</Text>
             </View>
+            {error && (
+                <Text style={styles.textError}>
+                    Vui lòng tải lên tối thiểu 3 ảnh và tối đa 6 ảnh
+                </Text>
+            )}
             <View style={{ width: "50%", flexDirection: "row" }}>
                 <Button onPress={() => handleChangeForm(1)} type='Secondary'>
                     Quay lại
@@ -150,8 +161,10 @@ const styles = StyleSheet.create({
         height: 36,
         tintColor: COLORS.grey,
     },
-    note: {
-        color: COLORS.red,
-        marginBottom: 32,
+    textError: {
+        textAlign: "center",
+        color: "red",
+        fontSize: 14,
+        marginBottom: 8,
     },
 });
