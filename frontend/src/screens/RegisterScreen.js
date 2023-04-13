@@ -6,7 +6,6 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    TextInput,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import Button from "../components/Button";
@@ -15,33 +14,32 @@ import COLORS from "../constants/color";
 import { registerUser } from "../redux/apiRequest";
 
 function RegisterScreen({ navigation }) {
-    const BASE_URL = "http://10.0.2.2:2001/api/auth";
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [password2, setPassword2] = useState("");
-    const [email, setEmail] = useState("");
+    const [user, setUser] = useState({})
+    const [checkPassword, setCheckPassword] = useState("");
     const [textError, setTextError] = useState("");
     const dispatch = useDispatch();
 
+    const handleChange = (name, value) => {
+        setUser({
+            ...user, 
+            [name]: value,
+        })
+    }
+
     const handleRegister = () => {
-        console.log('hi')
-        const user = {
-            username: username,
-            password: password,
-            email: email,
-        };
-        if (password2 != user.password) setTextError("Password don't match");
+        if (checkPassword != user.password) setTextError("Mật khẩu không khớp");
         else if (!user.email.includes("@gmail.com"))
-            setTextError("Email must be in the format @gmail.com");
+            setTextError("Email phải có @gmail.com");
         else {
             setTextError("");
             registerUser(user, dispatch);
+            setUser({})
             navigation.navigate("SignIn")
         }
     };
 
     const handleChangeSignin = () => {
-        navigation.navigate("SignIn");
+        navigation.navigate("Đăng nhập");
     };
 
     return (
@@ -49,26 +47,30 @@ function RegisterScreen({ navigation }) {
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
                 <View style={{ paddingTop: 8, paddingBottom: 32 }}>
                     <Input
-                        label='Tài khoản'
-                        placeholder='Nhập email'
-                        onChangeText={(text) => setUsername(text)}
+                        label='Tên đăng nhập'
+                        placeholder='Nhập tên đăng nhập'
+                        value={user?.username}
+                        onChangeText={(text) => handleChange('username', text)}
                     />
                     <Input
                         label='Mật khẩu'
                         placeholder='Nhập mật khẩu'
-                        onChangeText={(text) => setPassword(text)}
+                        value={user?.password}
+                        onChangeText={(text) => handleChange('password', text)}
                         secureTextEntry={true}
                     />
                     <Input
                         label='Xác nhận mật khẩu'
                         placeholder='Nhập lại mật khẩu'
-                        onChangeText={(text) => setPassword2(text)}
+                        value={checkPassword}
+                        onChangeText={(text) => setCheckPassword(text)}
                         secureTextEntry={true}
                     />
                     <Input
                         label='Email'
                         placeholder='Nhập email'
-                        onChangeText={(text) => setEmail(text)}
+                        value={user?.email}
+                        onChangeText={(text) => handleChange('email', text)}
                     />
                     <Button title='Sign Up' onPress={handleRegister}>
                         Đăng ký

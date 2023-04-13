@@ -5,11 +5,11 @@ import RegisterScreen from "../screens/RegisterScreen";
 
 const Stack = createNativeStackNavigator();
 
-function AuthNavigation() {
+const AuthNavigation = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name='SignIn' component={LoginScreen} />
-            <Stack.Screen name='SignUp' component={RegisterScreen} />
+            <Stack.Screen name='Đăng nhập' component={LoginScreen} />
+            <Stack.Screen name='Đăng ký' component={RegisterScreen} />
         </Stack.Navigator>
     );
 }

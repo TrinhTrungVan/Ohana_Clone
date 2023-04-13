@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import COLORS from '../constants/color';
 
 function Information({ label, text }) {
   return (
@@ -18,7 +19,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 16
+    paddingBottom: 10,
+    paddingTop: 10,
+    borderWidth: 1,
+    borderColor: COLORS.white,
+    borderBottomColor: COLORS.logout
   },
   label: {
     marginVertical: 5,

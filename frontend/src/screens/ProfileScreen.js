@@ -10,10 +10,7 @@ import { logoutUser } from "../redux/apiRequest";
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import dayjs from 'dayjs';
-
-
-
-
+import { clearData } from "../utils/asyncStorage";
 
 function ProfileScreen({ navigation }) {
     const isLogin = useSelector(state => state.auth.login)
@@ -30,23 +27,15 @@ function ProfileScreen({ navigation }) {
             return res.data
         }
         catch (e) {
-            console.log(e)
+            console.log('errorRefresh', e)
         }
     }
 
     axiosJWT.interceptors.request.use(async (config) => {
-        let date = new Date()
         const decodedToken = jwt_decode(isLogin.currentUser?.accessToken)
         const isExpired = dayjs.unix(decodedToken.exp).diff(dayjs()) < 1
-        // if (decodedToken.exp < date.getTime() / 1000) {
         if (isExpired) {
             const data = await refreshToken()
-            const refreshUser = {
-                ...isLogin.currentUser,
-                accessToken: data.accessToken
-            }
-            // dispatch(loginSuccess(refreshUser))
-            // saveStorage('@userLogin', refreshToken)
             config.headers["Token"] = data.accessToken
         }
         return config
@@ -61,6 +50,7 @@ function ProfileScreen({ navigation }) {
     const handleClickLogout = () => {
         logoutUser(dispatch, user?.accessToken, axiosJWT)
         navigation.navigate('Auth')
+        clearData()
     }
 
     const readData = async () => {

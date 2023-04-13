@@ -12,6 +12,8 @@ const Input = ({
     onChangeFree,
     onFocus = () => {},
     secureTextEntry,
+    editable,
+    selectTextOnFocus,
     onChangeText = () => {},
     ...props
 }) => {
@@ -41,6 +43,9 @@ const Input = ({
                         {...props}
                         onChangeText={onChangeText}
                         secureTextEntry={secureTextEntry}
+                        editable={editable}
+                        selectTextOnFocus={selectTextOnFocus}
+                        // editable={false} selectTextOnFocus={false}
                     />
                     {suffix && <Text>{suffix}</Text>}
                 </View>

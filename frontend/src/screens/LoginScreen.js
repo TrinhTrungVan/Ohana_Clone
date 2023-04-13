@@ -6,77 +6,45 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    TextInput,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-native";
+import { useDispatch} from "react-redux";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
 import { loginUser } from "../redux/apiRequest";
 import { getData } from "../utils/asyncStorage";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-function LoginScreen({ setIsCheckAuthen, navigation, route }) {
-    const BASE_URL = "http://10.0.3.2:2001/api/auth";
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+function LoginScreen({ navigation }) {
+    const [user, setUser] = useState({})
     const [textError, setTextError] = useState("");
-
     const dispatch = useDispatch();
 
-    const fetchLogin = async (user) => {
-        console.log("login");
-        try {
-            const res = await fetch(`${BASE_URL}/login`, {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username: user.username,
-                    password: user.password,
-                }),
-            });
-            console.log("3");
-            const json = await res.json();
-            console.log(JSON.stringify(json));
-            console.log("2");
-            // if(res.status == '403') setTextError("Wrong username!")
-            // else if(res.status == '404') setTextError('Wrong password!')
-            // else {
-            //     console.log(JSON.stringify(json))
-            //     setTextError('')
-            // }
-        } catch (e) {
-            console.error(e);
-        }
-    };
+    const handleChange = (name, value) => {
+        setUser({
+            ...user,
+            [name]: value
+        })
+    }
 
     const handleLogin = async () => {
-        const user = {
-            username: username,
-            password: password,
-        };
         await loginUser(user, dispatch);
         const status = await getData("@statusLogin")
+        console.log(status)
         if(status == 404) {
-            setTextError("Wrong password!")
+            setTextError("Sai mật khẩu!")
         }
         else if(status == 403) {
-            setTextError("Wrong username!")
+            setTextError("Sai tên đăng nhập!")
         }
         else {
-            setTextError("")
-            setUsername("")
-            setPassword("")
             navigation.navigate("Main", { screen: "Home" });
+            setTextError("")
+            setUser({})
         }
     };
 
     const handleChangeSignup = () => {
-        navigation.navigate("SignUp");
+        navigation.navigate("Đăng ký");
     };
 
     return (
@@ -84,14 +52,16 @@ function LoginScreen({ setIsCheckAuthen, navigation, route }) {
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
                 <View style={{ paddingTop: 8, paddingBottom: 32 }}>
                     <Input
-                        label='Email'
-                        placeholder='Nhập email'
-                        onChangeText={(text) => setUsername(text)}
+                        label='Tên đăng nhập'
+                        placeholder='Nhập tên đăng nhập'
+                        value={user?.username}
+                        onChangeText={(text) => handleChange("username", text)}
                     />
                     <Input
                         label='Mật khẩu'
                         placeholder='Nhập mật khẩu'
-                        onChangeText={(text) => setPassword(text)}
+                        value={user?.password}
+                        onChangeText={(text) => handleChange("password", text)}
                         secureTextEntry={true}
                     />
                     <Button onPress={handleLogin}>Đăng nhập</Button>
