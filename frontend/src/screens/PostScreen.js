@@ -1,13 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Button, StyleSheet, ScrollView } from "react-native";
+import {
+    View,
+    Text,
+    Button,
+    StyleSheet,
+    ScrollView,
+    SafeAreaView,
+    Image,
+    TouchableOpacity,
+    Dimensions,
+} from "react-native";
 import COLORS from "../constants/color";
 import Loading from "../components/Loading";
 import postServices from "../api/services/postServices";
 import GroupImage from "../components/GroupImage";
+import { convertToMillions } from "../utils/convertPrice";
+import GroupCost from "../components/GroupCost";
+import SectionInfoPost from "../components/SectionInfoPost";
+import { calcDayAgo } from "../utils/calcDayAgo";
+import ContactNavbar from "../components/ContactNavbar";
 
 const PostScreen = ({ route, navigation }) => {
     const { id } = route.params;
     const [postInfo, setPostInfo] = useState(null);
+
+    // const windowHeight = Dimensions.get("window").height;
+
+    // console.log(windowHeight);
 
     useEffect(() => {
         const getPostInfo = async () => {
@@ -25,9 +44,54 @@ const PostScreen = ({ route, navigation }) => {
         );
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <GroupImage images={postInfo.images} />
-        </ScrollView>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.contactNavbar}>
+                <ContactNavbar navigation={navigation} />
+            </View>
+            <ScrollView>
+                <View style={styles.content}>
+                    <GroupImage images={postInfo.images} />
+                    <Text style={styles.title}>{postInfo.title}</Text>
+                    <Text style={styles.price}>{`Giá: ${convertToMillions(
+                        postInfo.expenses
+                    )} triệu VNĐ/phòng`}</Text>
+                    <SectionInfoPost
+                        capacity={postInfo.capacity}
+                        roomArea={postInfo.roomArea}
+                        deposit={postInfo.deposit}
+                    />
+                    <GroupCost
+                        electricityCost={postInfo.electricityCost}
+                        waterCost={postInfo.waterCost}
+                        internetCost={postInfo.internetCost}
+                    />
+                    <View style={styles.section}>
+                        <Text style={styles.title}>Chi tiết</Text>
+                        <Text>{postInfo.description}</Text>
+                    </View>
+
+                    <View style={styles.section}>
+                        <Text style={styles.title}>Địa chỉ</Text>
+                        <View>
+                            <Text>
+                                {`Số ${postInfo.houseNumber} ${postInfo.streetName}, ${postInfo.ward}, ${postInfo.district}, ${postInfo.city}`}
+                            </Text>
+                            <TouchableOpacity onPress={() => console.log("View on map.")}>
+                                <Text style={styles.viewOnMapBtn}>Xem trên bản đồ</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={styles.section}>
+                        <Text style={styles.title}>Ngày đăng</Text>
+                        <Text>{calcDayAgo(postInfo.createdAt)}</Text>
+                    </View>
+                    <View style={styles.section}>
+                        <Text style={styles.title}>Cùng tiêu chí</Text>
+                        <Text>Call API postSimilar + Show more Btn</Text>
+                    </View>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
@@ -39,5 +103,39 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: COLORS.white,
+        position: "relative",
+    },
+    content: {
+        position: "relative",
+        paddingHorizontal: 24,
+        marginBottom: 100,
+    },
+    price: {
+        color: COLORS.red,
+        fontSize: 24,
+        paddingVertical: 8,
+    },
+    title: {
+        fontSize: 24,
+        marginBottom: 16,
+    },
+    section: {
+        marginTop: 16,
+    },
+    icon: {
+        width: 24,
+        height: 24,
+        marginRight: 8,
+    },
+    viewOnMapBtn: {
+        marginTop: 8,
+        color: COLORS.blue,
+    },
+    contactNavbar: {
+        position: "absolute",
+        width: "100%",
+        backgroundColor: COLORS.abs_white,
+        zIndex: 1,
+        bottom: 0,
     },
 });
