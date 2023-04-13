@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/color";
 import ChatScreen from "../screens/ChatScreen";
 import CreatePostScreen from "../screens/CreatePostScreen";
@@ -102,10 +102,15 @@ const MainNavigation = () => {
                         </View>
                     ),
                     headerShown: true,
-                    header: () => (
+                    header: ({ navigation }) => (
                         <View style={styles.header}>
-                            <Text style={styles.title}>Đăng bài</Text>
-                            <Text style={styles.cancelBtn}>Huỷ</Text>
+                            <Text style={styles.title}>Đăng phòng</Text>
+                            <TouchableOpacity
+                                style={styles.cancelBtn}
+                                onPress={() => navigation.navigate("Home")}
+                            >
+                                <Text>Huỷ</Text>
+                            </TouchableOpacity>
                         </View>
                     ),
                 }}
