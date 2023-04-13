@@ -14,6 +14,7 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
 import { loginUser } from "../redux/apiRequest";
+import { getData } from "../utils/asyncStorage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 function LoginScreen({ setIsCheckAuthen, navigation, route }) {
@@ -53,17 +54,25 @@ function LoginScreen({ setIsCheckAuthen, navigation, route }) {
         }
     };
 
-    // const ress = useSelector(state => state.auth.login.currentUser._id)
-    const handleLogin = () => {
-        // const user = {
-        //     username: username,
-        //     password: password,
-        // };
-        // loginUser(user, dispatch);
-        // fetchLogin(user)
-        // setIsCheckAuthen(false)
-        navigation.navigate("Main", { screen: "Home" });
-        // console.log(ress)
+    const handleLogin = async () => {
+        const user = {
+            username: username,
+            password: password,
+        };
+        await loginUser(user, dispatch);
+        const status = await getData("@statusLogin")
+        if(status == 404) {
+            setTextError("Wrong password!")
+        }
+        else if(status == 403) {
+            setTextError("Wrong username!")
+        }
+        else {
+            setTextError("")
+            setUsername("")
+            setPassword("")
+            navigation.navigate("Main", { screen: "Home" });
+        }
     };
 
     const handleChangeSignup = () => {
@@ -118,4 +127,8 @@ const styles = StyleSheet.create({
         marginLeft: 8,
         marginBottom: 1,
     },
+    textError: {
+        color: "red",
+        fontSize: 12
+    }
 });
