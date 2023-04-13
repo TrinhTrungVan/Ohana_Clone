@@ -5,6 +5,7 @@ const COLORS = {
     grey: "#748C94",
     black: "#000",
     blue: "#537FE7",
+    logout: "#D8D8D8"
 };
 
 export default COLORS;

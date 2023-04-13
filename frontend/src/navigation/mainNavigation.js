@@ -2,11 +2,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import COLORS from "../constants/color";
-import AccountScreen from "../screens/AccountScreen";
 import ChatScreen from "../screens/ChatScreen";
 import CreatePostScreen from "../screens/CreatePostScreen";
 import HomeScreen from "../screens/HomeScreen";
 import SavedScreen from "../screens/SavedScreen";
+import AccountNavigation from "./accountNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -140,7 +140,7 @@ const MainNavigation = () => {
             />
             <Tab.Screen
                 name='Account'
-                component={AccountScreen}
+                component={AccountNavigation}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -164,13 +164,13 @@ const MainNavigation = () => {
                             </Text>
                         </View>
                     ),
-                    headerShown: true,
-                    header: () => (
-                        <View style={styles.header}>
-                            <Text style={styles.title}>Tài khoản</Text>
-                            <Text style={styles.cancelBtn}>Đăng xuất</Text>
-                        </View>
-                    ),
+                    headerShown: false,
+                    // header: () => (
+                    //     <View style={styles.header}>
+                    //         <Text style={styles.title}>Thông tin tài khoản</Text>
+                    //         <Text style={styles.cancelBtn}></Text>
+                    //     </View>
+                    // ),
                 }}
             />
         </Tab.Navigator>

@@ -48,7 +48,7 @@ const authController = {
                 admin: user.admin
             },
             process.env.JWT_ACCESS_KEY,
-            { expiresIn: "30s" }
+            { expiresIn: "10s" }
         )
     },
     generateRefreshToken: (user) => {
@@ -68,6 +68,7 @@ const authController = {
             const user = await User.findOne({ username: req.body.username })
             if (!user) {
                 res.status(403).json("Wrong username!")
+                return
             }
             const validPassword = await bcrypt.compare(
                 req.body.password,
@@ -75,6 +76,7 @@ const authController = {
             )
             if (!validPassword) {
                 res.status(404).json("Wrong password!")
+                return
             }
             if (user && validPassword) {
                 const accessToken = authController.generateAccessToken(user) // luu acctoken len redux(fe)

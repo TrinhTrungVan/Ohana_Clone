@@ -7,7 +7,7 @@ export default function Button({ children, onPress, type = "Primary" }) {
         <TouchableOpacity
             style={{
                 ...styles.button,
-                backgroundColor: type === "Secondary" ? COLORS.white : COLORS.red,
+                backgroundColor: type === "Secondary" ? COLORS.white : ( type === "Logout" ? COLORS.logout : COLORS.red)
             }}
             onPress={onPress}
         >
@@ -15,7 +15,7 @@ export default function Button({ children, onPress, type = "Primary" }) {
                 <Text
                     style={{
                         ...styles.text,
-                        color: type === "Secondary" ? COLORS.blue : COLORS.abs_white,
+                        color: type === "Secondary" || type === "Logout" ? COLORS.blue : COLORS.abs_white,
                     }}
                 >
                     {children}
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 4,
+        marginBottom: 10
     },
     text: {
         fontSize: 14,

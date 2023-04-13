@@ -11,8 +11,8 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        minlength: 6,
-        maxlength: 20,
+        minlength: 10,
+        maxlength: 25,
         unnique: true
     },
     password: {
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
         type: String,
     },
     phoneNumber: {
-        type: Number,
+        type: String,
         length: 10
     },
     bankAcount: 

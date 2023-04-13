@@ -11,7 +11,7 @@ export const storeData = async (key, value) => {
 export const getData = async (key) => {
     try {
         const value = await AsyncStorage.getItem(key);
-        if (value !== null) {
+        if (value == null) {
             alert("Failed to save the data to the storage");
         }
         return JSON.parse(value);
@@ -19,3 +19,11 @@ export const getData = async (key) => {
         alert("Failed to save the data to the storage");
     }
 };
+
+export const clearData = async () => {
+    try {
+        await AsyncStorage.clear()
+    } catch (e) {
+        alert('Delete data failed')
+    }
+}
