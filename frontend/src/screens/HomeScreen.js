@@ -40,6 +40,7 @@ export default function HomeSearch({ navigation }) {
         //     .catch((error) => {
         //         console.error(error);
         //     });
+        //console.log(priceRange)
         const getPost = async () => {
             const res = await postServices.getPosts();
             setData(res);
@@ -116,13 +117,19 @@ export default function HomeSearch({ navigation }) {
         // } else if (!searchTerm) {
         //     updateData();
         // }
-        if (searchTerm != null
-            || (searchTerm == null && seCity != null)) {
+        if (searchTerm != undefined
+            || (searchTerm == undefined && seCity != null)) {
             var newData = [];
-            for (let i = 0; i < data.length; i++) {
-                if (data[i].title != undefined && data[i].title.toUpperCase().includes(searchTerm.toUpperCase())) {
-                    //console.log(data[i])
-                    newData.push(data[i])
+
+            if (searchTerm == undefined) {
+                newData = data
+                console.log("Empty search")
+            } else {
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].title != undefined && data[i].title.toUpperCase().includes(searchTerm.toUpperCase())) {
+                        //console.log(data[i])
+                        newData.push(data[i])
+                    }
                 }
             }
             //console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
@@ -152,9 +159,10 @@ export default function HomeSearch({ navigation }) {
                 // }
                 newData = newData.filter(i => i.city.toUpperCase().includes(seCity.toUpperCase()))
                 //console.log(newData)
-
+                //setFilteredData(newData)
                 console.log(newData.length)
                 console.log("---------------------------------------------------------------")
+                console.log(seCity)
             }
             if (seDistrict.length != 0) {
                 newData = newData.filter(i => i.district.toUpperCase().includes(seDistrict.toUpperCase()))
@@ -187,7 +195,9 @@ export default function HomeSearch({ navigation }) {
 
             }
             setFilteredData(newData);
+            console.log("\n")
             console.log(newData)
+            console.log("\n")
             // console.log(data.filter((item) => {
             //     if (item.title != undefined && item.title.toUpperCase().includes(searchTerm.toUpperCase())) {
             //         console.log("-----\n"+item.title +"\n-----\n")
@@ -201,7 +211,7 @@ export default function HomeSearch({ navigation }) {
             //         console.log("-----\n"+item.title +"\n-----\n")
             //     }
             // });
-        } else if (!searchTerm) {
+        } else {
             getPost()
         }
 
@@ -230,14 +240,25 @@ export default function HomeSearch({ navigation }) {
         // setLoading(true);
         setcData({ ...cdata, city: item.name, district: null, ward: null });
         await fetch(`https://provinces.open-api.vn/api/p/${item.code}?depth=2`)
-            .then((res) => res.json())
-            .then((res) => setDistrictList(res.districts));
+            .then((res) =>
+                res.json()
+
+            )
+            .then((res) => {
+                setDistrictList(res.districts)
+                //console.log(res)
+            });
         // setLoading(false);
         //console.log(cdata.city)
+
         setSeCity(item.name)
-        console.log(seCity)
+        //console.log(cdata.city)
+        //console.log(seCity)
+
         setSeDistrict([])
         setSeWard([])
+        //handleFilter(undefined)
+
     };
 
     const handleSelectDistrict = async (item) => {
@@ -284,7 +305,11 @@ export default function HomeSearch({ navigation }) {
             </ScrollView> */}
             <TextInput
                 style={styles.textInputStyle}
-                onChangeText={(text) => handleFilter(text)}
+                onChangeText={(text) => {
+                    handleFilter(text)
+                    setSearchInp(text)
+                }
+                }
                 //onChangeText={(text) => setSearchInp(text)}
                 value={data}
                 placeholder='Tìm kiếm'
@@ -335,8 +360,11 @@ export default function HomeSearch({ navigation }) {
                                 selectedValue={priceRange}
                                 onValueChange={(itemValue, itemIndex) => {
                                     setPriceRange(itemValue);
+
                                     console.log(priceRange);
-                                }}
+
+                                }
+                                }
                             >
                                 <Picker.Item label='Không chọn' value={null} />
                                 <Picker.Item label='0-1000' value='1' />
@@ -346,6 +374,18 @@ export default function HomeSearch({ navigation }) {
                             </Picker>
 
                         </View>
+                        <View style={styles.applyButtonSection}>
+                            <Button
+                                title='Áp dụng bộ lọc'
+                                onPress={() => {
+                                    handleFilter(searchInp)
+                                    setShowModal(!showModal);
+
+                                }}
+                                color="red"
+                            />
+                        </View>
+
                     </View>
                 </Modal>
                 <Button
@@ -353,6 +393,7 @@ export default function HomeSearch({ navigation }) {
                     onPress={() => {
                         setShowModal(!showModal);
                     }}
+
                 />
             </View>
 
@@ -365,7 +406,7 @@ export default function HomeSearch({ navigation }) {
                         <Post data={post} />
                     </TouchableOpacity>
                 ))}
-                <View style={{ height: 120}} />
+                <View style={{ height: 120 }} />
 
             </ScrollView>
         </SafeAreaView>
@@ -405,4 +446,11 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         //backgroundColor: "green",
     },
+    applyButtonSection: {
+        width: '100%',
+        height: '20%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
 });
