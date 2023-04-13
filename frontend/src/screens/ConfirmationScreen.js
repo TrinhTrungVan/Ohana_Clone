@@ -46,7 +46,7 @@ const ConfirmationScreen = (props) => {
             await AsyncStorage.setItem("@postInfo", JSON.stringify(data));
             console.log(data);
         } catch (e) {
-            alert("Failed to save the data to the storage");
+            alert("Đã xảy ra lỗi");
         }
     };
 
@@ -54,7 +54,7 @@ const ConfirmationScreen = (props) => {
         try {
             await AsyncStorage.removeItem("@postInfo");
         } catch (e) {
-            alert("Failed to save the data to the storage");
+            alert("Đã xảy ra lỗi");
         }
     };
 
@@ -66,7 +66,7 @@ const ConfirmationScreen = (props) => {
                 setData(JSON.parse(value));
             }
         } catch (e) {
-            alert("Failed to fetch the input from storage");
+            alert("Đã xảy ra lỗi");
         }
     };
 

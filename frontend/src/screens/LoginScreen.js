@@ -11,7 +11,7 @@ import { useDispatch} from "react-redux";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
-import { loginUser } from "../redux/apiRequest";
+import { loginUser } from "../api/services/authServices";
 import { getData } from "../utils/asyncStorage";
 
 function LoginScreen({ navigation }) {

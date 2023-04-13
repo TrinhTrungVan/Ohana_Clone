@@ -1,16 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useEffect } from "react";
-import { View, SafeAreaView, ScrollView, Text, StyleSheet, TouchableOpacity, TextInformation } from "react-native";
+import { View, SafeAreaView, ScrollView, StyleSheet} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "../components/Button";
 import Information from "../components/Information";
 import Loading from "../components/Loading";
 import COLORS from "../constants/color";
-import { logoutUser } from "../redux/apiRequest";
+import { logoutUser } from "../api/services/authServices";
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import dayjs from 'dayjs';
-import { clearData } from "../utils/asyncStorage";
 
 function ProfileScreen({ navigation }) {
     const isLogin = useSelector(state => state.auth.login)
@@ -50,7 +49,6 @@ function ProfileScreen({ navigation }) {
     const handleClickLogout = () => {
         logoutUser(dispatch, user?.accessToken, axiosJWT)
         navigation.navigate('Auth')
-        clearData()
     }
 
     const readData = async () => {
@@ -62,7 +60,7 @@ function ProfileScreen({ navigation }) {
             }
         }
         catch (e) {
-            alert('Failed to fetch the input from storage')
+            alert('Đã xảy ra lỗi')
         }
     }
 

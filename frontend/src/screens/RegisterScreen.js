@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
-import { registerUser } from "../redux/apiRequest";
+import { registerUser } from "../api/services/authServices";
 
 function RegisterScreen({ navigation }) {
     const [user, setUser] = useState({})
@@ -34,7 +34,7 @@ function RegisterScreen({ navigation }) {
             setTextError("");
             registerUser(user, dispatch);
             setUser({})
-            navigation.navigate("SignIn")
+            navigation.navigate("Đăng nhập")
         }
     };
 

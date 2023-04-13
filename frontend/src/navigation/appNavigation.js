@@ -1,23 +1,44 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AuthNavigation from "./authNavigation";
 import MainNavigation from "./mainNavigation";
 import PostScreen from "../screens/PostScreen";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/color";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
+    const [checkLogin, setCheckLogin] = useState(false)
+
+    const readData = async () => {
+        try {
+            const res = await AsyncStorage.getItem('@userLogin')
+            if (res !== null) {
+                setCheckLogin(true)
+            }
+        }
+        catch (e) {
+            setCheckLogin(false)
+        }
+    }
+
+    useEffect(() => {
+        readData()
+    }, []);
+
     return (
         <Stack.Navigator>
-            <Stack.Screen
-                name='Auth'
-                component={AuthNavigation}
-                options={{
-                    headerShown: false,
-                }}
-            />
+            {!checkLogin &&
+                <Stack.Screen
+                    name='Auth'
+                    component={AuthNavigation}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+            }
             <Stack.Screen
                 name='Main'
                 component={MainNavigation}
