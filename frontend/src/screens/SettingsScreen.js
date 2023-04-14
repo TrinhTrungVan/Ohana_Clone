@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, SafeAreaView, ScrollView, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import { View, SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
 import Loading from "../components/Loading";
-import { updateUser } from "../redux/apiRequest";
-import { loginFailed, loginStart, loginSuccess } from "../redux/slices/authSlice";
+import { updateUser } from "../api/services/userServices";
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import dayjs from 'dayjs';
@@ -54,7 +53,7 @@ function SettingsScreen({ navigation }) {
         console.log('click update')
         updateUser(user?._id, user, isLogin.currentUser.accessToken, dispatch, axiosJWT)
         saveStorage("@userLogin", user)
-        alert('Update Successful!')
+        alert('Cập nhật thông tin thành công')
         navigation.navigate('Profile')
     }
 
@@ -66,7 +65,7 @@ function SettingsScreen({ navigation }) {
         try {
             await AsyncStorage.setItem(name, JSON.stringify(data))
         } catch (e) {
-            alert("Failed to save the data to the storage")
+            alert("Đã xảy ra lỗi")
         }
     }
 
@@ -79,7 +78,7 @@ function SettingsScreen({ navigation }) {
             }
         }
         catch (e) {
-            alert('Failed to fetch the input from storage')
+            alert('Đã xảy ra lỗi')
         }
     }
 
@@ -117,7 +116,7 @@ function SettingsScreen({ navigation }) {
                         placeholder='Nhập email'
                         onChangeText={text => handleChange("email", text)}
                         value={isLogin.isFetching ? <Loading /> : user?.email}
-                        editable={false} selectTextOnFocus={false}
+                        // editable={false} selectTextOnFocus={false}
                     />
                     <Input
                         label='Tài khoản ngân hàng'
