@@ -1,12 +1,19 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import ChatItem from "../components/ChatItem";
 
-const ChatScreen = () => {
+const ChatScreen = ({ navigation }) => {
     return (
-        <View style={styles.container}>
-            <Text>Chat Screen</Text>
-            <Button title='Chat Screen' onPress={() => alert("Button Clicked!")} />
-        </View>
+        <SafeAreaView>
+            <ScrollView>
+                <ChatItem navigation={navigation} />
+                <ChatItem navigation={navigation} />
+                <ChatItem navigation={navigation} />
+                <ChatItem navigation={navigation} />
+                <ChatItem navigation={navigation} />
+                <ChatItem navigation={navigation} />
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
@@ -14,7 +21,7 @@ export default ChatScreen;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#8fcbbc",

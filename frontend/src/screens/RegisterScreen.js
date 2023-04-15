@@ -1,40 +1,44 @@
 import React, { useState } from "react";
-import {
-    View,
-    SafeAreaView,
-    ScrollView,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-} from "react-native";
+import { View, SafeAreaView, ScrollView, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
+import { getData } from "../utils/asyncStorage";
 import { registerUser } from "../api/services/authServices";
 
 function RegisterScreen({ navigation }) {
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
     const [checkPassword, setCheckPassword] = useState("");
     const [textError, setTextError] = useState("");
     const dispatch = useDispatch();
 
     const handleChange = (name, value) => {
         setUser({
-            ...user, 
+            ...user,
             [name]: value,
-        })
-    }
+        });
+    };
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
+        console.log("click");
         if (checkPassword != user.password) setTextError("Mật khẩu không khớp");
-        else if (!user.email.includes("@gmail.com"))
-            setTextError("Email phải có @gmail.com");
+        else if (!user.email.includes("@gmail.com")) setTextError("Email phải có @gmail.com");
         else {
-            setTextError("");
-            registerUser(user, dispatch);
-            setUser({})
-            navigation.navigate("Đăng nhập")
+            await registerUser(user, dispatch);
+            const status = await getData("@statusRegister");
+            if (status == 500) {
+                setTextError("Lỗi hệ thống");
+            } else if (status == 401) {
+                setTextError("Tên đăng nhập đã tồn tại");
+            } else if (status == 402) {
+                setTextError("Email đã tồn tại");
+            } else {
+                setTextError("");
+                setUser({});
+                navigation.navigate("Đăng nhập");
+                alert("Đăng ký thành công, hãy đăng nhập để tiếp tục.");
+            }
         }
     };
 
@@ -50,13 +54,13 @@ function RegisterScreen({ navigation }) {
                         label='Tên đăng nhập'
                         placeholder='Nhập tên đăng nhập'
                         value={user?.username}
-                        onChangeText={(text) => handleChange('username', text)}
+                        onChangeText={(text) => handleChange("username", text)}
                     />
                     <Input
                         label='Mật khẩu'
                         placeholder='Nhập mật khẩu'
                         value={user?.password}
-                        onChangeText={(text) => handleChange('password', text)}
+                        onChangeText={(text) => handleChange("password", text)}
                         secureTextEntry={true}
                     />
                     <Input
@@ -70,7 +74,7 @@ function RegisterScreen({ navigation }) {
                         label='Email'
                         placeholder='Nhập email'
                         value={user?.email}
-                        onChangeText={(text) => handleChange('email', text)}
+                        onChangeText={(text) => handleChange("email", text)}
                     />
                     <Button title='Sign Up' onPress={handleRegister}>
                         Đăng ký

@@ -2,7 +2,7 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import COLORS from "../constants/color";
 
-const Post = ({ data }) => {
+const PostItem = ({ data }) => {
     return (
         <View style={styles.container}>
             <View style={styles.content}>
@@ -34,7 +34,7 @@ const Post = ({ data }) => {
     );
 };
 
-export default Post;
+export default PostItem;
 
 const styles = StyleSheet.create({
     container: {

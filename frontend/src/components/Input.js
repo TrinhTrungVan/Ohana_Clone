@@ -39,7 +39,7 @@ const Input = ({
             <View style={styles.container}>
                 <View style={{ ...styles.inputContainer, width: optionFree ? "75%" : "100%" }}>
                     <TextInput
-                        value={value === 0 ? "Free" : value}
+                        value={value === 0 ? "Miễn phí" : value}
                         {...props}
                         onChangeText={onChangeText}
                         secureTextEntry={secureTextEntry}

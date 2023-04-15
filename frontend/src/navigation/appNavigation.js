@@ -1,47 +1,27 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useEffect, useState } from "react";
-import AuthNavigation from "./authNavigation";
-import MainNavigation from "./mainNavigation";
-import PostScreen from "../screens/PostScreen";
+import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/color";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import PostScreen from "../screens/PostScreen";
+import AuthNavigation from "./authNavigation";
+import MainNavigation from "./mainNavigation";
+import ConversationScreen from "../screens/ConversationScreen";
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
-    const [checkLogin, setCheckLogin] = useState(false)
-
-    const readData = async () => {
-        try {
-            const res = await AsyncStorage.getItem('@userLogin')
-            if (res !== null) {
-                setCheckLogin(true)
-            }
-        }
-        catch (e) {
-            setCheckLogin(false)
-        }
-    }
-
-    useEffect(() => {
-        readData()
-    }, []);
-
     return (
         <Stack.Navigator>
-            {!checkLogin &&
-                <Stack.Screen
-                    name='Auth'
-                    component={AuthNavigation}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-            }
             <Stack.Screen
                 name='Main'
                 component={MainNavigation}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name='Auth'
+                component={AuthNavigation}
                 options={{
                     headerShown: false,
                 }}
@@ -70,6 +50,32 @@ const AppNavigation = () => {
                             </TouchableOpacity>
                         </View>
                     ),
+                }}
+            />
+            <Stack.Screen
+                name='Conversation'
+                component={ConversationScreen}
+                options={{
+                    headerShown: false,
+                    // header: ({ navigation, route }) => (
+                    //     <View style={styles.header}>
+                    //         <Text style={styles.title}>{}</Text>
+                    //         <TouchableOpacity
+                    //             onPress={() => navigation.goBack()}
+                    //             style={styles.backBtn}
+                    //         >
+                    //             <Image
+                    //                 source={require("../../assets/icons/back.png")}
+                    //                 resizeMode='contain'
+                    //                 style={{
+                    //                     width: 25,
+                    //                     height: 25,
+                    //                     tintColor: COLORS.grey,
+                    //                 }}
+                    //             />
+                    //         </TouchableOpacity>
+                    //     </View>
+                    // ),
                 }}
             />
         </Stack.Navigator>
