@@ -28,6 +28,7 @@ function LoginScreen({ navigation }) {
 
     const handleLogin = async () => {
         await loginUser(user, dispatch);
+        console.log('click')
         const status = await getData("@statusLogin")
         console.log(status)
         if(status == 404) {

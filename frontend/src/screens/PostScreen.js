@@ -21,7 +21,7 @@ import { calcDayAgo } from "../utils/calcDayAgo";
 import ContactNavbar from "../components/ContactNavbar";
 
 const PostScreen = ({ route, navigation }) => {
-    const { id } = route.params;
+    const { id } = route.params || "";
     const [postInfo, setPostInfo] = useState(null);
 
     // const windowHeight = Dimensions.get("window").height;
@@ -46,7 +46,7 @@ const PostScreen = ({ route, navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.contactNavbar}>
-                <ContactNavbar navigation={navigation} />
+                <ContactNavbar deposit={postInfo.deposit} navigation={navigation} />
             </View>
             <ScrollView>
                 <View style={styles.content}>

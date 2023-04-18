@@ -28,7 +28,7 @@ const ConfirmationScreen = (props) => {
         }
         setLoading(true);
         try {
-            const response = await fetch("http://10.0.3.2:2001/api/post/create", {
+            const response = await fetch("http://10.0.2.2:2001/api/post/create", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",

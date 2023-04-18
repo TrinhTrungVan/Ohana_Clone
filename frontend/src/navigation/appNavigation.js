@@ -5,40 +5,21 @@ import MainNavigation from "./mainNavigation";
 import PostScreen from "../screens/PostScreen";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/color";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import PaymentScreen from "../screens/PaymentScreen";
+import VnpayScreen from "../screens/VnpayScreen";
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
-    const [checkLogin, setCheckLogin] = useState(false)
-
-    const readData = async () => {
-        try {
-            const res = await AsyncStorage.getItem('@userLogin')
-            if (res !== null) {
-                setCheckLogin(true)
-            }
-        }
-        catch (e) {
-            setCheckLogin(false)
-        }
-    }
-
-    useEffect(() => {
-        readData()
-    }, []);
-
     return (
         <Stack.Navigator>
-            {!checkLogin &&
-                <Stack.Screen
-                    name='Auth'
-                    component={AuthNavigation}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-            }
+            <Stack.Screen
+                name='Auth'
+                component={AuthNavigation}
+                options={{
+                    headerShown: false,
+                }}
+            />
             <Stack.Screen
                 name='Main'
                 component={MainNavigation}
@@ -68,6 +49,30 @@ const AppNavigation = () => {
                                     }}
                                 />
                             </TouchableOpacity>
+                        </View>
+                    ),
+                }}
+            />
+            <Stack.Screen
+                name='Payment'
+                component={PaymentScreen}
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Thanh toán</Text>
+                        </View>
+                    ),
+                }}
+            />
+            <Stack.Screen
+                name='Vnpay'
+                component={VnpayScreen}
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Thanh toán</Text>
                         </View>
                     ),
                 }}
