@@ -6,7 +6,7 @@ import Button from '../components/Button'
 function VnpayScreen({ route, navigation }) {
     const [webView, setWebView] = useState({})
     const { uri } = route.params
-    console.log(uri)
+    console.log('uri', uri)
 
     const handleNavigationStateChange = (newState) => {
         console.log('newState', newState)
@@ -16,7 +16,7 @@ function VnpayScreen({ route, navigation }) {
         <View style={styles.container}>
             <WebView
                 source={{ uri: uri }}
-                onNavigationStateChange={handleNavigationStateChange}
+                // onNavigationStateChange={handleNavigationStateChange}
                 // scalesPageToFit={true}
                 // allowFileAccess={true}
                 // originWhitelist={['*']}
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     container: {
         // flex: 1,
         // alignItems: 'center',
+        flex: 1,
         width: "100%",
         height: "100%"
     }

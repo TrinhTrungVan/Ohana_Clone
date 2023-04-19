@@ -15,21 +15,21 @@ const authController = {
     //REGISTER
     registerUser: async (req, res) => {
         try {
+            const { email, password, fullname, phoneNumber } = req.body;
+
             const salt = await bcrypt.genSalt(10);
-            const hashed = await bcrypt.hash(req.body.password, salt)
+            const hashed = await bcrypt.hash(password, salt)
+            
+            const foundByEmail = await User.findOne({ email: email });
+            if (foundByEmail) {
+                return res.status(402).json({ message: "Email đã tồn tại." });
+            }
             //create new user
             const newUser = new User({
-                username: req.body.username,
-                email: req.body.email,
+                email: email,
                 password: hashed,
-                fullname: req.body.fullname || "",
-                phoneNumber: req.body.phoneNumber || "",
-                address: req.body.address || "",
-                bankAcount: {
-                    bankName: req.body.bankName || "",
-                    acountName: req.body.acountName || "",
-                    acountNumber: req.body.acountNumber || ""
-                }
+                fullname: fullname || "",
+                phoneNumber: phoneNumber || ""
             })
             //save to db
             const user = await newUser.save()
@@ -65,16 +65,15 @@ const authController = {
     //LOGIN
     loginUser: async (req, res) => {
         try {
-            const user = await User.findOne({ username: req.body.username })
+            const { email, password } = req.body;
+            const user = await User.findOne({ email: email });
+            // const user = await User.findOne({ username: req.body.username })
             if (!user) {
-                return res.status(403).json("Wrong username!")
+                return res.status(403).json("Email không tồn tại!");
             }
-            const validPassword = await bcrypt.compare(
-                req.body.password,
-                user.password
-            )
+            const validPassword = await bcrypt.compare(password, user.password);
             if (!validPassword) {
-                res.status(404).json("Wrong password!")
+                res.status(404).json("Sai mật khẩu!");
             }
             if (user && validPassword) {
                 const accessToken = authController.generateAccessToken(user) // luu acctoken len redux(fe)

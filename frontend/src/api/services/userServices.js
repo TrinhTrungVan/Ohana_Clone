@@ -1,5 +1,6 @@
 import { loginFailed, loginStart, loginSuccess } from "../../redux/slices/authSlice";
 import { ENV } from '../../constants/env'
+import axiosClient from "../axiosClient";
 
 const BASE_URL = ENV.BASE_URL + "/api"
 
@@ -21,4 +22,8 @@ export const updateUser = async (id, newUser, accessToken, dispatch, axiosJWT) =
         console.log("errorUpdate", e)
         dispatch(loginFailed())
     }
+}
+
+export const getUser = (id) => {
+    return axiosClient.get(`/user/${id}`)
 }

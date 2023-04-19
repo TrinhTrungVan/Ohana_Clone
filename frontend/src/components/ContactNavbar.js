@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Linking, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/color";
+import Loading from "./Loading";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const ContactNavbar = (props) => {
-    const { navigation, deposit } = props;
+    const { navigation, author, deposit } = props;
 
     const handleNavigateToChat = () => {
         navigation.navigate("Chat");
@@ -14,8 +17,23 @@ const ContactNavbar = (props) => {
     };
 
     const handleNavigateToCall = () => {
-        Linking.openURL(`tel:${"0338886754"}`);
+        Linking.openURL(`tel:${author.phoneNumber}`);
     };
+
+    useEffect(() => {
+        AsyncStorage.getItem("@userLogin")
+            .then((data) => JSON.parse(data))
+            // .then((res) => setMe(res));
+    }, []);
+
+    // if (!me) {
+    //     return (
+    //         <View style={styles.container}>
+    //             <Loading color={COLORS.red} />
+    //         </View>
+    //     );
+    // }
+
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => handleNavigateToChat()}>

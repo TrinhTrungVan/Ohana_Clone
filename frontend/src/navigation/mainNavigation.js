@@ -1,5 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/color";
 import ChatScreen from "../screens/ChatScreen";
@@ -10,7 +11,21 @@ import AccountNavigation from "./accountNavigation";
 
 const Tab = createBottomTabNavigator();
 
-const MainNavigation = () => {
+const MainNavigation = ({ navigation }) => {
+    const readData = async () => {
+        try {
+            const res = await AsyncStorage.getItem("@userLogin");
+            if (!res) {
+                navigation.navigate("Auth");
+            }
+        } catch (e) {
+            console.log("Error");
+        }
+    };
+
+    useEffect(() => {
+        readData();
+    }, []);
     return (
         <Tab.Navigator
             screenOptions={{
@@ -47,6 +62,7 @@ const MainNavigation = () => {
                         </View>
                     ),
                     headerShown: true,
+                    unmountOnBlur: true,
                 }}
             />
             <Tab.Screen
@@ -73,6 +89,26 @@ const MainNavigation = () => {
                             >
                                 Yêu thích
                             </Text>
+                        </View>
+                    ),
+                    headerShown: true,
+                    header: ({ navigation }) => (
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Yêu thích</Text>
+                            <TouchableOpacity
+                                style={styles.backBtn}
+                                onPress={() => navigation.goBack()}
+                            >
+                                <Image
+                                    source={require("../../assets/icons/back.png")}
+                                    resizeMode='contain'
+                                    style={{
+                                        width: 25,
+                                        height: 25,
+                                        tintColor: COLORS.grey,
+                                    }}
+                                />
+                            </TouchableOpacity>
                         </View>
                     ),
                 }}
@@ -141,6 +177,27 @@ const MainNavigation = () => {
                             </Text>
                         </View>
                     ),
+                    headerShown: true,
+                    unmountOnBlur: true,
+                    header: ({ navigation }) => (
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Tin nhắn</Text>
+                            <TouchableOpacity
+                                style={styles.backBtn}
+                                onPress={() => navigation.navigate("Home")}
+                            >
+                                <Image
+                                    source={require("../../assets/icons/back.png")}
+                                    resizeMode='contain'
+                                    style={{
+                                        width: 25,
+                                        height: 25,
+                                        tintColor: COLORS.grey,
+                                    }}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
                 }}
             />
             <Tab.Screen
@@ -200,10 +257,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         height: 55,
-        marginTop: 24,
         position: "relative",
         borderBottomColor: COLORS.black,
         borderBottomWidth: 0.5,
+        backgroundColor: COLORS.abs_white,
     },
     title: {
         fontSize: 24,

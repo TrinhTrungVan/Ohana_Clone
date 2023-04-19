@@ -5,14 +5,14 @@ export const getPosts = async (req, res) => {
         const posts = await Post.find();
         res.json(posts);
     } catch (e) {
-        res.status(500).json({ error: "An error occurred!", message: e.message });
+        res.status(500).json({ status: "Failed", message: e.message, data: "" });
     }
 };
 
 export const getPostDetail = async (req, res) => {
     try {
         const { id } = req.params;
-        const post = await Post.findById(id);
+        const post = await Post.findById(id).populate("user");
 
         if (!post) {
             return res.status(500).json({ error: "Post does not exist!" });

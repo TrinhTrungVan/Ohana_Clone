@@ -1,15 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState, useEffect } from "react";
-import { View, SafeAreaView, ScrollView, StyleSheet} from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import dayjs from "dayjs";
+import jwt_decode from "jwt-decode";
+import React, { useEffect, useState } from "react";
+import { Image, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../api/services/authServices";
 import Button from "../components/Button";
 import Information from "../components/Information";
 import Loading from "../components/Loading";
 import COLORS from "../constants/color";
-import { logoutUser } from "../api/services/authServices";
-import axios from "axios";
-import jwt_decode from 'jwt-decode';
-import dayjs from 'dayjs';
 
 function ProfileScreen({ navigation }) {
     const isLogin = useSelector(state => state.auth.login)
@@ -72,13 +72,30 @@ function ProfileScreen({ navigation }) {
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
                 <View style={styles.view}>
-                    <Information label='Họ tên' text={isLogin.isFetching ? <Loading /> : user?.fullname} />
-                    <Information label='Địa chỉ' text={isLogin.isFetching ? <Loading /> : user?.address} />
-                    <Information label='Số điện thoại' text={isLogin.isFetching ? <Loading /> : user?.phoneNumber} />
-                    <Information label='Email' text={isLogin.isFetching ? <Loading /> : user?.email} />
-                    <Information label='Tài khoản ngân hàng' />
-                    <Button type="Profile" onPress={handleClickEdit}>Chỉnh sửa thông tin</Button>
-                    <Button type="Logout" onPress={handleClickLogout}>Đăng xuất</Button>
+                    <Image
+                        source={{
+                            uri: user?.avatar_url,
+                        }}
+                        style={styles.avatar}
+                    />
+                    <Information
+                        label='Họ tên'
+                        text={isLogin.isFetching ? <Loading /> : user?.fullname}
+                    />
+                    <Information
+                        label='Số điện thoại'
+                        text={isLogin.isFetching ? <Loading /> : user?.phoneNumber}
+                    />
+                    <Information
+                        label='Email'
+                        text={isLogin.isFetching ? <Loading /> : user?.email}
+                    />
+                    <Button type='Profile' onPress={handleClickEdit}>
+                        Chỉnh sửa thông tin
+                    </Button>
+                    <Button type='Logout' onPress={handleClickLogout}>
+                        Đăng xuất
+                    </Button>
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -98,5 +115,11 @@ const styles = StyleSheet.create({
         paddingTop: 8,
         paddingBottom: 32,
         alignItems: "center"
-    }
+    },
+    avatar: {
+        width: 100,
+        height: 100,
+        borderRadius: 100,
+        marginTop: 16,
+    },
 });

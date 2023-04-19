@@ -14,12 +14,14 @@ export const registerUser = async (user, dispatch) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                username: user.username,
                 email: user.email,
-                password: user.password
+                password: user.password,
+                fullname: user.fullname,
+                phoneNumber: user.phoneNumber,
             })
         })
         const json = await res.json()
+        storeData("@statusRegister", res.status);
         console.log('register', JSON.stringify(json))
         dispatch(registerSuccess())
     }
@@ -44,6 +46,7 @@ export const loginUser = async (user, dispatch) => {
         storeData("@statusLogin", res.status)
         storeData("@userLogin", json)
         dispatch(loginSuccess(json))
+        return json
     }
     catch (e) {
         console.log("errorLoginUser", e)

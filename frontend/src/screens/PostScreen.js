@@ -14,11 +14,12 @@ import COLORS from "../constants/color";
 import Loading from "../components/Loading";
 import postServices from "../api/services/postServices";
 import GroupImage from "../components/GroupImage";
-import { convertToMillions } from "../utils/convertPrice";
+import { convertToMillions, convertToThousands } from "../utils/convertPrice";
 import GroupCost from "../components/GroupCost";
 import SectionInfoPost from "../components/SectionInfoPost";
 import { calcDayAgo } from "../utils/calcDayAgo";
 import ContactNavbar from "../components/ContactNavbar";
+import { useIsFocused } from "@react-navigation/native";
 
 const PostScreen = ({ route, navigation }) => {
     const { id } = route.params || "";
@@ -46,7 +47,7 @@ const PostScreen = ({ route, navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.contactNavbar}>
-                <ContactNavbar deposit={postInfo.deposit} navigation={navigation} />
+                <ContactNavbar deposit={postInfo.deposit} author={postInfo.user} navigation={navigation} />
             </View>
             <ScrollView>
                 <View style={styles.content}>
@@ -67,6 +68,14 @@ const PostScreen = ({ route, navigation }) => {
                     />
                     <View style={styles.section}>
                         <Text style={styles.title}>Chi tiết</Text>
+                        {postInfo.parkingAvailable && (
+                            <>
+                                <Text>{`Có chỗ để xe, Phí giữ xe: ${postInfo.parkingCost == 0
+                                    ? "Miễn phí"
+                                    : convertToThousands(postInfo.parkingCost) + "k"
+                                    }`}</Text>
+                            </>
+                        )}
                         <Text>{postInfo.description}</Text>
                     </View>
 
@@ -84,6 +93,21 @@ const PostScreen = ({ route, navigation }) => {
                     <View style={styles.section}>
                         <Text style={styles.title}>Ngày đăng</Text>
                         <Text>{calcDayAgo(postInfo.createdAt)}</Text>
+                    </View>
+                    <View style={styles.section}>
+                        <Text style={styles.title}>Người đăng</Text>
+                        <View style={styles.authorInfo}>
+                            <Image
+                                source={{
+                                    uri: postInfo.user.avatar_url,
+                                }}
+                                style={styles.authorImage}
+                            />
+                            <View>
+                                <Text style={styles.authorName}>{postInfo.user.fullname}</Text>
+                                <Text>{postInfo.user.phoneNumber}</Text>
+                            </View>
+                        </View>
                     </View>
                     <View style={styles.section}>
                         <Text style={styles.title}>Cùng tiêu chí</Text>
@@ -130,6 +154,22 @@ const styles = StyleSheet.create({
     viewOnMapBtn: {
         marginTop: 8,
         color: COLORS.blue,
+    },
+    authorInfo: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "center",
+    },
+    authorImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 100,
+        marginRight: 16,
+    },
+    authorName: {
+        fontWeight: "bold",
+        marginBottom: 4,
     },
     contactNavbar: {
         position: "absolute",

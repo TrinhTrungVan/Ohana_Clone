@@ -11,6 +11,7 @@ import {
     TextInput,
     Image,
     TouchableOpacity,
+    StatusBar,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
@@ -19,7 +20,7 @@ import PROVINCE from "../constants/province";
 import COLORS from "../constants/color";
 import postServices from "../api/services/postServices";
 import axios from "axios";
-import Post from "../components/Post";
+import PostItem from '../components/PostItem'
 
 export default function HomeSearch({ navigation }) {
     // const navigation = useNavigation();
@@ -47,7 +48,7 @@ export default function HomeSearch({ navigation }) {
             //console.log(res);
         };
         getPost();
-    }, []);
+    }, [navigation]);
 
     // const updateData = () => {
     //     fetch(url)
@@ -116,13 +117,19 @@ export default function HomeSearch({ navigation }) {
         // } else if (!searchTerm) {
         //     updateData();
         // }
-        if (searchTerm != null
-            || (searchTerm == null && seCity != null)) {
+        if (searchTerm != undefined || (searchTerm == undefined && seCity != null)) {
             var newData = [];
-            for (let i = 0; i < data.length; i++) {
-                if (data[i].title != undefined && data[i].title.toUpperCase().includes(searchTerm.toUpperCase())) {
-                    //console.log(data[i])
-                    newData.push(data[i])
+            if (searchTerm == undefined) {
+                newData = data;
+                console.log("Empty search");
+            } else {
+                for (let i = 0; i < data.length; i++) {
+                    if (
+                        data[i].title != undefined &&
+                        data[i].title.toUpperCase().includes(searchTerm.toUpperCase())
+                    ) {
+                        newData.push(data[i]);
+                    }
                 }
             }
             //console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
@@ -150,19 +157,25 @@ export default function HomeSearch({ navigation }) {
                 //     } 
                 //     console.log("\n")
                 // }
-                newData = newData.filter(i => i.city.toUpperCase().includes(seCity.toUpperCase()))
+                newData = newData.filter((i) =>
+                    i.city.toUpperCase().includes(seCity.toUpperCase())
+                );
                 //console.log(newData)
 
-                console.log(newData.length)
-                console.log("---------------------------------------------------------------")
+                console.log(newData.length);
+                console.log("---------------------------------------------------------------");
+                console.log(seCity);
             }
             if (seDistrict.length != 0) {
-                newData = newData.filter(i => i.district.toUpperCase().includes(seDistrict.toUpperCase()))
-                console.log('123123123123123123123213')
+                newData = newData.filter((i) =>
+                    i.district.toUpperCase().includes(seDistrict.toUpperCase())
+                );
+                console.log("123123123123123123123213");
             }
             if (seWard.length != 0) {
-                newData = newData.filter(i => i.ward.toUpperCase().includes(seWard.toUpperCase()))
-                //console.log(seWard)
+                newData = newData.filter((i) =>
+                    i.ward.toUpperCase().includes(seWard.toUpperCase())
+                );
             }
             if (priceRange) {
                 if (priceRange == 1) {
@@ -187,7 +200,9 @@ export default function HomeSearch({ navigation }) {
 
             }
             setFilteredData(newData);
-            console.log(newData)
+            console.log("\n");
+            console.log(newData);
+            console.log("\n");
             // console.log(data.filter((item) => {
             //     if (item.title != undefined && item.title.toUpperCase().includes(searchTerm.toUpperCase())) {
             //         console.log("-----\n"+item.title +"\n-----\n")
@@ -201,7 +216,7 @@ export default function HomeSearch({ navigation }) {
             //         console.log("-----\n"+item.title +"\n-----\n")
             //     }
             // });
-        } else if (!searchTerm) {
+        } else {
             getPost()
         }
 
@@ -269,6 +284,7 @@ export default function HomeSearch({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar animated={true} barStyle={'dark-content'} />
             {/* <ScrollView style={styles.pickerStyle} >
                 <Picker
 
@@ -362,10 +378,10 @@ export default function HomeSearch({ navigation }) {
                         key={index}
                         onPress={() => navigation.navigate("Post Detail", { id: post._id })}
                     >
-                        <Post data={post} />
+                        <PostItem data={post} />
                     </TouchableOpacity>
                 ))}
-                <View style={{ height: 120}} />
+                <View style={{ height: 120 }} />
 
             </ScrollView>
         </SafeAreaView>

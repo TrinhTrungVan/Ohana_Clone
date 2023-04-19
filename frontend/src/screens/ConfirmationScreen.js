@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import Loading from "../components/Loading";
 import { validateConfirmForm } from "../utils/validateForm";
+import postServices from "../api/services/postServices";
 
 const ConfirmationScreen = (props) => {
     const { handleChangeForm, navigation } = props;
@@ -28,16 +29,17 @@ const ConfirmationScreen = (props) => {
         }
         setLoading(true);
         try {
-            const response = await fetch("http://10.0.2.2:2001/api/post/create", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-            const result = await response.json();
-            console.log("Result", result);
+            // const response = await fetch("http://10.0.2.2:2001/api/post/create", {
+            //     method: "POST",
+            //     headers: {
+            //         Accept: "application/json",
+            //         "Content-Type": "application/json",
+            //     },
+            //     body: JSON.stringify(data),
+            // });
+            // const result = await response.json();
+            // console.log("Result", result);
+            await postServices.createPost(data)
         } catch (error) {
             console.error(error);
         }
@@ -87,6 +89,7 @@ const ConfirmationScreen = (props) => {
                 placeholder='Nhập số điện thoại'
                 value={data?.phone}
                 maxLength={10}
+                keyboardType='numeric'
                 onChangeText={(value) => handleChange("phone", value)}
             />
             <Input

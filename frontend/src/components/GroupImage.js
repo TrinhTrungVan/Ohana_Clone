@@ -22,10 +22,12 @@ function GroupImage(props) {
                     <Image source={{ uri: images[1] }} style={styles.image} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.lastImage} onPress={() => handleShowImage(2)}>
-                    <Image source={{ uri: images[0] }} style={styles.image} />
-                    <View style={styles.overlay}>
-                        <Text style={styles.moreImage}>{`+${images.length - 3}`}</Text>
-                    </View>
+                    <Image source={{ uri: images[2] }} style={styles.image} />
+                    {images.length > 3 && (
+                        <View style={styles.overlay}>
+                            <Text style={styles.moreImage}>{`+${images.length - 3}`}</Text>
+                        </View>
+                    )}
                 </TouchableOpacity>
             </View>
             <View style={styles.container}>
