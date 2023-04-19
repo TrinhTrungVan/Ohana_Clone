@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React, { useEffect } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -7,7 +8,6 @@ import CreatePostScreen from "../screens/CreatePostScreen";
 import HomeScreen from "../screens/HomeScreen";
 import SavedScreen from "../screens/SavedScreen";
 import AccountNavigation from "./accountNavigation";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Tab = createBottomTabNavigator();
 
@@ -62,6 +62,7 @@ const MainNavigation = ({ navigation }) => {
                         </View>
                     ),
                     headerShown: true,
+                    unmountOnBlur: true,
                 }}
             />
             <Tab.Screen
@@ -177,12 +178,13 @@ const MainNavigation = ({ navigation }) => {
                         </View>
                     ),
                     headerShown: true,
+                    unmountOnBlur: true,
                     header: ({ navigation }) => (
                         <View style={styles.header}>
                             <Text style={styles.title}>Tin nhắn</Text>
                             <TouchableOpacity
                                 style={styles.backBtn}
-                                onPress={() => navigation.navigate("ChatHome")}
+                                onPress={() => navigation.navigate("Home")}
                             >
                                 <Image
                                     source={require("../../assets/icons/back.png")}
@@ -255,10 +257,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         height: 55,
-        marginTop: 24,
         position: "relative",
         borderBottomColor: COLORS.black,
         borderBottomWidth: 0.5,
+        backgroundColor: COLORS.abs_white,
     },
     title: {
         fontSize: 24,

@@ -11,6 +11,7 @@ import {
     TextInput,
     Image,
     TouchableOpacity,
+    StatusBar,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
@@ -291,6 +292,7 @@ export default function HomeSearch({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar animated={true} barStyle={"dark-content"} />
             {/* <ScrollView style={styles.pickerStyle} >
                 <Picker
 
@@ -390,7 +392,7 @@ export default function HomeSearch({ navigation }) {
             </View>
 
             <ScrollView contentContainerStyle={styles.resultContainer}>
-                {filteredData.slice(0, 20).map((post, index) => (
+                {filteredData.map((post, index) => (
                     <TouchableOpacity
                         key={index}
                         onPress={() => navigation.navigate("Post Detail", { id: post._id })}

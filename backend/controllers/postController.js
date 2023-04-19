@@ -12,7 +12,7 @@ export const getPosts = async (req, res) => {
 export const getPostDetail = async (req, res) => {
     try {
         const { id } = req.params;
-        const post = await Post.findById(id);
+        const post = await Post.findById(id).populate("user");
 
         if (!post) {
             return res.status(500).json({ error: "Post does not exist!" });
@@ -26,7 +26,7 @@ export const getPostDetail = async (req, res) => {
 export const createPost = async (req, res) => {
     try {
         const data = req.body;
-        console.log("Data", data);
+        // console.log("Data", data);
         const newPost = new Post(data);
         await newPost.save();
         res.json({ message: "Create Success!" });

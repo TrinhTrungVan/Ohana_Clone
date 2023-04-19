@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import COLORS from "../constants/color";
 
 const Message = ({ data, isSender }) => {
-    const { message, avatar_url } = data;
+    const { content, avatar_url } = data;
     return (
         <View style={{ ...styles.container, flexDirection: isSender ? "row-reverse" : "row" }}>
             {!isSender && (
@@ -21,7 +21,7 @@ const Message = ({ data, isSender }) => {
                     color: isSender ? COLORS.white : COLORS.grey,
                 }}
             >
-                {message}
+                {content}
             </Text>
         </View>
     );

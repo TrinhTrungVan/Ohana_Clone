@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { View, SafeAreaView, ScrollView, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch } from "react-redux";
+import { loginUser } from "../api/services/authServices";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
-import { loginUser } from "../api/services/authServices";
 import { getData } from "../utils/asyncStorage";
+import { validateLoginForm } from "../utils/validateForm";
 
 function LoginScreen({ navigation }) {
     const [user, setUser] = useState({});
@@ -20,9 +21,11 @@ function LoginScreen({ navigation }) {
     };
 
     const handleLogin = async () => {
+        const errorMsg = validateLoginForm(user);
+        if (errorMsg) return setTextError(errorMsg);
+
         await loginUser(user, dispatch);
         const status = await getData("@statusLogin");
-        console.log(status);
         if (status == 500) {
             alert("Lỗi hệ thống");
         } else if (status == 404) {
@@ -45,10 +48,10 @@ function LoginScreen({ navigation }) {
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
                 <View style={{ paddingTop: 8, paddingBottom: 32 }}>
                     <Input
-                        label='Tên đăng nhập'
-                        placeholder='Nhập tên đăng nhập'
-                        value={user?.username}
-                        onChangeText={(text) => handleChange("username", text)}
+                        label='Địa chỉ email'
+                        placeholder='Nhập địa chỉ email'
+                        value={user?.email}
+                        onChangeText={(text) => handleChange("email", text)}
                     />
                     <Input
                         label='Mật khẩu'

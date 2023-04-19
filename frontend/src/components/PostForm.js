@@ -29,6 +29,7 @@ const PostForm = (props) => {
 
     const handleNext = () => {
         saveData();
+        console.log("Data", data);
         const errorText = validatePostInfo(data);
         if (errorText) {
             setTextError(errorText);
