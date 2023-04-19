@@ -1,12 +1,13 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useEffect, useState } from "react";
-import AuthNavigation from "./authNavigation";
-import MainNavigation from "./mainNavigation";
-import PostScreen from "../screens/PostScreen";
+import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/color";
 import PaymentScreen from "../screens/PaymentScreen";
 import VnpayScreen from "../screens/VnpayScreen";
+import PostScreen from "../screens/PostScreen";
+import AuthNavigation from "./authNavigation";
+import MainNavigation from "./mainNavigation";
+import ConversationScreen from "../screens/ConversationScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,13 @@ const AppNavigation = () => {
             <Stack.Screen
                 name='Main'
                 component={MainNavigation}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name='Auth'
+                component={AuthNavigation}
                 options={{
                     headerShown: false,
                 }}

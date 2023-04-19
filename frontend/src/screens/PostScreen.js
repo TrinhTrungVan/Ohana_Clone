@@ -67,6 +67,15 @@ const PostScreen = ({ route, navigation }) => {
                     />
                     <View style={styles.section}>
                         <Text style={styles.title}>Chi tiết</Text>
+                        {postInfo.parkingAvailable && (
+                            <>
+                                <Text>{`Có chỗ để xe, Phí giữ xe: ${
+                                    postInfo.parkingCost == 0
+                                        ? "Miễn phí"
+                                        : postInfo.parkingCost + "k"
+                                }`}</Text>
+                            </>
+                        )}
                         <Text>{postInfo.description}</Text>
                     </View>
 

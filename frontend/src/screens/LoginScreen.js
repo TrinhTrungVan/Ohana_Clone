@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import {
-    View,
-    SafeAreaView,
-    ScrollView,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-} from "react-native";
-import { useDispatch} from "react-redux";
+import { View, SafeAreaView, ScrollView, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useDispatch } from "react-redux";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
@@ -15,32 +8,31 @@ import { loginUser } from "../api/services/authServices";
 import { getData } from "../utils/asyncStorage";
 
 function LoginScreen({ navigation }) {
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
     const [textError, setTextError] = useState("");
     const dispatch = useDispatch();
 
     const handleChange = (name, value) => {
         setUser({
             ...user,
-            [name]: value
-        })
-    }
+            [name]: value,
+        });
+    };
 
     const handleLogin = async () => {
         await loginUser(user, dispatch);
-        console.log('click')
-        const status = await getData("@statusLogin")
-        console.log(status)
-        if(status == 404) {
-            setTextError("Sai mật khẩu!")
-        }
-        else if(status == 403) {
-            setTextError("Sai tên đăng nhập!")
-        }
-        else {
+        const status = await getData("@statusLogin");
+        console.log(status);
+        if (status == 500) {
+            alert("Lỗi hệ thống");
+        } else if (status == 404) {
+            setTextError("Sai mật khẩu!");
+        } else if (status == 403) {
+            setTextError("Sai tên đăng nhập!");
+        } else {
             navigation.navigate("Main", { screen: "Home" });
-            setTextError("")
-            setUser({})
+            setTextError("");
+            setUser({});
         }
     };
 
@@ -100,6 +92,6 @@ const styles = StyleSheet.create({
     },
     textError: {
         color: "red",
-        fontSize: 12
-    }
+        fontSize: 12,
+    },
 });

@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import Loading from "../components/Loading";
 import { validateConfirmForm } from "../utils/validateForm";
+import postServices from "../api/services/postServices";
 
 const ConfirmationScreen = (props) => {
     const { handleChangeForm, navigation } = props;
@@ -87,6 +88,7 @@ const ConfirmationScreen = (props) => {
                 placeholder='Nhập số điện thoại'
                 value={data?.phone}
                 maxLength={10}
+                keyboardType='numeric'
                 onChangeText={(value) => handleChange("phone", value)}
             />
             <Input
