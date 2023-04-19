@@ -1,20 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import Button from "../components/Button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const AuthenScreen = ({navigation}) => {
+const AuthenScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <Image style={styles.img} source={require('../../assets/accountBackground.jpg')}></Image>
+            <Image
+                style={styles.img}
+                source={require("../../assets/accountBackground.jpg")}
+            ></Image>
             <View style={styles.button}>
-                <Button type="Authen" onPress={() => navigation.navigate('Login')}>Đăng nhập</Button>
-                <Button type="Authen" onPress={() => navigation.navigate('SignUp')}>Đăng ký</Button>
+                <Button type='Authen' onPress={() => navigation.navigate("Login")}>
+                    Đăng nhập
+                </Button>
+                <Button type='Authen' onPress={() => navigation.navigate("SignUp")}>
+                    Đăng ký
+                </Button>
             </View>
         </View>
-    )
-}
+    );
+};
 
-export default AuthenScreen
+export default AuthenScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -22,7 +30,7 @@ const styles = StyleSheet.create({
     },
     img: {
         width: "100%",
-        height: 400
+        height: 400,
     },
     button: {
         alignItems: "center",

@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-    View,
-    Text,
-    Button,
-    StyleSheet,
-    ScrollView,
-    SafeAreaView,
     Image,
-    TouchableOpacity,
     Modal,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
     TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
-import { getUser } from "../api/services/userServices";
-import COLORS from "../constants/color";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
+import COLORS from "../constants/color";
+import { useEffect } from "react";
+import conversationServices from "../api/services/conversationServices";
+import { getUser } from "../api/services/userServices";
 
 const MESS = [
     {
@@ -81,36 +82,51 @@ const MESS = [
 ];
 
 const ConversationScreen = ({ route, navigation }) => {
-    const { userId } = route.params;
+    // console.log("Mount");
+    const { participants } = route.params;
+    // console.log("friendID", participants[1]);
 
+    const [conversation, setConversation] = useState(null);
     const [user, setUser] = useState(null);
-    const [messages, setMessages] = useState(MESS);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
+        await conversationServices.deleteConversation(conversation._id);
         setModalVisible(false);
+        navigation.navigate("Chat");
     };
 
+    const handleSend = () => {};
+
     useEffect(() => {
-        const getUserInfo = async () => {
-            const res = await getUser(userId);
-            setUser(res);
+        const getData = async () => {
+            const user = await getUser(participants[1]);
+            if (user) {
+                // console.log("User", user);
+                setUser(user);
+            }
+            const res = await conversationServices.getConversationDetail(participants);
+            if (res) {
+                // console.log(res);
+                setConversation(res);
+            }
         };
-        getUserInfo();
+        getData();
     }, []);
 
-    if (!user)
+    if (!user || !conversation) {
         return (
             <View style={styles.container}>
                 <Loading color={COLORS.red} />
             </View>
         );
+    }
 
     return (
         <>
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.title}>{user.username}</Text>
+                    <Text style={styles.title}>{user?.fullname}</Text>
                     <TouchableOpacity
                         onPress={() => navigation.navigate("Chat")}
                         style={styles.backBtn}
@@ -131,15 +147,16 @@ const ConversationScreen = ({ route, navigation }) => {
                 </View>
                 <ScrollView style={{ width: "100%", marginTop: 8 }}>
                     <View style={styles.messages}>
-                        {messages.map((item, index) => {
-                            return (
-                                <Message
-                                    data={item}
-                                    isSender={item.userId === "6437a028b93ecd8ee32349ca"}
-                                    key={index}
-                                />
-                            );
-                        })}
+                        {conversation.messages.length > 0 &&
+                            conversation.messages.map((item, index) => {
+                                return (
+                                    <Message
+                                        data={item}
+                                        isSender={item.senderId === participants[0]}
+                                        key={index}
+                                    />
+                                );
+                            })}
                     </View>
                 </ScrollView>
                 <View style={styles.sendContainer}>
@@ -155,7 +172,7 @@ const ConversationScreen = ({ route, navigation }) => {
                         placeholder='Nhắn tin...'
                         style={styles.sendInput}
                     />
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleSend}>
                         <Image
                             source={require("../../assets/icons/send.png")}
                             resizeMode='contain'

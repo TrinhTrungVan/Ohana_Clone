@@ -1,20 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/color";
 
-const ChatItem = ({ navigation }) => {
-    const data = {
-        avatar_url:
-            "https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg",
-        username: "TrungVan",
-        lastMessage: "Helloooooo",
-        userId: "641c878610033b42c52d472d",
-        unreadMessage: 10,
+const ChatItem = ({ navigation, data, participants }) => {
+    // const data = {
+    //     avatar_url:
+    //         "https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg",
+    //     username: "TrungVan",
+    //     lastMessage: "Helloooooo",
+    //     userId: "641c878610033b42c52d472d",
+    //     unreadMessage: 10,
+    // };
+    const handleNavigateToConversation = () => {
+        navigation.navigate("Conversation", { participants });
     };
+
     return (
-        <TouchableOpacity
-            onPress={() => navigation.navigate("Conversation", { userId: data.userId })}
-        >
+        <TouchableOpacity onPress={handleNavigateToConversation}>
             <View style={styles.container}>
                 <Image
                     source={{
@@ -22,17 +24,17 @@ const ChatItem = ({ navigation }) => {
                     }}
                     style={styles.image}
                 />
-                <Text
+                {/* <Text
                     style={{
                         ...styles.unreadMessage,
                         paddingHorizontal: data.unreadMessage > 9 ? 6 : 9,
                     }}
                 >
                     {data.unreadMessage}
-                </Text>
+                </Text> */}
                 <View style={styles.content}>
-                    <Text style={styles.username}>{data.username}</Text>
-                    <Text style={styles.lastMessage}>{data.lastMessage}</Text>
+                    <Text style={styles.username}>{data.fullname}</Text>
+                    {/* <Text style={styles.lastMessage}>{data.lastMessage}</Text> */}
                 </View>
             </View>
         </TouchableOpacity>

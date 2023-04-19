@@ -16,9 +16,12 @@ export const validatePostInfo = (data) => {
         !capacity ||
         !expenses ||
         !deposit ||
-        !electricityCost ||
-        !waterCost ||
-        !internetCost
+        electricityCost === "0" ||
+        electricityCost === "" ||
+        waterCost === "0" ||
+        waterCost === "" ||
+        internetCost === "0" ||
+        internetCost === ""
     ) {
         return "Vui lòng điền đầy đủ các trường";
     }
@@ -31,6 +34,8 @@ export const validatePostInfo = (data) => {
     if (!validateNumber(waterCost)) return "Trường Tiền nước phải là số";
     if (!validateNumber(internetCost)) return "Trường Tiền Internet phải là số";
     if (parkingAvailable) {
+        if (!parkingCost || parkingCost === "0" || parkingCost === "")
+            return "Vui lòng điền đầy đủ các trường";
         if (!validateNumber(parkingCost)) return "Trường Phí giữ xe phải là số";
     }
     return "";
@@ -67,4 +72,22 @@ export const validatePhone = (phone) => {
 export const validateNumber = (str) => {
     const regex = /^\d+$/;
     return regex.test(str);
+};
+
+export const validateRegisterForm = (data) => {
+    if (!data) return "Vui lòng điền đầy đủ các trường";
+    const { email, password, repeatPassword, fullname, phoneNumber } = data;
+    if (!validateEmail(email)) return "Email sai định dạng";
+    if (password !== repeatPassword) return "Mật khẩu không khớp";
+    if (!validatePhone(phoneNumber)) return "Số điện thoại sai định dạng";
+    if (fullname.length < 6 || fullname.length > 15)
+        return "Tên đầy đủ phải có ít nhất 6 kí tự và nhiều nhất 15 kí tự";
+    return "";
+};
+
+export const validateLoginForm = (data) => {
+    if (!data) return "Vui lòng điền đầy đủ các trường";
+    const { email, password } = data;
+    if (!validateEmail(email)) return "Email sai định dạng";
+    return "";
 };

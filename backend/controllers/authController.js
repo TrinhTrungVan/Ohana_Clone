@@ -15,42 +15,21 @@ const authController = {
     //REGISTER
     registerUser: async (req, res) => {
         try {
+            const { email, password, fullname, phoneNumber } = req.body;
+
             const salt = await bcrypt.genSalt(10);
-            const hashed = await bcrypt.hash(req.body.password, salt);
+            const hashed = await bcrypt.hash(password, salt);
 
-            const {
-                username,
-                email,
-                fullname,
-                phoneNumber,
-                address,
-                bankName,
-                acountName,
-                acountNumber,
-            } = req.body;
-
-            const foundByUsername = await User.findOne({ email: req.body.username });
-            if (foundByUsername) {
-                return res.status(401).json({ message: "Tên đăng nhập đã tồn tại." });
-            }
-
-            const foundByEmail = await User.findOne({ email: req.body.email });
+            const foundByEmail = await User.findOne({ email: email });
             if (foundByEmail) {
                 return res.status(402).json({ message: "Email đã tồn tại." });
             }
             //create new user
             const newUser = new User({
-                username: username,
                 email: email,
                 password: hashed,
                 fullname: fullname || "",
                 phoneNumber: phoneNumber || "",
-                address: address || "",
-                bankAcount: {
-                    bankName: bankName || "",
-                    acountName: acountName || "",
-                    acountNumber: acountNumber || "",
-                },
             });
             //save to db
             const user = await newUser.save();
@@ -85,13 +64,14 @@ const authController = {
     //LOGIN
     loginUser: async (req, res) => {
         try {
-            const user = await User.findOne({ username: req.body.username });
+            const { email, password } = req.body;
+            const user = await User.findOne({ email: email });
             if (!user) {
-                return res.status(403).json("Wrong username!");
+                return res.status(403).json("Email không tồn tại!");
             }
-            const validPassword = await bcrypt.compare(req.body.password, user.password);
+            const validPassword = await bcrypt.compare(password, user.password);
             if (!validPassword) {
-                res.status(404).json("Wrong password!");
+                res.status(404).json("Sai mật khẩu!");
             }
             if (user && validPassword) {
                 const accessToken = authController.generateAccessToken(user); // luu acctoken len redux(fe)

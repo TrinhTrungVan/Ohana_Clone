@@ -11,6 +11,7 @@ import {
     TextInput,
     Image,
     TouchableOpacity,
+    StatusBar,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
@@ -151,6 +152,20 @@ export default function HomeSearch({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar animated={true} barStyle={"dark-content"} />
+            {/* <ScrollView style={styles.pickerStyle} >
+                <Picker
+
+                    selectedValue={option}
+                    onValueChange={(itemValue, itemIndex) => {
+                        setOption(itemValue);
+                        console.log(option);
+                    }
+                    }>
+                    <Picker.Item label="Title" value="title" />
+                    <Picker.Item label="Id" value="id" />
+                </Picker>
+            </ScrollView> */}
             <TextInput
                 style={styles.textInputStyle}
                 onChangeText={(text) => {
