@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import conversationServices from "../api/services/conversationServices";
 
 const ContactNavbar = (props) => {
-    const { navigation, author } = props;
+    const { navigation, author, deposit } = props;
     // console.log("Author", author);
     const [me, setMe] = useState(null);
 
@@ -19,7 +19,7 @@ const ContactNavbar = (props) => {
     };
 
     const handleNavigateToPayment = () => {
-        console.log("Payment");
+        navigation.navigate("Payment", { deposit: deposit })
     };
 
     const handleNavigateToCall = () => {

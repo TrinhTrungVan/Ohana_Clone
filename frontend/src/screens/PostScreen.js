@@ -24,7 +24,7 @@ import { useIsFocused } from "@react-navigation/native";
 const PostScreen = ({ route, navigation }) => {
     // const isFocused = useIsFocused();
     // if (!isFocused) return null;
-    const { id } = route.params;
+    const { id } = route.params || "";
     const [postInfo, setPostInfo] = useState(null);
 
     // const windowHeight = Dimensions.get("window").height;
@@ -49,7 +49,7 @@ const PostScreen = ({ route, navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.contactNavbar}>
-                <ContactNavbar navigation={navigation} author={postInfo.user} />
+                <ContactNavbar  navigation={navigation} deposit={postInfo.deposit} author={postInfo.user} />
             </View>
             <ScrollView>
                 <View style={styles.content}>

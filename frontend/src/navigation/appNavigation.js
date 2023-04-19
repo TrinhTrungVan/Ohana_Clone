@@ -2,6 +2,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/color";
+import PaymentScreen from "../screens/PaymentScreen";
+import VnpayScreen from "../screens/VnpayScreen";
 import PostScreen from "../screens/PostScreen";
 import AuthNavigation from "./authNavigation";
 import MainNavigation from "./mainNavigation";
@@ -12,6 +14,13 @@ const Stack = createNativeStackNavigator();
 const AppNavigation = () => {
     return (
         <Stack.Navigator>
+            <Stack.Screen
+                name='Auth'
+                component={AuthNavigation}
+                options={{
+                    headerShown: false,
+                }}
+            />
             <Stack.Screen
                 name='Main'
                 component={MainNavigation}
@@ -53,29 +62,27 @@ const AppNavigation = () => {
                 }}
             />
             <Stack.Screen
-                name='Conversation'
-                component={ConversationScreen}
+                name='Payment'
+                component={PaymentScreen}
                 options={{
-                    headerShown: false,
-                    // header: ({ navigation, route }) => (
-                    //     <View style={styles.header}>
-                    //         <Text style={styles.title}>{}</Text>
-                    //         <TouchableOpacity
-                    //             onPress={() => navigation.goBack()}
-                    //             style={styles.backBtn}
-                    //         >
-                    //             <Image
-                    //                 source={require("../../assets/icons/back.png")}
-                    //                 resizeMode='contain'
-                    //                 style={{
-                    //                     width: 25,
-                    //                     height: 25,
-                    //                     tintColor: COLORS.grey,
-                    //                 }}
-                    //             />
-                    //         </TouchableOpacity>
-                    //     </View>
-                    // ),
+                    headerShown: true,
+                    header: () => (
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Thanh toán</Text>
+                        </View>
+                    ),
+                }}
+            />
+            <Stack.Screen
+                name='Vnpay'
+                component={VnpayScreen}
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Thanh toán</Text>
+                        </View>
+                    ),
                 }}
             />
         </Stack.Navigator>
