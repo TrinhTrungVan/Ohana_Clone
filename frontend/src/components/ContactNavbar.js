@@ -3,14 +3,14 @@ import { Linking, Image, StyleSheet, Text, TouchableOpacity, View } from "react-
 import COLORS from "../constants/color";
 
 const ContactNavbar = (props) => {
-    const { navigation } = props;
+    const { navigation, deposit } = props;
 
     const handleNavigateToChat = () => {
         navigation.navigate("Chat");
     };
 
     const handleNavigateToPayment = () => {
-        console.log("Payment");
+        navigation.navigate("Payment", { deposit: deposit })
     };
 
     const handleNavigateToCall = () => {
