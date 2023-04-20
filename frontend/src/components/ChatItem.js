@@ -13,7 +13,7 @@ const ChatItem = ({ navigation, data, participants }) => {
     // };
     const handleNavigateToConversation = () => {
         navigation.navigate("Conversation", { participants });
-    };
+    }
 
     return (
         <TouchableOpacity onPress={handleNavigateToConversation}>

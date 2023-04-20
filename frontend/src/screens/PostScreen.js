@@ -49,7 +49,7 @@ const PostScreen = ({ route, navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.contactNavbar}>
-                <ContactNavbar  navigation={navigation} deposit={postInfo.deposit} author={postInfo.user} />
+                <ContactNavbar deposit={postInfo.deposit} author={postInfo.user} navigation={navigation} />
             </View>
             <ScrollView>
                 <View style={styles.content}>

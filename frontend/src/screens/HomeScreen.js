@@ -20,7 +20,7 @@ import PROVINCE from "../constants/province";
 import COLORS from "../constants/color";
 import postServices from "../api/services/postServices";
 import axios from "axios";
-import Post from "../components/Post";
+import PostItem from '../components/PostItem'
 
 export default function HomeSearch({ navigation }) {
     const [data, setData] = useState([]);
@@ -40,30 +40,116 @@ export default function HomeSearch({ navigation }) {
 
 
     function handleFilter(searchTerm) {
-        if (searchTerm != undefined
-            || (searchTerm == undefined && seCity != null)) {
-            var newData = [];
+        // var newData;
+        // if (searchTerm || (!searchTerm && idRange)) {
+        //     if (option == "title") {
+        //         // if (data.hasOwnProperty(key)) {
+        //         //     console.log(key + " -> " + data[key].title);
+        //         //     setData(
+        //         //         data.filter((item) =>
+        //         //             item.title.toUpperCase().includes(searchTerm.toUpperCase())
+        //         //         )
+        //         //     );
 
+        //         // }
+        //         var newData = filteredData.filter((item) =>
+        //             item.title.toUpperCase().includes(searchTerm.toUpperCase())
+        //         );
+        //     } 
+        //     // else if (option == "id") {
+        //     //     var newData = mainData.filter((item) =>
+        //     //         item.id.toString().toUpperCase().includes(searchTerm.toUpperCase())
+        //     //     );
+        //     // } 
+        //     else if (!option) {
+        //         setOption("title");
+        //         var newData = filteredData.filter((item) =>
+        //             item.title.toUpperCase().includes(searchTerm.toUpperCase())
+        //         );
+        //     }
+
+        //     if (idRange) {
+        //         if (idRange == 1) {
+        //             newData = newData.filter(
+        //                 (item) =>
+        //                     //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+        //                     item.id <= 10
+        //             );
+        //         } else if (idRange == 2) {
+        //             newData = newData.filter(
+        //                 (item) =>
+        //                     //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+        //                     item.id <= 20 && item.id > 10
+        //             );
+        //         } else if (idRange == 3) {
+        //             newData = newData.filter(
+        //                 (item) =>
+        //                     //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
+        //                     item.id > 20
+        //             );
+        //         }
+
+        //         //setData(newData)
+        //     }
+        //     setData(newData);
+        // } else if (!searchTerm) {
+        //     updateData();
+        // }
+        if (searchTerm != undefined || (searchTerm == undefined && seCity != null)) {
+            var newData = [];
             if (searchTerm == undefined) {
-                newData = data
-                console.log("Empty search")
+                newData = data;
+                console.log("Empty search");
             } else {
                 for (let i = 0; i < data.length; i++) {
-                    if (data[i].title != undefined && data[i].title.toUpperCase().includes(searchTerm.toUpperCase())) {
-                        //console.log(data[i])
-                        newData.push(data[i])
+                    if (
+                        data[i].title != undefined &&
+                        data[i].title.toUpperCase().includes(searchTerm.toUpperCase())
+                    ) {
+                        newData.push(data[i]);
                     }
                 }
             }
             if (seCity.length != 0) {
-                newData = newData.filter(i => i.city.toUpperCase().includes(seCity.toUpperCase()))
-                
+                // if (data[i].city != undefined && data[i].city.toUpperCase().includes(seCity.toUpperCase())) {
+                //     console.log(data[i].city)
+                //     //newData[i] = data[i]
+                // }
+                console.log("---------------------------------------------------------------")
+                // for (let i =0; i<newData.length; i++) {
+                //     console.log(newData[i].title + ", " +newData[i].city)
+                //     if (!newData[i].city.toUpperCase().includes(seCity.toUpperCase())) {
+                //         // console.log("Exist: \n" + newData[i].title + "; " +newData[i].city  + "\n")
+                //         //console.log(newData[i].title)
+                //         // var newstuff = newData[i];
+                //         // newData[i] = newData[newData.length-1];
+                //         // newData[newData.length-1] = newstuff;
+                //         console.log(", 0" )
+                //         //newData.pop()
+                //         //console.log(", 0" )
+                //         newData = 
+                //     } 
+                //     console.log("\n")
+                // }
+                newData = newData.filter((i) =>
+                    i.city.toUpperCase().includes(seCity.toUpperCase())
+                );
+                //console.log(newData)
+
+                console.log(newData.length);
+                console.log("---------------------------------------------------------------");
+                console.log(seCity);
             }
             if (seDistrict.length != 0) {
-                newData = newData.filter(i => i.district.toUpperCase().includes(seDistrict.toUpperCase()))
+                newData = newData.filter((i) =>
+                    i.district.toUpperCase().includes(seDistrict.toUpperCase())
+                );
+                console.log("123123123123123123123213");
             }
             if (seWard.length != 0) {
-                newData = newData.filter(i => i.ward.toUpperCase().includes(seWard.toUpperCase()))
+                newData = newData.filter((i) =>
+                    i.ward.toUpperCase().includes(seWard.toUpperCase())
+                );
             }
             if (priceRange) {
                 if (priceRange == 1) {
@@ -90,10 +176,22 @@ export default function HomeSearch({ navigation }) {
 
             }
             setFilteredData(newData);
-            console.log("\n")
-            console.log(newData)
-            console.log("\n")
-           
+            console.log("\n");
+            console.log(newData);
+            console.log("\n");
+            // console.log(data.filter((item) => {
+            //     if (item.title != undefined && item.title.toUpperCase().includes(searchTerm.toUpperCase())) {
+            //         console.log("-----\n"+item.title +"\n-----\n")
+            //     }
+            // }))
+            //setFilteredData(newData)
+            //console.log(data[0].title)
+
+            // data.filter((item)=> {
+            //     if (item.title != undefined) {
+            //         console.log("-----\n"+item.title +"\n-----\n")
+            //     }
+            // });
         } else {
             getPost()
         }
@@ -152,7 +250,7 @@ export default function HomeSearch({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar animated={true} barStyle={"dark-content"} />
+            <StatusBar animated={true} barStyle={'dark-content'} />
             {/* <ScrollView style={styles.pickerStyle} >
                 <Picker
 
@@ -264,7 +362,7 @@ export default function HomeSearch({ navigation }) {
                         key={index}
                         onPress={() => navigation.navigate("Post Detail", { id: post._id })}
                     >
-                        <Post data={post} />
+                        <PostItem data={post} />
                     </TouchableOpacity>
                 ))}
                 <View style={{ height: 120 }} />

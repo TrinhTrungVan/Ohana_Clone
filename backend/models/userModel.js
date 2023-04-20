@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
             required: true,
             minlength: 10,
             maxlength: 25,
-            unnique: true,
+            unnique: true
         },
         password: {
             type: String,
@@ -17,15 +17,15 @@ const userSchema = new mongoose.Schema(
         },
         fullname: {
             type: String,
-            maxlength: 30,
+            maxlength: 30
         },
         phoneNumber: {
             type: String,
-            length: 10,
+            length: 10
         },
         admin: {
             type: Boolean,
-            default: false,
+            default: false
         },
         posts: [
             {
@@ -45,9 +45,7 @@ const userSchema = new mongoose.Schema(
             default:
                 "https://res.cloudinary.com/trungvan1904/image/upload/v1666843620/image/default_avatar_pzvbqf.jpg",
         },
-    },
-    { timestamps: true }
-); // cho biet user dc tao va update khi nao
+    }, { timestamps: true }) // cho biet user dc tao va update khi nao
 
 const User = mongoose.model("User", userSchema);
 export default User;

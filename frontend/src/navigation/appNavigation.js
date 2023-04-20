@@ -1,7 +1,10 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/color";
+import PostScreen from "../screens/PostScreen";
+import AuthNavigation from "./authNavigation";
+import MainNavigation from "./mainNavigation";
 import PaymentScreen from "../screens/PaymentScreen";
 import VnpayScreen from "../screens/VnpayScreen";
 import PostScreen from "../screens/PostScreen";

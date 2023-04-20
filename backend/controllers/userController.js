@@ -2,20 +2,21 @@ import User from "../models/userModel.js";
 
 const userController = {
     getAllUser: async (req, res) => {
-        try {
-            const users = await User.find().populate("chatWith");
-            res.status(200).json(users);
-        } catch (e) {
-            res.status(500).json(e);
+        try{
+            const users = await User.find().populate('chatWith')
+            res.status(200).json(users)
+        }catch(e) {
+            res.status(500).json(e)
         }
     },
 
     getUser: async (req, res) => {
         try {
-            const user = await User.findById(req.params.id).populate("posts");
-            res.status(200).json(user);
-        } catch (e) {
-            res.status(500).json(e);
+            const user = await User.findById(req.params.id).populate('posts')
+            res.status(200).json(user)
+        }
+        catch(e) {
+            res.status(500).json(e)
         }
     },
 

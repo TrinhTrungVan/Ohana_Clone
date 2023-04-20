@@ -17,8 +17,8 @@ import COLORS from "../constants/color";
 import Loading from "../components/Loading";
 import { updateUser } from "../api/services/userServices";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
-import dayjs from "dayjs";
+import jwt_decode from 'jwt-decode';
+import dayjs from 'dayjs';
 import { uploadImage } from "../api/services/cloudinaryServices";
 
 function SettingsScreen({ navigation }) {

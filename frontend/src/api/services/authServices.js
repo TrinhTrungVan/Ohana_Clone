@@ -28,14 +28,12 @@ export const registerUser = async (user, dispatch) => {
                 password: user.password,
                 fullname: user.fullname,
                 phoneNumber: user.phoneNumber,
-            }),
-        });
-        const json = await res.json();
+            })
+        })
+        const json = await res.json()
         storeData("@statusRegister", res.status);
-        // console.log("register", JSON.stringify(json));
-        dispatch(registerSuccess());
-    } catch (e) {
-        dispatch(registerFailed());
+        console.log('register', JSON.stringify(json))
+        dispatch(registerSuccess())
     }
 };
 
@@ -49,16 +47,17 @@ export const loginUser = async (user, dispatch) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(user),
-        });
-        const json = await res.json();
-        // console.log("Logged", json);
-        storeData("@statusLogin", res.status);
-        storeData("@userLogin", json);
-        dispatch(loginSuccess(json));
-        return json;
-    } catch (e) {
-        console.log("errorLoginUser", e);
-        dispatch(loginFailed());
+        })
+        const json = await res.json()
+        console.log('login', json)
+        storeData("@statusLogin", res.status)
+        storeData("@userLogin", json)
+        dispatch(loginSuccess(json))
+        return json
+    }
+    catch (e) {
+        console.log("errorLoginUser", e)
+        dispatch(loginFailed())
     }
 };
 

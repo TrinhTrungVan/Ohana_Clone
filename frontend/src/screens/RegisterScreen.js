@@ -31,6 +31,17 @@ function RegisterScreen({ navigation }) {
         if (status == 401) return setTextError("Tên đăng nhập đã tồn tại");
         if (status == 402) return setTextError("Email đã tồn tại");
 
+    const handleRegister = async () => {
+        const errorMsg = validateRegisterForm(user);
+        if (errorMsg) return setTextError(errorMsg);
+
+        await registerUser(user, dispatch);
+        const status = await getData("@statusRegister");
+
+        if (status == 500) return setTextError("Lỗi hệ thống");
+        if (status == 401) return setTextError("Tên đăng nhập đã tồn tại");
+        if (status == 402) return setTextError("Email đã tồn tại");
+
         setTextError("");
         setUser({});
         navigation.navigate("Đăng nhập");

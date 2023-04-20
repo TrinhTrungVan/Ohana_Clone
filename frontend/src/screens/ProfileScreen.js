@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingTop: 8,
         paddingBottom: 32,
-        alignItems: "center",
+        alignItems: "center"
     },
     avatar: {
         width: 100,

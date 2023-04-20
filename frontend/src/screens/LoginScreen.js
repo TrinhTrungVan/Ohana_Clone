@@ -6,7 +6,7 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
 import { getData } from "../utils/asyncStorage";
-import { validateLoginForm } from "../utils/validateForm";
+import { validateLoginForm } from '../utils/validateForm'
 
 function LoginScreen({ navigation }) {
     const [user, setUser] = useState({});
@@ -21,8 +21,8 @@ function LoginScreen({ navigation }) {
     };
 
     const handleLogin = async () => {
-        const errorMsg = validateLoginForm(user);
-        if (errorMsg) return setTextError(errorMsg);
+        const errorMsg = validateLoginForm(user)
+        if(errorMsg) return setTextError(errorMsg)
 
         await loginUser(user, dispatch);
         const status = await getData("@statusLogin");

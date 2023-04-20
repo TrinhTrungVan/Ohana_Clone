@@ -18,8 +18,7 @@ const authController = {
             const { email, password, fullname, phoneNumber } = req.body;
 
             const salt = await bcrypt.genSalt(10);
-            const hashed = await bcrypt.hash(password, salt);
-
+            const hashed = await bcrypt.hash(password, salt)
             const foundByEmail = await User.findOne({ email: email });
             if (foundByEmail) {
                 return res.status(402).json({ message: "Email đã tồn tại." });
@@ -29,8 +28,8 @@ const authController = {
                 email: email,
                 password: hashed,
                 fullname: fullname || "",
-                phoneNumber: phoneNumber || "",
-            });
+                phoneNumber: phoneNumber || ""
+            })
             //save to db
             const user = await newUser.save();
             res.status(200).json(user);
@@ -66,6 +65,7 @@ const authController = {
         try {
             const { email, password } = req.body;
             const user = await User.findOne({ email: email });
+            // const user = await User.findOne({ username: req.body.username })
             if (!user) {
                 return res.status(403).json("Email không tồn tại!");
             }

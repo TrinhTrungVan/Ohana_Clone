@@ -29,16 +29,17 @@ const ConfirmationScreen = (props) => {
         }
         setLoading(true);
         try {
-            const response = await fetch("http://10.0.2.2:2001/api/post/create", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-            const result = await response.json();
-            console.log("Result", result);
+            // const response = await fetch("http://10.0.2.2:2001/api/post/create", {
+            //     method: "POST",
+            //     headers: {
+            //         Accept: "application/json",
+            //         "Content-Type": "application/json",
+            //     },
+            //     body: JSON.stringify(data),
+            // });
+            // const result = await response.json();
+            // console.log("Result", result);
+            await postServices.createPost(data)
         } catch (error) {
             console.error(error);
         }
