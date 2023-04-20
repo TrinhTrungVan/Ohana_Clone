@@ -12,60 +12,61 @@ import Loading from "../components/Loading";
 import COLORS from "../constants/color";
 
 function ProfileScreen({ navigation }) {
-    const isLogin = useSelector(state => state.auth.login)
-    const [user, setUser] = useState(isLogin.currentUser)
-    const dispatch = useDispatch()
+    const isLogin = useSelector((state) => state.auth.login);
+    const [user, setUser] = useState(isLogin.currentUser);
+    const dispatch = useDispatch();
 
-    let axiosJWT = axios.create()
+    let axiosJWT = axios.create();
 
     const refreshToken = async () => {
         try {
             const res = await axios.post(`http://10.0.2.2:2001/api/auth/refresh`, {
-                withCredentials: true
-            })
-            return res.data
+                withCredentials: true,
+            });
+            return res.data;
+        } catch (e) {
+            console.log("errorRefresh", e);
         }
-        catch (e) {
-            console.log('errorRefresh', e)
-        }
-    }
+    };
 
-    axiosJWT.interceptors.request.use(async (config) => {
-        const decodedToken = jwt_decode(isLogin.currentUser?.accessToken)
-        const isExpired = dayjs.unix(decodedToken.exp).diff(dayjs()) < 1
-        if (isExpired) {
-            const data = await refreshToken()
-            config.headers["Token"] = data.accessToken
+    axiosJWT.interceptors.request.use(
+        async (config) => {
+            const decodedToken = jwt_decode(isLogin.currentUser?.accessToken);
+            const isExpired = dayjs.unix(decodedToken.exp).diff(dayjs()) < 1;
+            if (isExpired) {
+                const data = await refreshToken();
+                config.headers["Token"] = data.accessToken;
+            }
+            return config;
+        },
+        (err) => {
+            return Promise.reject(err);
         }
-        return config
-    }, err => {
-        return Promise.reject(err)
-    })
+    );
 
     const handleClickEdit = () => {
-        navigation.navigate('Settings')
-    }
+        navigation.navigate("Settings");
+    };
 
     const handleClickLogout = () => {
-        logoutUser(dispatch, user?.accessToken, axiosJWT)
-        navigation.navigate('Auth')
-    }
+        logoutUser(dispatch, user?.accessToken, axiosJWT);
+        navigation.navigate("Auth");
+    };
 
     const readData = async () => {
         try {
-            const res = await AsyncStorage.getItem('@userLogin')
+            const res = await AsyncStorage.getItem("@userLogin");
             if (res !== null) {
-                console.log('profile', res)
-                setUser(JSON.parse(res))
+                console.log("profile", res);
+                setUser(JSON.parse(res));
             }
+        } catch (e) {
+            alert("Đã xảy ra lỗi");
         }
-        catch (e) {
-            alert('Đã xảy ra lỗi')
-        }
-    }
+    };
 
     useEffect(() => {
-        readData()
+        readData();
     }, [isLogin.isFetching]);
 
     return (
@@ -99,10 +100,10 @@ function ProfileScreen({ navigation }) {
                 </View>
             </ScrollView>
         </SafeAreaView>
-    )
+    );
 }
 
-export default ProfileScreen
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
     container: {

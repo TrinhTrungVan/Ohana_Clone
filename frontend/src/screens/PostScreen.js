@@ -22,6 +22,8 @@ import ContactNavbar from "../components/ContactNavbar";
 import { useIsFocused } from "@react-navigation/native";
 
 const PostScreen = ({ route, navigation }) => {
+    // const isFocused = useIsFocused();
+    // if (!isFocused) return null;
     const { id } = route.params || "";
     const [postInfo, setPostInfo] = useState(null);
 
@@ -70,10 +72,11 @@ const PostScreen = ({ route, navigation }) => {
                         <Text style={styles.title}>Chi tiết</Text>
                         {postInfo.parkingAvailable && (
                             <>
-                                <Text>{`Có chỗ để xe, Phí giữ xe: ${postInfo.parkingCost == 0
-                                    ? "Miễn phí"
-                                    : convertToThousands(postInfo.parkingCost) + "k"
-                                    }`}</Text>
+                                <Text>{`Có chỗ để xe, Phí giữ xe: ${
+                                    postInfo.parkingCost == 0
+                                        ? "Miễn phí"
+                                        : convertToThousands(postInfo.parkingCost) + "k"
+                                }`}</Text>
                             </>
                         )}
                         <Text>{postInfo.description}</Text>

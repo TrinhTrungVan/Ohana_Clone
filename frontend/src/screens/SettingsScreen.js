@@ -28,31 +28,33 @@ function SettingsScreen({ navigation }) {
     const isLogin = useSelector((state) => state.auth.login);
     const dispatch = useDispatch();
 
-    let axiosJWT = axios.create()
+    let axiosJWT = axios.create();
 
     const refreshToken = async () => {
         try {
             const res = await axios.post(`http://10.0.2.2:2001/api/auth/refresh`, {
-                withCredentials: true
-            })
-            return res.data
+                withCredentials: true,
+            });
+            return res.data;
+        } catch (e) {
+            console.log(e);
         }
-        catch (e) {
-            console.log(e)
-        }
-    }
+    };
 
-    axiosJWT.interceptors.request.use(async (config) => {
-        const decodedToken = jwt_decode(isLogin.currentUser?.accessToken)
-        const isExpired = dayjs.unix(decodedToken.exp).diff(dayjs()) < 1
-        if (isExpired) {
-            const data = await refreshToken()
-            config.headers["Token"] = data.accessToken
+    axiosJWT.interceptors.request.use(
+        async (config) => {
+            const decodedToken = jwt_decode(isLogin.currentUser?.accessToken);
+            const isExpired = dayjs.unix(decodedToken.exp).diff(dayjs()) < 1;
+            if (isExpired) {
+                const data = await refreshToken();
+                config.headers["Token"] = data.accessToken;
+            }
+            return config;
+        },
+        (err) => {
+            return Promise.reject(err);
         }
-        return config
-    }, err => {
-        return Promise.reject(err)
-    })
+    );
 
     const handleChange = (name, value) => {
         setUser({
@@ -88,36 +90,37 @@ function SettingsScreen({ navigation }) {
         saveStorage("@userLogin", user);
         alert("Cập nhật thông tin thành công");
         navigation.navigate("Profile");
-    }
+    };
 
     const handleClickOut = () => {
-        navigation.navigate('Profile')
-    }
+        navigation.navigate("Profile");
+    };
 
     const saveStorage = async (name, data) => {
         try {
-            await AsyncStorage.setItem(name, JSON.stringify(data))
+            await AsyncStorage.setItem(name, JSON.stringify(data));
         } catch (e) {
-            alert("Đã xảy ra lỗi")
+            alert("Đã xảy ra lỗi");
         }
-    }
+    };
 
     const readData = async () => {
         try {
-            const res = await AsyncStorage.getItem('@userLogin')
+            const res = await AsyncStorage.getItem("@userLogin");
             if (res !== null) {
-                console.log('update', res)
-                setUser(JSON.parse(res))
+                console.log("update", res);
+                const data = JSON.parse(res);
+                setUser(data);
+                // setImgUrl(data.avatar_url);
             }
+        } catch (e) {
+            alert("Đã xảy ra lỗi");
         }
-        catch (e) {
-            alert('Đã xảy ra lỗi')
-        }
-    }
+    };
 
     useEffect(() => {
-        readData()
-    }, [])
+        readData();
+    }, []);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -149,19 +152,21 @@ function SettingsScreen({ navigation }) {
                     <Input
                         label='Số điện thoại'
                         placeholder='Nhập số điện thoại'
-                        onChangeText={text => handleChange("phoneNumber", text)}
+                        onChangeText={(text) => handleChange("phoneNumber", text)}
                         // onChangeText={text => setPhoneNumber(text)}
                         value={isLogin.isFetching ? <Loading /> : user?.phoneNumber}
                     />
                     <Button onPress={handleClickUpdate}>Cập nhật</Button>
-                    <Button type="Logout" onPress={handleClickOut}>Thoát</Button>
+                    <Button type='Logout' onPress={handleClickOut}>
+                        Thoát
+                    </Button>
                 </View>
             </ScrollView>
         </SafeAreaView>
-    )
+    );
 }
 
-export default SettingsScreen
+export default SettingsScreen;
 
 const styles = StyleSheet.create({
     container: {

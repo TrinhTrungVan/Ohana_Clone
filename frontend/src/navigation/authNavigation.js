@@ -36,7 +36,7 @@ const AuthNavigation = () => {
             />
         </Stack.Navigator>
     );
-}
+};
 
 export default AuthNavigation;
 

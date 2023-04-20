@@ -9,7 +9,7 @@ import { getData } from "../utils/asyncStorage";
 import { validateRegisterForm } from "../utils/validateForm";
 
 function RegisterScreen({ navigation }) {
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
     const [textError, setTextError] = useState("");
     const dispatch = useDispatch();
 
@@ -17,8 +17,19 @@ function RegisterScreen({ navigation }) {
         setUser({
             ...user,
             [name]: value,
-        })
-    }
+        });
+    };
+
+    const handleRegister = async () => {
+        const errorMsg = validateRegisterForm(user);
+        if (errorMsg) return setTextError(errorMsg);
+
+        await registerUser(user, dispatch);
+        const status = await getData("@statusRegister");
+
+        if (status == 500) return setTextError("Lỗi hệ thống");
+        if (status == 401) return setTextError("Tên đăng nhập đã tồn tại");
+        if (status == 402) return setTextError("Email đã tồn tại");
 
     const handleRegister = async () => {
         const errorMsg = validateRegisterForm(user);
@@ -55,7 +66,7 @@ function RegisterScreen({ navigation }) {
                         label='Mật khẩu'
                         placeholder='Nhập mật khẩu'
                         value={user?.password}
-                        onChangeText={(text) => handleChange('password', text)}
+                        onChangeText={(text) => handleChange("password", text)}
                         secureTextEntry={true}
                     />
                     <Input

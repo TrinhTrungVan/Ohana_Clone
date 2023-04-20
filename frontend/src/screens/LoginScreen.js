@@ -9,16 +9,16 @@ import { getData } from "../utils/asyncStorage";
 import { validateLoginForm } from '../utils/validateForm'
 
 function LoginScreen({ navigation }) {
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
     const [textError, setTextError] = useState("");
     const dispatch = useDispatch();
 
     const handleChange = (name, value) => {
         setUser({
             ...user,
-            [name]: value
-        })
-    }
+            [name]: value,
+        });
+    };
 
     const handleLogin = async () => {
         const errorMsg = validateLoginForm(user)
@@ -95,6 +95,6 @@ const styles = StyleSheet.create({
     },
     textError: {
         color: "red",
-        fontSize: 12
-    }
+        fontSize: 12,
+    },
 });

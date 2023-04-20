@@ -29,6 +29,7 @@ const PostForm = (props) => {
 
     const handleNext = () => {
         saveData();
+        console.log("Data", data);
         const errorText = validatePostInfo(data);
         if (errorText) {
             setTextError(errorText);
@@ -69,14 +70,16 @@ const PostForm = (props) => {
                 placeholder='Nhập diện tích phòng'
                 value={data?.roomArea}
                 maxLength={10}
+                keyboardType='numeric'
                 onChangeText={(value) => handleChange("roomArea", value)}
             />
             <Input
                 label='Sức chứa'
-                suffix='người/room'
+                suffix='người/phòng'
                 placeholder='Nhập số người/phòng'
                 value={data?.capacity}
                 maxLength={10}
+                keyboardType='numeric'
                 onChangeText={(value) => handleChange("capacity", value)}
             />
             <Input
@@ -85,6 +88,7 @@ const PostForm = (props) => {
                 placeholder='Nhập giá cho thuê'
                 value={data?.expenses}
                 maxLength={10}
+                keyboardType='numeric'
                 onChangeText={(value) => handleChange("expenses", value)}
             />
             <Input
@@ -93,6 +97,7 @@ const PostForm = (props) => {
                 placeholder='Nhập số tiền'
                 value={data?.deposit}
                 maxLength={10}
+                keyboardType='numeric'
                 onChangeText={(value) => handleChange("deposit", value)}
             />
             <Input
@@ -101,6 +106,7 @@ const PostForm = (props) => {
                 placeholder='Nhập số tiền'
                 value={data?.electricityCost}
                 maxLength={10}
+                keyboardType='numeric'
                 onChangeText={(value) => handleChange("electricityCost", value)}
                 optionFree={true}
                 onChangeFree={(value) => handleChangeFree("electricityCost", value)}
@@ -111,6 +117,7 @@ const PostForm = (props) => {
                 placeholder='Nhập số tiền'
                 value={data?.waterCost}
                 maxLength={10}
+                keyboardType='numeric'
                 onChangeText={(value) => handleChange("waterCost", value)}
                 optionFree={true}
                 onChangeFree={(value) => handleChangeFree("waterCost", value)}
@@ -121,6 +128,7 @@ const PostForm = (props) => {
                 placeholder='Nhập số tiền'
                 value={data?.internetCost}
                 maxLength={10}
+                keyboardType='numeric'
                 onChangeText={(value) => handleChange("internetCost", value)}
                 optionFree={true}
                 onChangeFree={(value) => handleChangeFree("internetCost", value)}
@@ -137,6 +145,7 @@ const PostForm = (props) => {
                     placeholder='Nhập số tiền'
                     value={data?.parkingCost}
                     maxLength={10}
+                    keyboardType='numeric'
                     onChangeText={(value) => handleChange("parkingCost", value)}
                     optionFree={true}
                     onChangeFree={(value) => handleChangeFree("parkingCost", value)}
