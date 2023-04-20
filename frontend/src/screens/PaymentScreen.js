@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import { View, SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import RadioButotn from '../components/RadioButotn';
@@ -9,7 +9,7 @@ function PaymentScreen({ navigation, route }) {
     const { deposit } = route.params || ""
     const [bankCode, setBankCode] = useState("")
     const [language, setLanguage] = useState("vn")
-    const [amount, setAmount] = useState(deposit)
+    // const [amount, setAmount] = useState(deposit)
 
     const BANKCODE = [
         {
@@ -43,7 +43,7 @@ function PaymentScreen({ navigation, route }) {
 
     const handleClick = async () => {
         const pay = {
-            amount: parseInt(amount),
+            amount: parseInt(deposit),
             bankCode: bankCode,
             language: language
         }
@@ -55,12 +55,9 @@ function PaymentScreen({ navigation, route }) {
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
                 <View style={{ paddingTop: 8, paddingBottom: 32 }}>
-                    <Input
-                        label='Số tiền'
-                        placeholder="Nhập số tiền"
-                        onChangeText={text => setAmount(text)}
-                        value={amount}
-                    />
+                    <View>
+                        <Text style={styles.amount}>Số tiền: {deposit}</Text>
+                    </View>
                     <View style={styles.radio}>
                         <RadioButotn value={bankCode} setValue={setBankCode} title="Chọn phương thức thanh toán" OPTION={BANKCODE} />
                     </View>
@@ -97,5 +94,9 @@ const styles = StyleSheet.create({
     },
     container: {
         marginTop: 50
+    },
+    amount: {
+        fontSize: 18,
+        fontWeight: "bold",
     }
 });

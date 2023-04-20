@@ -19,7 +19,7 @@ function RadioButotn(props) {
                     </View>
                 );
             })}
-            <Text> Selected: {value} </Text>
+            {/* <Text> Selected: {value} </Text> */}
         </View>
     )
 }
@@ -65,6 +65,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         fontWeight: "bold",
-        marginBottom: 15
+        marginBottom: 5
     }
 });
