@@ -47,5 +47,5 @@ const userSchema = new mongoose.Schema(
         },
     }, { timestamps: true }) // cho biet user dc tao va update khi nao
 
-const User = mongoose.model('User', userSchema)
-export default User
+const User = mongoose.model("User", userSchema);
+export default User;

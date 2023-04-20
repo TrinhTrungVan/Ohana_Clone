@@ -23,44 +23,22 @@ import axios from "axios";
 import PostItem from '../components/PostItem'
 
 export default function HomeSearch({ navigation }) {
-    // const navigation = useNavigation();
     const [data, setData] = useState([]);
 
-    const [option, setOption] = useState();
     const [filteredData, setFilteredData] = useState([]);
 
-    // const url = "https://jsonplaceholder.typicode.com/posts";
 
     React.useEffect(() => {
-        // fetch(url)
-        //     .then((response) => response.json())
-        //     .then((json) => {
-        //         setData(json);
-        //         setmainData(json);
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //     });
         const getPost = async () => {
             const res = await postServices.getPosts();
             setData(res);
             setFilteredData(res);
-            //console.log(res);
         };
         getPost();
     }, [navigation]);
 
-    // const updateData = () => {
-    //     fetch(url)
-    //         .then((response) => response.json())
-    //         .then((json) => {
-    //             setData(json);
-    //         });
-    // };
 
-    const [isSearched, setIsSearched] = useState(false);
 
-    //All 3 scenario: Quas, Aut, Molestias
     function handleFilter(searchTerm) {
         // var newData;
         // if (searchTerm || (!searchTerm && idRange)) {
@@ -132,10 +110,6 @@ export default function HomeSearch({ navigation }) {
                     }
                 }
             }
-            //console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-            //console.log(newData);
-
-            //setFilteredData(newData);
             if (seCity.length != 0) {
                 // if (data[i].city != undefined && data[i].city.toUpperCase().includes(seCity.toUpperCase())) {
                 //     console.log(data[i].city)
@@ -181,20 +155,22 @@ export default function HomeSearch({ navigation }) {
                 if (priceRange == 1) {
                     newData = newData.filter(
                         (item) =>
-                            //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
-                            item.expenses <= 1000
+                            item.expenses < 1000000
                     );
                 } else if (priceRange == 2) {
                     newData = newData.filter(
                         (item) =>
-                            //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
-                            item.expenses <= 10000 && item.expenses > 1000
+                            item.expenses < 2500000 && item.expenses >= 1000000
                     );
                 } else if (priceRange == 3) {
                     newData = newData.filter(
                         (item) =>
-                            //item.id.toString().toUpperCase().includes(idRange.toUpperCase())
-                            item.expenses > 10000
+                            item.expenses < 5000000 && item.expenses >= 2500000
+                    );
+                } else if (priceRange == 4) {
+                    newData = newData.filter(
+                        (item) =>
+                            item.expenses >= 5000000
                     );
                 }
 
@@ -224,10 +200,6 @@ export default function HomeSearch({ navigation }) {
 
     const [showModal, setShowModal] = useState(false);
 
-    const [option1, setOption1] = useState();
-    const [option2, setOption2] = useState();
-    const [option3, setOption3] = useState();
-
     const [searchInp, setSearchInp] = useState();
 
     const [districtList, setDistrictList] = useState([]);
@@ -242,41 +214,35 @@ export default function HomeSearch({ navigation }) {
     const [seWard, setSeWard] = useState([]);
 
     const handleSelectCity = async (item) => {
-        // setLoading(true);
         setcData({ ...cdata, city: item.name, district: null, ward: null });
         await fetch(`https://provinces.open-api.vn/api/p/${item.code}?depth=2`)
-            .then((res) => res.json())
-            .then((res) => setDistrictList(res.districts));
-        // setLoading(false);
-        //console.log(cdata.city)
+            .then((res) =>
+                res.json()
+
+            )
+            .then((res) => {
+                setDistrictList(res.districts)
+            });
+    
         setSeCity(item.name)
-        console.log(seCity)
         setSeDistrict([])
         setSeWard([])
+
     };
 
     const handleSelectDistrict = async (item) => {
-        // setLoading(true);
         setcData({ ...cdata, district: item.name });
         await fetch(`https://provinces.open-api.vn/api/d/${item.code}?depth=2`)
             .then((res) => res.json())
             .then((res) => setWardList(res.wards));
-        // setLoading(false);
-        //console.log(cdata.district)
+    
         setSeDistrict(item.name)
         console.log(seDistrict)
     };
 
-    // const handleIdRange = async (item) => {
-    //     var newData = mainData.filter((item) =>
-    //         item.title.toUpperCase().includes(searchTerm.toUpperCase())
-    //     )
-    //     setData(newData);
-    // };
 
     const handleSelectWard = (item) => {
         setcData({ ...cdata, ward: item.name });
-        //console.log(cdata.ward);
         setSeWard(item.name)
         console.log(seWard)
 
@@ -300,8 +266,11 @@ export default function HomeSearch({ navigation }) {
             </ScrollView> */}
             <TextInput
                 style={styles.textInputStyle}
-                onChangeText={(text) => handleFilter(text)}
-                //onChangeText={(text) => setSearchInp(text)}
+                onChangeText={(text) => {
+                    handleFilter(text)
+                    setSearchInp(text)
+                }
+                }
                 value={data}
                 placeholder='Tìm kiếm'
             />
@@ -315,8 +284,6 @@ export default function HomeSearch({ navigation }) {
                         console.log("Modal has been closed.");
                     }}
                 >
-                    {/*All views of Modal*/}
-                    {/*Animation can be slide, slide, none*/}
                     <View style={styles.modal}>
                         <Button
                             title='Đóng bộ lọc'
@@ -351,17 +318,33 @@ export default function HomeSearch({ navigation }) {
                                 selectedValue={priceRange}
                                 onValueChange={(itemValue, itemIndex) => {
                                     setPriceRange(itemValue);
+
                                     console.log(priceRange);
-                                }}
+
+                                }
+                                }
                             >
                                 <Picker.Item label='Không chọn' value={null} />
-                                <Picker.Item label='0-1000' value='1' />
-                                <Picker.Item label='1000-10000' value='2' />
-                                <Picker.Item label='10000<' value='3' />
+                                <Picker.Item label='0 -> 1,000,000' value='1' />
+                                <Picker.Item label='1,000,000 -> 2,500,000' value='2' />
+                                <Picker.Item label='2,500,000 -> 5,000,000' value='3' />
+                                <Picker.Item label='> 5,000,000' value='4' />
 
                             </Picker>
 
                         </View>
+                        <View style={styles.applyButtonSection}>
+                            <Button
+                                title='Áp dụng bộ lọc'
+                                onPress={() => {
+                                    handleFilter(searchInp)
+                                    setShowModal(!showModal);
+
+                                }}
+                                color="red"
+                            />
+                        </View>
+
                     </View>
                 </Modal>
                 <Button
@@ -369,6 +352,7 @@ export default function HomeSearch({ navigation }) {
                     onPress={() => {
                         setShowModal(!showModal);
                     }}
+
                 />
             </View>
 
@@ -421,4 +405,11 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         //backgroundColor: "green",
     },
+    applyButtonSection: {
+        width: '100%',
+        height: '20%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
 });

@@ -3,13 +3,19 @@ import { Linking, Image, StyleSheet, Text, TouchableOpacity, View } from "react-
 import COLORS from "../constants/color";
 import Loading from "./Loading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import conversationServices from "../api/services/conversationServices";
 
 const ContactNavbar = (props) => {
     const { navigation, author, deposit } = props;
+    // console.log("Author", author);
+    const [me, setMe] = useState(null);
 
-    const handleNavigateToChat = () => {
-        navigation.navigate("Chat");
+    const handleNavigateToChat = async () => {
+        if (me._id === author._id) return alert("Bạn là người đăng bài");
+        const participants = [me._id, author._id];
+        await conversationServices.createConversation(participants);
+        navigation.navigate("Conversation", { participants });
+        // console.log(me._id, author._id);
     };
 
     const handleNavigateToPayment = () => {
@@ -23,16 +29,16 @@ const ContactNavbar = (props) => {
     useEffect(() => {
         AsyncStorage.getItem("@userLogin")
             .then((data) => JSON.parse(data))
-            // .then((res) => setMe(res));
+            .then((res) => setMe(res));
     }, []);
 
-    // if (!me) {
-    //     return (
-    //         <View style={styles.container}>
-    //             <Loading color={COLORS.red} />
-    //         </View>
-    //     );
-    // }
+    if (!me) {
+        return (
+            <View style={styles.container}>
+                <Loading color={COLORS.red} />
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>

@@ -1,9 +1,19 @@
-import { logoutFailed, logoutStart, logoutSuccess, loginFailed, loginStart, loginSuccess, registerFailed, registerStart, registerSuccess } from "../../redux/slices/authSlice";
+import {
+    logoutFailed,
+    logoutStart,
+    logoutSuccess,
+    loginFailed,
+    loginStart,
+    loginSuccess,
+    registerFailed,
+    registerStart,
+    registerSuccess,
+} from "../../redux/slices/authSlice";
 import { storeData, clearData } from "../../utils/asyncStorage";
 import { ENV } from '../../constants/env'
 import axios from 'axios'
 
-const BASE_URL = ENV.BASE_URL + "/api"
+const BASE_URL = ENV.BASE_URL + "/api";
 
 export const checkEmail = async (email) => {
     try {
@@ -43,7 +53,7 @@ export const sendEmail = async (email) => {
 }
 
 export const registerUser = async (user, dispatch) => {
-    dispatch(registerStart())
+    dispatch(registerStart());
     try {
         const res = await fetch(`${BASE_URL}/auth/register`, {
             method: "POST",
@@ -63,13 +73,10 @@ export const registerUser = async (user, dispatch) => {
         console.log('register', JSON.stringify(json))
         dispatch(registerSuccess())
     }
-    catch (e) {
-        dispatch(registerFailed())
-    }
-}
+};
 
 export const loginUser = async (user, dispatch) => {
-    dispatch(loginStart())
+    dispatch(loginStart());
     try {
         const res = await fetch(`${BASE_URL}/auth/login`, {
             method: "POST",
@@ -90,7 +97,7 @@ export const loginUser = async (user, dispatch) => {
         console.log("errorLoginUser", e)
         dispatch(loginFailed())
     }
-}
+};
 
 export const refreshToken = async () => {
     try {
@@ -105,23 +112,21 @@ export const refreshToken = async () => {
 }
 
 export const logoutUser = async (dispatch, accessToken, axiosJWT) => {
-    dispatch(logoutStart())
+    dispatch(logoutStart());
     try {
-        const res = await axiosJWT.post(`${BASE_URL}/auth/logout`,
-            {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Token: accessToken
-                }
-            })
-        console.log('logout', res.data)
-        clearData()
-        dispatch(logoutSuccess())
-        dispatch(loginSuccess())
+        const res = await axiosJWT.post(`${BASE_URL}/auth/logout`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Token: accessToken,
+            },
+        });
+        console.log("logout", res.data);
+        clearData();
+        dispatch(logoutSuccess());
+        dispatch(loginSuccess());
+    } catch (e) {
+        console.log("errorLogout", e);
+        dispatch(logoutFailed());
     }
-    catch (e) {
-        console.log('errorLogout', e)
-        dispatch(logoutFailed())
-    }
-}
+};

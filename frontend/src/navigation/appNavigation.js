@@ -8,6 +8,7 @@ import MainNavigation from "./mainNavigation";
 import PaymentScreen from "../screens/PaymentScreen";
 import VnpayScreen from "../screens/VnpayScreen";
 import ConfirmOTPScreen from "../screens/ConfirmOTPScreen";
+import ConversationScreen from "../screens/ConversationScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,13 @@ const AppNavigation = () => {
             <Stack.Screen
                 name='Main'
                 component={MainNavigation}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name='Auth'
+                component={AuthNavigation}
                 options={{
                     headerShown: false,
                 }}
