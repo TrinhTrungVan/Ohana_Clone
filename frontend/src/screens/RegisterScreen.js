@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch } from "react-redux";
-import { registerUser } from "../api/services/authServices";
+import { registerUser, sendEmail, checkEmail } from "../api/services/authServices";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import COLORS from "../constants/color";
@@ -24,17 +24,17 @@ function RegisterScreen({ navigation }) {
         const errorMsg = validateRegisterForm(user);
         if (errorMsg) return setTextError(errorMsg);
 
-        await registerUser(user, dispatch);
-        const status = await getData("@statusRegister");
+        await checkEmail(user.email)
 
+        const status = await getData("@checkEmail");
+        
         if (status == 500) return setTextError("Lỗi hệ thống");
-        if (status == 401) return setTextError("Tên đăng nhập đã tồn tại");
         if (status == 402) return setTextError("Email đã tồn tại");
-
+        
+        await sendEmail(user.email)
+        navigation.navigate("Xác thực mã OTP", { type: "Register", user: user})
         setTextError("");
         setUser({});
-        navigation.navigate("Đăng nhập");
-        alert("Đăng ký thành công, hãy đăng nhập để tiếp tục.");
     };
 
     const handleChangeSignin = () => {
@@ -46,7 +46,7 @@ function RegisterScreen({ navigation }) {
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
                 <View style={{ paddingTop: 8, paddingBottom: 32 }}>
                     <Input
-                        label='Địa chỉ email'
+                        label='Email'
                         placeholder='Nhập địa chỉ email'
                         value={user?.email}
                         onChangeText={(text) => handleChange("email", text)}
@@ -66,8 +66,8 @@ function RegisterScreen({ navigation }) {
                         secureTextEntry={true}
                     />
                     <Input
-                        label='Tên đầy đủ'
-                        placeholder='Nhập tên đầy đủ'
+                        label='Họ tên'
+                        placeholder='Nhập họ và tên'
                         value={user?.fullname}
                         onChangeText={(text) => handleChange("fullname", text)}
                     />

@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../api/services/authServices";
+import { logoutUser, refreshToken } from "../api/services/authServices";
 import Button from "../components/Button";
 import Information from "../components/Information";
 import Loading from "../components/Loading";
@@ -17,18 +17,6 @@ function ProfileScreen({ navigation }) {
     const dispatch = useDispatch()
 
     let axiosJWT = axios.create()
-
-    const refreshToken = async () => {
-        try {
-            const res = await axios.post(`http://10.0.2.2:2001/api/auth/refresh`, {
-                withCredentials: true
-            })
-            return res.data
-        }
-        catch (e) {
-            console.log('errorRefresh', e)
-        }
-    }
 
     axiosJWT.interceptors.request.use(async (config) => {
         const decodedToken = jwt_decode(isLogin.currentUser?.accessToken)
@@ -55,7 +43,7 @@ function ProfileScreen({ navigation }) {
         try {
             const res = await AsyncStorage.getItem('@userLogin')
             if (res !== null) {
-                console.log('profile', res)
+                // console.log('profile', res)
                 setUser(JSON.parse(res))
             }
         }

@@ -16,6 +16,7 @@ import Input from "../components/Input";
 import COLORS from "../constants/color";
 import Loading from "../components/Loading";
 import { updateUser } from "../api/services/userServices";
+import { refreshToken } from "../api/services/authServices";
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import dayjs from 'dayjs';
@@ -29,18 +30,6 @@ function SettingsScreen({ navigation }) {
     const dispatch = useDispatch();
 
     let axiosJWT = axios.create()
-
-    const refreshToken = async () => {
-        try {
-            const res = await axios.post(`http://10.0.2.2:2001/api/auth/refresh`, {
-                withCredentials: true
-            })
-            return res.data
-        }
-        catch (e) {
-            console.log(e)
-        }
-    }
 
     axiosJWT.interceptors.request.use(async (config) => {
         const decodedToken = jwt_decode(isLogin.currentUser?.accessToken)
@@ -82,16 +71,14 @@ function SettingsScreen({ navigation }) {
     };
 
     const handleClickUpdate = () => {
-        console.log("click update");
         updateUser(user?._id, user, isLogin.currentUser.accessToken, dispatch, axiosJWT);
-        // console.log("Info", user);
         saveStorage("@userLogin", user);
         alert("Cập nhật thông tin thành công");
         navigation.navigate("Profile");
     }
 
     const handleClickOut = () => {
-        navigation.navigate('Profile')
+        navigation.navigate('Thay đổi mật khẩu', { user: user })
     }
 
     const saveStorage = async (name, data) => {
@@ -140,21 +127,25 @@ function SettingsScreen({ navigation }) {
                         {loading ? <Loading /> : <Text style={styles.uploadText}>Upload</Text>}
                     </TouchableOpacity>
                     <Input
-                        label='Tên đầy đủ'
-                        placeholder='Nhập tên đầy đủ'
+                        label='Họ tên'
+                        placeholder='Nhập họ tên'
                         onChangeText={(text) => handleChange("fullname", text)}
-                        // onChangeText={text => setFullname(text)}
                         value={isLogin.isFetching ? <Loading /> : user?.fullname}
                     />
                     <Input
                         label='Số điện thoại'
                         placeholder='Nhập số điện thoại'
                         onChangeText={text => handleChange("phoneNumber", text)}
-                        // onChangeText={text => setPhoneNumber(text)}
                         value={isLogin.isFetching ? <Loading /> : user?.phoneNumber}
                     />
+                    <Input
+                        label='Email'
+                        onChangeText={text => handleChange("phoneNumber", text)}
+                        value={isLogin.isFetching ? <Loading /> : user?.email}
+                        editable={false} selectTextOnFocus={false}
+                    />
                     <Button onPress={handleClickUpdate}>Cập nhật</Button>
-                    <Button type="Logout" onPress={handleClickOut}>Thoát</Button>
+                    <Button type="Logout" onPress={handleClickOut}>Thay đổi mật khẩu</Button>
                 </View>
             </ScrollView>
         </SafeAreaView>

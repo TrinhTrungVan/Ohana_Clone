@@ -5,10 +5,11 @@ import ProfileScreen from '../screens/ProfileScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import { StyleSheet } from 'react-native'
 import COLORS from '../constants/color'
+import UpdatePasswordScreen from '../screens/UpdatePasswordScreen'
 
 const Stack = createNativeStackNavigator()
 
-const AccountNavigation = () => {
+const AccountNavigation = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -29,13 +30,25 @@ const AccountNavigation = () => {
                 component={SettingsScreen}
                 options={{
                     headerShown: true,
-                    header: () => (
+                    header: ({ navigation }) => (
                         <View style={styles.header}>
                             <Text style={styles.title}>Cập nhật thông tin</Text>
-                            <Text style={styles.cancelBtn}></Text>
+                            <Text onPress={() => navigation.navigate('Profile')} style={styles.cancelBtn}>Đóng</Text>
                         </View>
                     ),
                 }}
+            />
+            <Stack.Screen
+                name='Thay đổi mật khẩu'
+                component={UpdatePasswordScreen}
+            // options={{
+            //     headerShown: true,
+            //     header: () => (
+            //         <View style={styles.header}>
+            //             <Text style={styles.title}>Xác nhận mã OTP</Text>
+            //         </View>
+            //     ),
+            // }}
             />
         </Stack.Navigator>
     )

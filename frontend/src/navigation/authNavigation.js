@@ -4,6 +4,8 @@ import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import { StyleSheet, Text, View } from "react-native";
 import COLORS from "../constants/color";
+import ConfirmOTPScreen from "../screens/ConfirmOTPScreen";
+import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +35,18 @@ const AuthNavigation = () => {
                         </View>
                     ),
                 }}
+            />
+            <Stack.Screen
+                name='Lấy lại mật khẩu'
+                component={ResetPasswordScreen}
+                // options={{
+                //     headerShown: true,
+                //     header: () => (
+                //         <View style={styles.header}>
+                //             <Text style={styles.title}>Xác nhận mã OTP</Text>
+                //         </View>
+                //     ),
+                // }}
             />
         </Stack.Navigator>
     );

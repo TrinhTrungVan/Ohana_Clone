@@ -40,12 +40,14 @@ const ConfirmationScreen = (props) => {
             // const result = await response.json();
             // console.log("Result", result);
             await postServices.createPost(data)
+            console.log(data)
         } catch (error) {
             console.error(error);
         }
         setLoading(false);
         handleChangeForm(0);
         clearStorage();
+        alert("Đăng bài thành công")
         navigation.navigate("Home");
     };
 
