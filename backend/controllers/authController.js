@@ -12,6 +12,21 @@ let refreshTokens = [];
 // }
 
 const authController = {
+    //Check MAIL
+    registerCheck: async (req, res) => {
+        try {
+            const { email} = req.body
+            const foundByEmail = await User.findOne({ email: email });
+            if (foundByEmail) {
+                return res.status(402).json({ message: "Email đã tồn tại." });
+            }
+            res.status(200).json({ message: 'Email hợp lệ' })
+        }
+        catch (e) {
+            res.status(500).json(e)
+        }
+    },
+    
     //REGISTER
     registerUser: async (req, res) => {
         try {

@@ -48,7 +48,7 @@ const sendEmail = async (req, res) => {
         }
         // Gửi email
         await transport.sendMail(mailOptions)
-        res.status(200).json({ message: 'Email sent successfully.' })
+        res.status(200).json(tokenOtp)
     } catch (error) {
         console.log(error)
         res.status(500).json({ errors: error.message })

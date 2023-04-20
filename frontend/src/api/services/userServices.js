@@ -20,6 +20,28 @@ export const updateUser = async (id, newUser, accessToken, dispatch, axiosJWT) =
         console.log("errorUpdate", e);
         dispatch(loginFailed());
     }
+
+export const updatePassword = async (user) => {
+    try {
+        const res = await fetch(`${BASE_URL}/user/updatePassword`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: user.email,
+                password: user.password
+            })
+        })
+        const json = await res.json()
+        console.log(json)
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
+
 export const getUser = (id) => {
     return axiosClient.get(`/user/${id}`)
 }

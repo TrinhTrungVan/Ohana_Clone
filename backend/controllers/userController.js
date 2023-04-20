@@ -1,4 +1,5 @@
-import User from "../models/userModel.js";
+import User from "../models/userModel.js"
+import bcrypt from "bcrypt"
 
 const userController = {
     getAllUser: async (req, res) => {
@@ -28,6 +29,22 @@ const userController = {
         } catch (e) {
             console.log(e);
             // res.status(500).json(e)
+        }
+    },
+
+    updatePassword: async (req, res) => {
+        try {
+            const { email, password } = req.body
+            
+            const salt = await bcrypt.genSalt(10);
+            const hashed = await bcrypt.hash(password, salt)
+
+            const user = await User.findOne({ email: email })
+            await user.updateOne({ password: hashed })
+            res.status(200).json('Update password successful!')
+        }
+        catch (e) {
+            console.log(e)
         }
     },
 

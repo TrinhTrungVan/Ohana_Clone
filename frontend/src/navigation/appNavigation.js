@@ -7,9 +7,7 @@ import AuthNavigation from "./authNavigation";
 import MainNavigation from "./mainNavigation";
 import PaymentScreen from "../screens/PaymentScreen";
 import VnpayScreen from "../screens/VnpayScreen";
-import PostScreen from "../screens/PostScreen";
-import AuthNavigation from "./authNavigation";
-import MainNavigation from "./mainNavigation";
+import ConfirmOTPScreen from "../screens/ConfirmOTPScreen";
 import ConversationScreen from "../screens/ConversationScreen";
 
 const Stack = createNativeStackNavigator();
@@ -87,6 +85,18 @@ const AppNavigation = () => {
                         </View>
                     ),
                 }}
+            />
+            <Stack.Screen
+                name='Xác thực mã OTP'
+                component={ConfirmOTPScreen}
+                // options={{
+                //     headerShown: true,
+                //     header: () => (
+                //         <View style={styles.header}>
+                //             <Text style={styles.title}>Xác nhận mã OTP</Text>
+                //         </View>
+                //     ),
+                // }}
             />
         </Stack.Navigator>
     );

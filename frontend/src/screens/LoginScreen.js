@@ -22,7 +22,7 @@ function LoginScreen({ navigation }) {
 
     const handleLogin = async () => {
         const errorMsg = validateLoginForm(user)
-        if(errorMsg) return setTextError(errorMsg)
+        if (errorMsg) return setTextError(errorMsg)
 
         await loginUser(user, dispatch);
         const status = await getData("@statusLogin");
@@ -39,6 +39,10 @@ function LoginScreen({ navigation }) {
         }
     };
 
+    const handleForfotPassword = () => {
+        navigation.navigate("Lấy lại mật khẩu")
+    }
+
     const handleChangeSignup = () => {
         navigation.navigate("Đăng ký");
     };
@@ -48,7 +52,7 @@ function LoginScreen({ navigation }) {
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
                 <View style={{ paddingTop: 8, paddingBottom: 32 }}>
                     <Input
-                        label='Địa chỉ email'
+                        label='Email'
                         placeholder='Nhập địa chỉ email'
                         value={user?.email}
                         onChangeText={(text) => handleChange("email", text)}
@@ -60,10 +64,13 @@ function LoginScreen({ navigation }) {
                         onChangeText={(text) => handleChange("password", text)}
                         secureTextEntry={true}
                     />
+                    <View style={styles.forgot}>
+                        <Text onPress={handleForfotPassword} style={styles.underline}>Quên mật khẩu?</Text>
+                    </View>
                     <Button onPress={handleLogin}>Đăng nhập</Button>
                     <Text style={styles.textError}>{textError}</Text>
                     <View style={styles.signupContainer}>
-                        <Text>Bạn không có tài khoản?</Text>
+                        <Text>Bạn chưa có tài khoản?</Text>
                         <TouchableOpacity onPress={handleChangeSignup}>
                             <Text style={styles.signupBtn}>Đăng ký</Text>
                         </TouchableOpacity>
@@ -95,6 +102,14 @@ const styles = StyleSheet.create({
     },
     textError: {
         color: "red",
-        fontSize: 12,
+        fontSize: 12
     },
+    underline: {
+        textDecorationLine: 'underline',
+        marginBottom: 10,
+        color: COLORS.blue,
+    },
+    forgot: {
+        textAlign: "right"
+    }
 });

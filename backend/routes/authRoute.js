@@ -4,6 +4,7 @@ import middlewareController from "../controllers/middlewareController.js";
 
 const authRouter = express.Router()
 //middlewareController.verifyToken, 
+authRouter.post('/registerCheck', authController.registerCheck)
 authRouter.post('/register', authController.registerUser)
 authRouter.post('/login', authController.loginUser)
 authRouter.post('/refresh', authController.refreshToken)

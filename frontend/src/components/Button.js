@@ -7,7 +7,8 @@ export default function Button({ children, onPress, type = "Primary" }) {
         <TouchableOpacity
             style={{
                 ...styles.button,
-                backgroundColor: type === "Secondary" ? COLORS.white : ( type === "Logout" ? COLORS.logout : COLORS.red)
+                backgroundColor: type === "Secondary" ? COLORS.white : ( type === "Logout" ? COLORS.logout : COLORS.red),
+                marginTop: type === "otp" ? 50 : 0
             }}
             onPress={onPress}
         >

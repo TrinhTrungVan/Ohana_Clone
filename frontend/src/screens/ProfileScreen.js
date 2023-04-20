@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../api/services/authServices";
+import { logoutUser, refreshToken } from "../api/services/authServices";
 import Button from "../components/Button";
 import Information from "../components/Information";
 import Loading from "../components/Loading";
@@ -57,8 +57,8 @@ function ProfileScreen({ navigation }) {
         try {
             const res = await AsyncStorage.getItem("@userLogin");
             if (res !== null) {
-                console.log("profile", res);
-                setUser(JSON.parse(res));
+                // console.log('profile', res)
+                setUser(JSON.parse(res))
             }
         } catch (e) {
             alert("Đã xảy ra lỗi");
