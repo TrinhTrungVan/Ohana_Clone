@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import User from "./userModel.js";
+import mongoose from 'mongoose'
+import User from './userModel.js'
 
 const postSchema = new mongoose.Schema(
     {
@@ -64,10 +64,6 @@ const postSchema = new mongoose.Schema(
                 type: String,
             },
         ],
-        phoneNumber: {
-            type: String,
-            require: true,
-        },
         title: {
             type: String,
             require: true,
@@ -78,15 +74,15 @@ const postSchema = new mongoose.Schema(
         },
         user: {
             type: String,
-            ref: "User",
+            ref: 'User',
             require: true,
         },
     },
     {
         timestamps: true,
     }
-);
+)
 
-const Post = mongoose.model("Post", postSchema);
+const Post = mongoose.model('Post', postSchema)
 
-export default Post;
+export default Post

@@ -1,8 +1,8 @@
-import { ENV } from "../constants/env";
+import { ENV } from '../constants/env'
 
 const apiConfig = {
-    baseUrl: ENV.BASE_URL + "/api",
-    paymentUrl: "http://10.0.2.2:8888/order"
-};
+    baseUrl: ENV.BASE_URL + '/api',
+    paymentUrl: `${ENV.PAYMENT_URL}/order`,
+}
 
-export default apiConfig;
+export default apiConfig

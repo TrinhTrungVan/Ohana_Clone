@@ -1,6 +1,7 @@
-import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import COLORS from "../constants/color";
+import React from 'react'
+import { Image, StyleSheet, Text, View } from 'react-native'
+import COLORS from '../constants/color'
+import { convertToMillions } from '../utils/convertPrice'
 
 const PostItem = ({ data }) => {
     return (
@@ -13,7 +14,9 @@ const PostItem = ({ data }) => {
                     style={styles.image}
                 />
                 <View style={styles.info}>
-                    <Text style={styles.price}>5.0M VNĐ/phòng</Text>
+                    <Text style={styles.price}>{`${convertToMillions(
+                        data.expenses
+                    )}M VNĐ/phòng`}</Text>
                     <Text style={styles.title} numberOfLines={2}>
                         {data.title}
                     </Text>
@@ -21,38 +24,38 @@ const PostItem = ({ data }) => {
                         {data.description}
                     </Text>
                 </View>
-                <Image
+                {/* <Image
                     source={
                         true
                             ? require("../../assets/icons/love.png")
                             : require("../../assets/icons/love_focused.png")
                     }
                     style={styles.saved}
-                />
+                /> */}
             </View>
         </View>
-    );
-};
+    )
+}
 
-export default PostItem;
+export default PostItem
 
 const styles = StyleSheet.create({
     container: {
         margin: 8,
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexDirection: "row",
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
         borderRadius: 6,
         backgroundColor: COLORS.abs_white,
     },
     content: {
-        position: "relative",
-        width: "100%",
-        flexDirection: "row",
+        position: 'relative',
+        width: '100%',
+        flexDirection: 'row',
     },
     info: {
         flex: 1,
-        flexDirection: "column",
+        flexDirection: 'column',
         paddingRight: 36,
         marginVertical: 8,
     },
@@ -64,7 +67,7 @@ const styles = StyleSheet.create({
         marginRight: 16,
     },
     saved: {
-        position: "absolute",
+        position: 'absolute',
         top: 8,
         right: 8,
         width: 20,
@@ -74,9 +77,9 @@ const styles = StyleSheet.create({
         color: COLORS.red,
     },
     title: {
-        fontWeight: "700",
+        fontWeight: '700',
     },
     address: {
         color: COLORS.grey,
     },
-});
+})

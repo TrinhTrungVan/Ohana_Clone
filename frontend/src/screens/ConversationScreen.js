@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from 'react'
 import {
     Image,
     Modal,
@@ -9,117 +9,146 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-} from "react-native";
-import Loading from "../components/Loading";
-import Message from "../components/Message";
-import COLORS from "../constants/color";
-import { useEffect } from "react";
-import conversationServices from "../api/services/conversationServices";
-import { getUser } from "../api/services/userServices";
+} from 'react-native'
+import Loading from '../components/Loading'
+import Message from '../components/Message'
+import COLORS from '../constants/color'
+import { useEffect } from 'react'
+import conversationServices from '../api/services/conversationServices'
+import { getUser } from '../api/services/userServices'
+import chatServices from '../api/services/chatServices'
+import socket from '../socket/socket'
 
 const MESS = [
     {
         message:
-            "Hellooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
-        userId: "6437a028b93ecd8ee32349ca",
+            'Hellooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo',
+        userId: '6437a028b93ecd8ee32349ca',
         avatar_url:
-            "https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg",
+            'https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg',
     },
     {
-        message: "Hellooooooooooooooooooooooooooooooooooo",
-        userId: "6437a028b93ecd8ee32349ca",
+        message: 'Hellooooooooooooooooooooooooooooooooooo',
+        userId: '6437a028b93ecd8ee32349ca',
         avatar_url:
-            "https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg",
+            'https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg',
     },
     {
-        message: "Hellooooooooooooooooooooooooooooooooooooooooo",
-        userId: "641c878610033b42c52d472d",
+        message: 'Hellooooooooooooooooooooooooooooooooooooooooo',
+        userId: '641c878610033b42c52d472d',
         avatar_url:
-            "https://res.cloudinary.com/trungvan1904/image/upload/v1681483280/ohana_clone/sjfsghn0z6lrxs2xvxd0.jpg",
+            'https://res.cloudinary.com/trungvan1904/image/upload/v1681483280/ohana_clone/sjfsghn0z6lrxs2xvxd0.jpg',
     },
     {
-        message: "Hellooooooooooooooooooooooooooooooooooooooooo",
-        userId: "641c878610033b42c52d472d",
+        message: 'Hellooooooooooooooooooooooooooooooooooooooooo',
+        userId: '641c878610033b42c52d472d',
         avatar_url:
-            "https://res.cloudinary.com/trungvan1904/image/upload/v1681483280/ohana_clone/sjfsghn0z6lrxs2xvxd0.jpg",
+            'https://res.cloudinary.com/trungvan1904/image/upload/v1681483280/ohana_clone/sjfsghn0z6lrxs2xvxd0.jpg',
     },
     {
-        message: "Hello",
-        userId: "6437a028b93ecd8ee32349ca",
+        message: 'Hello',
+        userId: '6437a028b93ecd8ee32349ca',
         avatar_url:
-            "https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg",
+            'https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg',
     },
     {
-        message: "Hello",
-        userId: "641c878610033b42c52d472d",
+        message: 'Hello',
+        userId: '641c878610033b42c52d472d',
         avatar_url:
-            "https://res.cloudinary.com/trungvan1904/image/upload/v1681483280/ohana_clone/sjfsghn0z6lrxs2xvxd0.jpg",
+            'https://res.cloudinary.com/trungvan1904/image/upload/v1681483280/ohana_clone/sjfsghn0z6lrxs2xvxd0.jpg',
     },
     {
-        message: "Hello",
-        userId: "6437a028b93ecd8ee32349ca",
+        message: 'Hello',
+        userId: '6437a028b93ecd8ee32349ca',
         avatar_url:
-            "https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg",
+            'https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg',
     },
     {
-        message: "Hello",
-        userId: "641c878610033b42c52d472d",
+        message: 'Hello',
+        userId: '641c878610033b42c52d472d',
         avatar_url:
-            "https://res.cloudinary.com/trungvan1904/image/upload/v1681483280/ohana_clone/sjfsghn0z6lrxs2xvxd0.jpg",
+            'https://res.cloudinary.com/trungvan1904/image/upload/v1681483280/ohana_clone/sjfsghn0z6lrxs2xvxd0.jpg',
     },
     {
-        message: "Hello",
-        userId: "6437a028b93ecd8ee32349ca",
+        message: 'Hello',
+        userId: '6437a028b93ecd8ee32349ca',
         avatar_url:
-            "https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg",
+            'https://res.cloudinary.com/trungvan1904/image/upload/v1679152072/nextjs_ecommerce/w6vfpeityddtffzmwaal.jpg',
     },
     {
-        message: "Hello",
-        userId: "641c878610033b42c52d472d",
+        message: 'Hello',
+        userId: '641c878610033b42c52d472d',
         avatar_url:
-            "https://res.cloudinary.com/trungvan1904/image/upload/v1681483280/ohana_clone/sjfsghn0z6lrxs2xvxd0.jpg",
+            'https://res.cloudinary.com/trungvan1904/image/upload/v1681483280/ohana_clone/sjfsghn0z6lrxs2xvxd0.jpg',
     },
-];
+]
 
 const ConversationScreen = ({ route, navigation }) => {
     // console.log("Mount");
-    const { participants } = route.params;
+    const { participants } = route.params
     // console.log("friendID", participants[1]);
+    const scrollViewRef = useRef()
 
-    const [conversation, setConversation] = useState(null);
-    const [user, setUser] = useState(null);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [chatInput, setChatInput] = useState('')
+    const [conversation, setConversation] = useState(null)
+    const [messages, setMessages] = useState([])
+    const [user, setUser] = useState(null)
+    const [modalVisible, setModalVisible] = useState(false)
 
     const handleDelete = async () => {
-        await conversationServices.deleteConversation(conversation._id);
-        setModalVisible(false);
-        navigation.navigate("Chat");
-    };
+        await conversationServices.deleteConversation(conversation._id)
+        setModalVisible(false)
+        navigation.navigate('Chat')
+    }
 
-    const handleSend = () => {};
+    const handleSend = async () => {
+        if (chatInput === '') return
+        const newMsg = await chatServices.addMessage(conversation._id, {
+            senderId: participants[0],
+            content: chatInput,
+            timestamps: Date.now(),
+        })
+        socket.emit('send-msg', conversation._id)
+        setMessages([...messages, newMsg])
+        setChatInput('')
+    }
+
+    useEffect(() => {
+        socket.on('receive-msg', async (idConversation) => {
+            if (conversation && idConversation === conversation._id) {
+                const res = await conversationServices.getConversationDetail(participants)
+                if (res) {
+                    // console.log(res);
+                    // setConversation(res)
+                    setMessages(res.messages)
+                }
+            }
+        })
+    }, [messages])
 
     useEffect(() => {
         const getData = async () => {
-            const user = await getUser(participants[1]);
+            const user = await getUser(participants[1])
             if (user) {
                 // console.log("User", user);
-                setUser(user);
+                setUser(user)
             }
-            const res = await conversationServices.getConversationDetail(participants);
+            const res = await conversationServices.getConversationDetail(participants)
             if (res) {
                 // console.log(res);
-                setConversation(res);
+                setConversation(res)
+                setMessages(res.messages)
             }
-        };
-        getData();
-    }, []);
+        }
+        getData()
+    }, [])
 
     if (!user || !conversation) {
         return (
             <View style={styles.container}>
                 <Loading color={COLORS.red} />
             </View>
-        );
+        )
     }
 
     return (
@@ -128,60 +157,69 @@ const ConversationScreen = ({ route, navigation }) => {
                 <View style={styles.header}>
                     <Text style={styles.title}>{user?.fullname}</Text>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("Chat")}
+                        onPress={() => navigation.navigate('Chat')}
                         style={styles.backBtn}
                     >
                         <Image
-                            source={require("../../assets/icons/back.png")}
-                            resizeMode='contain'
+                            source={require('../../assets/icons/back.png')}
+                            resizeMode="contain"
                             style={styles.icon}
                         />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.moreBtn} onPress={() => setModalVisible(true)}>
                         <Image
-                            source={require("../../assets/icons/more.png")}
-                            resizeMode='contain'
+                            source={require('../../assets/icons/more.png')}
+                            resizeMode="contain"
                             style={styles.icon}
                         />
                     </TouchableOpacity>
                 </View>
-                <ScrollView style={{ width: "100%", marginTop: 8 }}>
+                <ScrollView
+                    style={{ width: '100%', marginTop: 8 }}
+                    ref={scrollViewRef}
+                    onContentSizeChange={() =>
+                        scrollViewRef.current.scrollToEnd({ animated: true })
+                    }
+                >
                     <View style={styles.messages}>
-                        {conversation.messages.length > 0 &&
-                            conversation.messages.map((item, index) => {
+                        {messages.length > 0 &&
+                            messages.map((item, index) => {
+                                userId = item.senderId
                                 return (
                                     <Message
                                         data={item}
                                         isSender={item.senderId === participants[0]}
+                                        friendAvatar={user.avatar_url}
                                         key={index}
                                     />
-                                );
+                                )
                             })}
                     </View>
                 </ScrollView>
                 <View style={styles.sendContainer}>
                     <TouchableOpacity>
                         <Image
-                            source={require("../../assets/icons/image.png")}
-                            resizeMode='contain'
+                            source={require('../../assets/icons/image.png')}
+                            resizeMode="contain"
                             style={styles.sendIcon}
                         />
                     </TouchableOpacity>
                     <TextInput
-                        onChangeText={() => {}}
-                        placeholder='Nhắn tin...'
+                        value={chatInput}
+                        onChangeText={(value) => setChatInput(value)}
+                        placeholder="Nhắn tin..."
                         style={styles.sendInput}
                     />
                     <TouchableOpacity onPress={handleSend}>
                         <Image
-                            source={require("../../assets/icons/send.png")}
-                            resizeMode='contain'
+                            source={require('../../assets/icons/send.png')}
+                            resizeMode="contain"
                             style={{ ...styles.sendIcon, width: 40, height: 40 }}
                         />
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
-            <Modal animationType='fade' transparent={true} visible={modalVisible}>
+            <Modal animationType="fade" transparent={true} visible={modalVisible}>
                 <View style={styles.centeredView}>
                     <TouchableOpacity
                         style={styles.modalView}
@@ -199,23 +237,23 @@ const ConversationScreen = ({ route, navigation }) => {
                 </View>
             </Modal>
         </>
-    );
-};
+    )
+}
 
-export default ConversationScreen;
+export default ConversationScreen
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
     },
     header: {
-        width: "100%",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         height: 55,
         marginTop: 14,
         borderBottomColor: COLORS.black,
@@ -223,40 +261,40 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 24,
-        fontWeight: "500",
+        fontWeight: '500',
         zIndex: 10,
     },
     moreBtn: {
-        position: "absolute",
+        position: 'absolute',
         right: 24,
     },
     backBtn: {
-        position: "absolute",
+        position: 'absolute',
         left: 24,
     },
     centeredView: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     modalView: {
         flex: 1,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0,0,0,0.1)",
-        position: "relative",
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        position: 'relative',
     },
     content: {
         backgroundColor: COLORS.white,
-        alignItems: "center",
+        alignItems: 'center',
         borderRadius: 6,
         padding: 16,
-        position: "absolute",
+        position: 'absolute',
         top: 55,
         right: 8,
     },
     deleteBtn: {
-        color: "red",
+        color: 'red',
     },
     icon: {
         width: 25,
@@ -264,19 +302,19 @@ const styles = StyleSheet.create({
         tintColor: COLORS.grey,
     },
     messages: {
-        width: "100%",
-        position: "relative",
+        width: '100%',
+        position: 'relative',
         paddingHorizontal: 24,
         marginBottom: 80,
     },
     sendContainer: {
-        position: "absolute",
-        width: "100%",
+        position: 'absolute',
+        width: '100%',
         paddingHorizontal: 16,
         paddingVertical: 8,
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexDirection: "row",
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
         backgroundColor: COLORS.abs_white,
         bottom: 0,
     },
@@ -294,4 +332,4 @@ const styles = StyleSheet.create({
         height: 50,
         tintColor: COLORS.red,
     },
-});
+})

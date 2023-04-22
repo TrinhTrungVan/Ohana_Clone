@@ -1,17 +1,18 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
-import LoginScreen from "../screens/LoginScreen";
-import RegisterScreen from "../screens/RegisterScreen";
-import { StyleSheet, Text, View } from "react-native";
-import COLORS from "../constants/color";
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import React from 'react'
+import LoginScreen from '../screens/LoginScreen'
+import RegisterScreen from '../screens/RegisterScreen'
+import { StyleSheet, Text, View } from 'react-native'
+import COLORS from '../constants/color'
+import ResetPasswordScreen from '../screens/ResetPasswordScreen'
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
 const AuthNavigation = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name='Đăng nhập'
+                name="Đăng nhập"
                 component={LoginScreen}
                 options={{
                     headerShown: true,
@@ -23,7 +24,7 @@ const AuthNavigation = () => {
                 }}
             />
             <Stack.Screen
-                name='Đăng ký'
+                name="Đăng ký"
                 component={RegisterScreen}
                 options={{
                     headerShown: true,
@@ -34,11 +35,23 @@ const AuthNavigation = () => {
                     ),
                 }}
             />
+            <Stack.Screen
+                name="Lấy lại mật khẩu"
+                component={ResetPasswordScreen}
+                // options={{
+                //     headerShown: true,
+                //     header: () => (
+                //         <View style={styles.header}>
+                //             <Text style={styles.title}>Xác nhận mã OTP</Text>
+                //         </View>
+                //     ),
+                // }}
+            />
         </Stack.Navigator>
-    );
-};
+    )
+}
 
-export default AuthNavigation;
+export default AuthNavigation
 
 const styles = StyleSheet.create({
     // shadow: {
@@ -52,18 +65,18 @@ const styles = StyleSheet.create({
     //     elevation: 5,
     // },
     header: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         height: 55,
         marginTop: 24,
-        position: "relative",
+        position: 'relative',
         borderBottomColor: COLORS.black,
         borderBottomWidth: 0.5,
     },
     title: {
         fontSize: 24,
-        fontWeight: "500",
+        fontWeight: '500',
         zIndex: 10,
     },
-});
+})

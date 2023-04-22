@@ -1,15 +1,15 @@
-import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import COLORS from "../constants/color";
+import React from 'react'
+import { Image, StyleSheet, Text, View } from 'react-native'
+import COLORS from '../constants/color'
 
-const Message = ({ data, isSender }) => {
-    const { content, avatar_url } = data;
+const Message = ({ data, isSender, friendAvatar }) => {
+    const { content } = data
     return (
-        <View style={{ ...styles.container, flexDirection: isSender ? "row-reverse" : "row" }}>
+        <View style={{ ...styles.container, flexDirection: isSender ? 'row-reverse' : 'row' }}>
             {!isSender && (
                 <Image
                     source={{
-                        uri: avatar_url,
+                        uri: friendAvatar,
                     }}
                     style={styles.image}
                 />
@@ -24,17 +24,17 @@ const Message = ({ data, isSender }) => {
                 {content}
             </Text>
         </View>
-    );
-};
+    )
+}
 
-export default Message;
+export default Message
 
 const styles = StyleSheet.create({
     container: {
         marginVertical: 4,
-        justifyContent: "flex-start",
-        alignItems: "center",
-        position: "relative",
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        position: 'relative',
     },
     image: {
         width: 48,
@@ -47,6 +47,6 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         padding: 16,
         marginHorizontal: 0,
-        maxWidth: "75%",
+        maxWidth: '75%',
     },
-});
+})

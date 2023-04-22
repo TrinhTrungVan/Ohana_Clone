@@ -1,53 +1,53 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React, { useEffect } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import COLORS from "../constants/color";
-import ChatScreen from "../screens/ChatScreen";
-import CreatePostScreen from "../screens/CreatePostScreen";
-import HomeScreen from "../screens/HomeScreen";
-import SavedScreen from "../screens/SavedScreen";
-import AccountNavigation from "./accountNavigation";
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import React, { useEffect } from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import COLORS from '../constants/color'
+import ChatScreen from '../screens/ChatScreen'
+import CreatePostScreen from '../screens/CreatePostScreen'
+import HomeScreen from '../screens/HomeScreen'
+import SavedScreen from '../screens/SavedScreen'
+import AccountNavigation from './accountNavigation'
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
 const MainNavigation = ({ navigation }) => {
     const readData = async () => {
         try {
-            const res = await AsyncStorage.getItem("@userLogin");
+            const res = await AsyncStorage.getItem('@userLogin')
             if (!res) {
-                navigation.navigate("Auth");
+                navigation.navigate('Auth')
             }
         } catch (e) {
-            console.log("Error");
+            console.log('Error')
         }
-    };
+    }
 
     useEffect(() => {
-        readData();
-    }, []);
+        readData()
+    }, [])
     return (
         <Tab.Navigator
             screenOptions={{
                 headerShown: true,
                 headerStyle: {},
                 tabBarShowLabel: false,
-                tabBarStyle: { position: "absolute", height: 68 },
+                tabBarStyle: { position: 'absolute', height: 68 },
             }}
         >
             <Tab.Screen
-                name='Home'
+                name="Home"
                 component={HomeScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
-                        <View style={{ alignItems: "center", justifyContent: "center" }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                             <Image
                                 source={
                                     focused
-                                        ? require("../../assets/icons/home_focused.png")
-                                        : require("../../assets/icons/home.png")
+                                        ? require('../../assets/icons/home_focused.png')
+                                        : require('../../assets/icons/home.png')
                                 }
-                                resizeMode='contain'
+                                resizeMode="contain"
                                 style={{
                                     width: 25,
                                     height: 25,
@@ -66,18 +66,18 @@ const MainNavigation = ({ navigation }) => {
                 }}
             />
             <Tab.Screen
-                name='Saved'
+                name="Saved"
                 component={SavedScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
-                        <View style={{ alignItems: "center", justifyContent: "center" }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                             <Image
                                 source={
                                     focused
-                                        ? require("../../assets/icons/love_focused.png")
-                                        : require("../../assets/icons/love.png")
+                                        ? require('../../assets/icons/love_focused.png')
+                                        : require('../../assets/icons/love.png')
                                 }
-                                resizeMode='contain'
+                                resizeMode="contain"
                                 style={{
                                     width: 25,
                                     height: 25,
@@ -92,6 +92,7 @@ const MainNavigation = ({ navigation }) => {
                         </View>
                     ),
                     headerShown: true,
+                    unmountOnBlur: true,
                     header: ({ navigation }) => (
                         <View style={styles.header}>
                             <Text style={styles.title}>Yêu thích</Text>
@@ -100,8 +101,8 @@ const MainNavigation = ({ navigation }) => {
                                 onPress={() => navigation.goBack()}
                             >
                                 <Image
-                                    source={require("../../assets/icons/back.png")}
-                                    resizeMode='contain'
+                                    source={require('../../assets/icons/back.png')}
+                                    resizeMode="contain"
                                     style={{
                                         width: 25,
                                         height: 25,
@@ -114,14 +115,14 @@ const MainNavigation = ({ navigation }) => {
                 }}
             />
             <Tab.Screen
-                name='Post'
+                name="Post"
                 component={CreatePostScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View
                             style={{
-                                alignItems: "center",
-                                justifyContent: "center",
+                                alignItems: 'center',
+                                justifyContent: 'center',
                                 backgroundColor: COLORS.red,
                                 width: 50,
                                 height: 50,
@@ -130,9 +131,9 @@ const MainNavigation = ({ navigation }) => {
                             }}
                         >
                             <Image
-                                source={require("../../assets/icons/plus.png")}
-                                resizeMode='contain'
-                                style={{ width: 25, height: 25, tintColor: "#FFFFFF" }}
+                                source={require('../../assets/icons/plus.png')}
+                                resizeMode="contain"
+                                style={{ width: 25, height: 25, tintColor: '#FFFFFF' }}
                             />
                             {/* <Text style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}>Post</Text> */}
                         </View>
@@ -143,7 +144,7 @@ const MainNavigation = ({ navigation }) => {
                             <Text style={styles.title}>Đăng phòng</Text>
                             <TouchableOpacity
                                 style={styles.cancelBtn}
-                                onPress={() => navigation.navigate("Home")}
+                                onPress={() => navigation.navigate('Home')}
                             >
                                 <Text>Huỷ</Text>
                             </TouchableOpacity>
@@ -152,18 +153,18 @@ const MainNavigation = ({ navigation }) => {
                 }}
             />
             <Tab.Screen
-                name='Chat'
+                name="Chat"
                 component={ChatScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
-                        <View style={{ alignItems: "center", justifyContent: "center" }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                             <Image
                                 source={
                                     focused
-                                        ? require("../../assets/icons/chat_focused.png")
-                                        : require("../../assets/icons/chat.png")
+                                        ? require('../../assets/icons/chat_focused.png')
+                                        : require('../../assets/icons/chat.png')
                                 }
-                                resizeMode='contain'
+                                resizeMode="contain"
                                 style={{
                                     width: 25,
                                     height: 25,
@@ -184,11 +185,11 @@ const MainNavigation = ({ navigation }) => {
                             <Text style={styles.title}>Tin nhắn</Text>
                             <TouchableOpacity
                                 style={styles.backBtn}
-                                onPress={() => navigation.navigate("Home")}
+                                onPress={() => navigation.navigate('Home')}
                             >
                                 <Image
-                                    source={require("../../assets/icons/back.png")}
-                                    resizeMode='contain'
+                                    source={require('../../assets/icons/back.png')}
+                                    resizeMode="contain"
                                     style={{
                                         width: 25,
                                         height: 25,
@@ -201,18 +202,18 @@ const MainNavigation = ({ navigation }) => {
                 }}
             />
             <Tab.Screen
-                name='Account'
+                name="Account"
                 component={AccountNavigation}
                 options={{
                     tabBarIcon: ({ focused }) => (
-                        <View style={{ alignItems: "center", justifyContent: "center" }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                             <Image
                                 source={
                                     focused
-                                        ? require("../../assets/icons/user_focused.png")
-                                        : require("../../assets/icons/user.png")
+                                        ? require('../../assets/icons/user_focused.png')
+                                        : require('../../assets/icons/user.png')
                                 }
-                                resizeMode='contain'
+                                resizeMode="contain"
                                 style={{
                                     width: 25,
                                     height: 25,
@@ -236,10 +237,10 @@ const MainNavigation = ({ navigation }) => {
                 }}
             />
         </Tab.Navigator>
-    );
-};
+    )
+}
 
-export default MainNavigation;
+export default MainNavigation
 
 const styles = StyleSheet.create({
     // shadow: {
@@ -253,26 +254,26 @@ const styles = StyleSheet.create({
     //     elevation: 5,
     // },
     header: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         height: 55,
-        position: "relative",
+        position: 'relative',
         borderBottomColor: COLORS.black,
         borderBottomWidth: 0.5,
         backgroundColor: COLORS.abs_white,
     },
     title: {
         fontSize: 24,
-        fontWeight: "500",
+        fontWeight: '500',
         zIndex: 10,
     },
     cancelBtn: {
-        position: "absolute",
+        position: 'absolute',
         right: 24,
     },
     backBtn: {
-        position: "absolute",
+        position: 'absolute',
         left: 24,
     },
-});
+})
