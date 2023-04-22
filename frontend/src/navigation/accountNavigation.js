@@ -9,7 +9,7 @@ import UpdatePasswordScreen from '../screens/UpdatePasswordScreen'
 
 const Stack = createNativeStackNavigator()
 
-const AccountNavigation = () => {
+const AccountNavigation = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen

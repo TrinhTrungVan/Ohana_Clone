@@ -1,3 +1,4 @@
+
 import User from '../models/userModel.js'
 import bcrypt from 'bcrypt'
 
@@ -34,7 +35,6 @@ const userController = {
     updatePassword: async (req, res) => {
         try {
             const { email, password } = req.body
-
             const salt = await bcrypt.genSalt(10)
             const hashed = await bcrypt.hash(password, salt)
 

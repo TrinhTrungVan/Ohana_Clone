@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch } from 'react-redux'
@@ -42,6 +43,10 @@ function LoginScreen({ navigation }) {
     const handleForfotPassword = () => {
         navigation.navigate('Lấy lại mật khẩu')
         setUser({})
+    }
+
+    const handleForfotPassword = () => {
+        navigation.navigate("Lấy lại mật khẩu")
     }
 
     const handleChangeSignup = () => {
