@@ -1,71 +1,80 @@
-import React, { useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../api/services/authServices";
-import Button from "../components/Button";
-import Input from "../components/Input";
-import COLORS from "../constants/color";
-import { getData } from "../utils/asyncStorage";
+
+import React, { useState } from 'react'
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useDispatch } from 'react-redux'
+import { loginUser } from '../api/services/authServices'
+import Button from '../components/Button'
+import Input from '../components/Input'
+import COLORS from '../constants/color'
+import { getData } from '../utils/asyncStorage'
 import { validateLoginForm } from '../utils/validateForm'
 
 function LoginScreen({ navigation }) {
-    const [user, setUser] = useState({});
-    const [textError, setTextError] = useState("");
-    const dispatch = useDispatch();
+    const [user, setUser] = useState({})
+    const [textError, setTextError] = useState('')
+    const dispatch = useDispatch()
 
     const handleChange = (name, value) => {
         setUser({
             ...user,
             [name]: value,
-        });
-    };
+        })
+    }
 
     const handleLogin = async () => {
         const errorMsg = validateLoginForm(user)
         if (errorMsg) return setTextError(errorMsg)
 
-        await loginUser(user, dispatch);
-        const status = await getData("@statusLogin");
+        await loginUser(user, dispatch)
+        const status = await getData('@statusLogin')
         if (status == 500) {
-            alert("Lỗi hệ thống");
+            alert('Lỗi hệ thống')
         } else if (status == 404) {
-            setTextError("Sai mật khẩu!");
+            setTextError('Sai mật khẩu!')
         } else if (status == 403) {
-            setTextError("Sai tên đăng nhập!");
+            setTextError('Sai tên đăng nhập!')
         } else {
-            navigation.navigate("Main", { screen: "Home" });
-            setTextError("");
-            setUser({});
+            navigation.navigate('Main', { screen: 'Home' })
+            setTextError('')
+            setUser({})
         }
-    };
+    }
+
+    const handleForfotPassword = () => {
+        navigation.navigate('Lấy lại mật khẩu')
+        setUser({})
+    }
 
     const handleForfotPassword = () => {
         navigation.navigate("Lấy lại mật khẩu")
     }
 
     const handleChangeSignup = () => {
-        navigation.navigate("Đăng ký");
-    };
+        navigation.navigate('Đăng ký')
+        setUser({})
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
                 <View style={{ paddingTop: 8, paddingBottom: 32 }}>
                     <Input
-                        label='Email'
-                        placeholder='Nhập địa chỉ email'
+                        label="Email"
+                        placeholder="Nhập địa chỉ email"
                         value={user?.email}
-                        onChangeText={(text) => handleChange("email", text)}
+                        onChangeText={(text) => handleChange('email', text)}
                     />
                     <Input
-                        label='Mật khẩu'
-                        placeholder='Nhập mật khẩu'
+                        label="Mật khẩu"
+                        placeholder="Nhập mật khẩu"
                         value={user?.password}
-                        onChangeText={(text) => handleChange("password", text)}
+                        onChangeText={(text) => handleChange('password', text)}
                         secureTextEntry={true}
                     />
-                    <View style={styles.forgot}>
-                        <Text onPress={handleForfotPassword} style={styles.underline}>Quên mật khẩu?</Text>
+                    <View>
+                        <Text onPress={handleForfotPassword} style={styles.underline}>
+                            Quên mật khẩu?
+                        </Text>
                     </View>
                     <Button onPress={handleLogin}>Đăng nhập</Button>
                     <Text style={styles.textError}>{textError}</Text>
@@ -78,10 +87,10 @@ function LoginScreen({ navigation }) {
                 </View>
             </ScrollView>
         </SafeAreaView>
-    );
+    )
 }
 
-export default LoginScreen;
+export default LoginScreen
 
 const styles = StyleSheet.create({
     container: {
@@ -91,25 +100,23 @@ const styles = StyleSheet.create({
     },
     signupContainer: {
         flex: 1,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     signupBtn: {
-        fontWeight: "bold",
+        fontWeight: 'bold',
         marginLeft: 8,
         marginBottom: 1,
     },
     textError: {
-        color: "red",
-        fontSize: 12
+        color: 'red',
+        fontSize: 12,
     },
     underline: {
         textDecorationLine: 'underline',
         marginBottom: 10,
+        textAlign: 'right',
         color: COLORS.blue,
     },
-    forgot: {
-        textAlign: "right"
-    }
-});
+})
