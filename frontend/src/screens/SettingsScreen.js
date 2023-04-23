@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as ImagePicker from "expo-image-picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import * as ImagePicker from 'expo-image-picker'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
     View,
     SafeAreaView,
@@ -10,45 +10,48 @@ import {
     Image,
     TouchableOpacity,
     Text,
-} from "react-native";
-import Button from "../components/Button";
-import Input from "../components/Input";
-import COLORS from "../constants/color";
-import Loading from "../components/Loading";
-import { updateUser } from "../api/services/userServices";
-import { refreshToken } from "../api/services/authServices";
-import axios from "axios";
-import jwt_decode from 'jwt-decode';
-import dayjs from 'dayjs';
-import { uploadImage } from "../api/services/cloudinaryServices";
+} from 'react-native'
+import Button from '../components/Button'
+import Input from '../components/Input'
+import COLORS from '../constants/color'
+import Loading from '../components/Loading'
+import { updateUser } from '../api/services/userServices'
+import { refreshToken } from '../api/services/authServices'
+import axios from 'axios'
+import jwt_decode from 'jwt-decode'
+import dayjs from 'dayjs'
+import { uploadImage } from '../api/services/cloudinaryServices'
 
 function SettingsScreen({ navigation }) {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null)
     // const [imgUrl, setImgUrl] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const isLogin = useSelector((state) => state.auth.login);
-    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false)
+    const isLogin = useSelector((state) => state.auth.login)
+    const dispatch = useDispatch()
 
     let axiosJWT = axios.create()
 
-    axiosJWT.interceptors.request.use(async (config) => {
-        const decodedToken = jwt_decode(isLogin.currentUser?.accessToken)
-        const isExpired = dayjs.unix(decodedToken.exp).diff(dayjs()) < 1
-        if (isExpired) {
-            const data = await refreshToken()
-            config.headers["Token"] = data.accessToken
+    axiosJWT.interceptors.request.use(
+        async (config) => {
+            const decodedToken = jwt_decode(isLogin.currentUser?.accessToken)
+            const isExpired = dayjs.unix(decodedToken.exp).diff(dayjs()) < 1
+            if (isExpired) {
+                const data = await refreshToken()
+                config.headers['Token'] = data.accessToken
+            }
+            return config
+        },
+        (err) => {
+            return Promise.reject(err)
         }
-        return config
-    }, err => {
-        return Promise.reject(err)
-    })
+    )
 
     const handleChange = (name, value) => {
         setUser({
             ...user,
             [name]: value,
-        });
-    };
+        })
+    }
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -57,24 +60,24 @@ function SettingsScreen({ navigation }) {
             aspect: [4, 3],
             quality: 1,
             base64: true,
-        });
+        })
 
         if (!result.canceled) {
-            setLoading(true);
-            let base64Img = `data:image/jpg;base64,${result.assets[0].base64}`;
-            const res = await uploadImage(base64Img);
+            setLoading(true)
+            let base64Img = `data:image/jpg;base64,${result.assets[0].base64}`
+            const res = await uploadImage(base64Img)
             // const imgUrl =
             //     "https://res.cloudinary.com/trungvan1904/image/upload/v1677146545/ohana_clone/broken-image_xqpdvp.png";
-            setUser({ ...user, avatar_url: res });
-            setLoading(false);
+            setUser({ ...user, avatar_url: res })
+            setLoading(false)
         }
-    };
+    }
 
     const handleClickUpdate = () => {
-        updateUser(user?._id, user, isLogin.currentUser.accessToken, dispatch, axiosJWT);
-        saveStorage("@userLogin", user);
-        alert("Cập nhật thông tin thành công");
-        navigation.navigate("Profile");
+        updateUser(user?._id, user, isLogin.currentUser.accessToken, dispatch, axiosJWT)
+        saveStorage('@userLogin', user)
+        alert('Cập nhật thông tin thành công')
+        navigation.navigate('Profile')
     }
 
     const handleClickOut = () => {
@@ -85,7 +88,7 @@ function SettingsScreen({ navigation }) {
         try {
             await AsyncStorage.setItem(name, JSON.stringify(data))
         } catch (e) {
-            alert("Đã xảy ra lỗi")
+            alert('Đã xảy ra lỗi')
         }
     }
 
@@ -96,8 +99,7 @@ function SettingsScreen({ navigation }) {
                 console.log('update', res)
                 setUser(JSON.parse(res))
             }
-        }
-        catch (e) {
+        } catch (e) {
             alert('Đã xảy ra lỗi')
         }
     }
@@ -113,8 +115,8 @@ function SettingsScreen({ navigation }) {
                     style={{
                         paddingTop: 8,
                         paddingBottom: 32,
-                        width: "100%",
-                        position: "relative",
+                        width: '100%',
+                        position: 'relative',
                     }}
                 >
                     <Image
@@ -127,25 +129,28 @@ function SettingsScreen({ navigation }) {
                         {loading ? <Loading /> : <Text style={styles.uploadText}>Upload</Text>}
                     </TouchableOpacity>
                     <Input
-                        label='Họ tên'
-                        placeholder='Nhập họ tên'
-                        onChangeText={(text) => handleChange("fullname", text)}
+                        label="Họ tên"
+                        placeholder="Nhập họ tên"
+                        onChangeText={(text) => handleChange('fullname', text)}
                         value={isLogin.isFetching ? <Loading /> : user?.fullname}
                     />
                     <Input
-                        label='Số điện thoại'
-                        placeholder='Nhập số điện thoại'
-                        onChangeText={text => handleChange("phoneNumber", text)}
+                        label="Số điện thoại"
+                        placeholder="Nhập số điện thoại"
+                        onChangeText={(text) => handleChange('phoneNumber', text)}
                         value={isLogin.isFetching ? <Loading /> : user?.phoneNumber}
                     />
                     <Input
-                        label='Email'
-                        onChangeText={text => handleChange("phoneNumber", text)}
+                        label="Email"
+                        onChangeText={(text) => handleChange('phoneNumber', text)}
                         value={isLogin.isFetching ? <Loading /> : user?.email}
-                        editable={false} selectTextOnFocus={false}
+                        editable={false}
+                        selectTextOnFocus={false}
                     />
                     <Button onPress={handleClickUpdate}>Cập nhật</Button>
-                    <Button type="Logout" onPress={handleClickOut}>Thay đổi mật khẩu</Button>
+                    <Button type="Logout" onPress={handleClickOut}>
+                        Thay đổi mật khẩu
+                    </Button>
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -165,23 +170,23 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 100,
         marginTop: 16,
-        alignSelf: "center",
+        alignSelf: 'center',
     },
     changeAvatarBtn: {
         width: 100,
         height: 55,
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
         borderRadius: 4,
         marginBottom: 10,
         backgroundColor: COLORS.red,
-        alignSelf: "center",
+        alignSelf: 'center',
     },
     uploadText: {
         fontSize: 14,
         lineHeight: 55,
-        fontWeight: "bold",
+        fontWeight: 'bold',
         letterSpacing: 1,
         color: COLORS.white,
     },
-});
+})

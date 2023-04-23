@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import ProfileScreen from '../screens/ProfileScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import { StyleSheet } from 'react-native'
@@ -13,7 +13,7 @@ const AccountNavigation = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name='Profile'
+                name="Profile"
                 component={ProfileScreen}
                 options={{
                     headerShown: true,
@@ -26,29 +26,34 @@ const AccountNavigation = ({ navigation }) => {
                 }}
             />
             <Stack.Screen
-                name='Settings'
+                name="Settings"
                 component={SettingsScreen}
                 options={{
                     headerShown: true,
                     header: ({ navigation }) => (
                         <View style={styles.header}>
                             <Text style={styles.title}>Cập nhật thông tin</Text>
-                            <Text onPress={() => navigation.navigate('Profile')} style={styles.cancelBtn}>Đóng</Text>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Profile')}
+                                style={styles.cancelBtn}
+                            >
+                                <Text>Đóng</Text>
+                            </TouchableOpacity>
                         </View>
                     ),
                 }}
             />
             <Stack.Screen
-                name='Thay đổi mật khẩu'
+                name="Thay đổi mật khẩu"
                 component={UpdatePasswordScreen}
-            // options={{
-            //     headerShown: true,
-            //     header: () => (
-            //         <View style={styles.header}>
-            //             <Text style={styles.title}>Xác nhận mã OTP</Text>
-            //         </View>
-            //     ),
-            // }}
+                // options={{
+                //     headerShown: true,
+                //     header: () => (
+                //         <View style={styles.header}>
+                //             <Text style={styles.title}>Xác nhận mã OTP</Text>
+                //         </View>
+                //     ),
+                // }}
             />
         </Stack.Navigator>
     )
@@ -68,26 +73,26 @@ const styles = StyleSheet.create({
     //     elevation: 5,
     // },
     header: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         height: 55,
         marginTop: 24,
-        position: "relative",
+        position: 'relative',
         borderBottomColor: COLORS.black,
         borderBottomWidth: 0.5,
     },
     title: {
         fontSize: 24,
-        fontWeight: "500",
+        fontWeight: '500',
         zIndex: 10,
     },
     cancelBtn: {
-        position: "absolute",
+        position: 'absolute',
         right: 24,
     },
     backBtn: {
-        position: "absolute",
+        position: 'absolute',
         left: 24,
     },
-});
+})

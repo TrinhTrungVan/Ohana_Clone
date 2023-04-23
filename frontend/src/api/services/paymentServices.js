@@ -7,8 +7,8 @@ export const createPayment = async (pay) => {
         {   
             // method: "POST",
             headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
                 // Token: accessToken
             }, 
             // body: JSON.stringify(pay)

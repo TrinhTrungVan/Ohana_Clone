@@ -1,35 +1,44 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import COLORS from "../constants/color";
-import PostScreen from "../screens/PostScreen";
-import AuthNavigation from "./authNavigation";
-import MainNavigation from "./mainNavigation";
-import PaymentScreen from "../screens/PaymentScreen";
-import VnpayScreen from "../screens/VnpayScreen";
-import ConfirmOTPScreen from "../screens/ConfirmOTPScreen";
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import React from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import COLORS from '../constants/color'
+import PaymentScreen from '../screens/PaymentScreen'
+import VnpayScreen from '../screens/VnpayScreen'
+import PostScreen from '../screens/PostScreen'
+import AuthNavigation from './authNavigation'
+import MainNavigation from './mainNavigation'
+import ConversationScreen from '../screens/ConversationScreen'
+import ConfirmOTPScreen from '../screens/ConfirmOTPScreen'
+import MyPostsScreen from '../screens/MyPostsScreen'
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
 const AppNavigation = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name='Main'
+                name="Main"
                 component={MainNavigation}
                 options={{
                     headerShown: false,
                 }}
             />
             <Stack.Screen
-                name='Auth'
+                name="Auth"
                 component={AuthNavigation}
                 options={{
                     headerShown: false,
                 }}
             />
             <Stack.Screen
-                name='Post Detail'
+                name="Conversation"
+                component={ConversationScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="Post Detail"
                 component={PostScreen}
                 options={{
                     headerShown: true,
@@ -41,8 +50,8 @@ const AppNavigation = () => {
                                 style={styles.backBtn}
                             >
                                 <Image
-                                    source={require("../../assets/icons/back.png")}
-                                    resizeMode='contain'
+                                    source={require('../../assets/icons/back.png')}
+                                    resizeMode="contain"
                                     style={{
                                         width: 25,
                                         height: 25,
@@ -55,7 +64,7 @@ const AppNavigation = () => {
                 }}
             />
             <Stack.Screen
-                name='Payment'
+                name="Payment"
                 component={PaymentScreen}
                 options={{
                     headerShown: true,
@@ -67,7 +76,7 @@ const AppNavigation = () => {
                 }}
             />
             <Stack.Screen
-                name='Vnpay'
+                name="Vnpay"
                 component={VnpayScreen}
                 options={{
                     headerShown: true,
@@ -79,7 +88,7 @@ const AppNavigation = () => {
                 }}
             />
             <Stack.Screen
-                name='Xác thực mã OTP'
+                name="Xác thực mã OTP"
                 component={ConfirmOTPScreen}
                 // options={{
                 //     headerShown: true,
@@ -90,11 +99,59 @@ const AppNavigation = () => {
                 //     ),
                 // }}
             />
+            <Stack.Screen
+                name="My Posts"
+                component={MyPostsScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                            <Image
+                                source={
+                                    focused
+                                        ? require('../../assets/icons/love_focused.png')
+                                        : require('../../assets/icons/love.png')
+                                }
+                                resizeMode="contain"
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    tintColor: focused ? COLORS.red : COLORS.grey,
+                                }}
+                            />
+                            <Text
+                                style={{ color: focused ? COLORS.red : COLORS.grey, fontSize: 12 }}
+                            >
+                                Bài đăng của tôi
+                            </Text>
+                        </View>
+                    ),
+                    headerShown: true,
+                    header: ({ navigation }) => (
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Bài đăng của tôi</Text>
+                            <TouchableOpacity
+                                style={styles.backBtn}
+                                onPress={() => navigation.goBack()}
+                            >
+                                <Image
+                                    source={require('../../assets/icons/back.png')}
+                                    resizeMode="contain"
+                                    style={{
+                                        width: 25,
+                                        height: 25,
+                                        tintColor: COLORS.grey,
+                                    }}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
+                }}
+            />
         </Stack.Navigator>
-    );
-};
+    )
+}
 
-export default AppNavigation;
+export default AppNavigation
 
 const styles = StyleSheet.create({
     // shadow: {
@@ -108,26 +165,26 @@ const styles = StyleSheet.create({
     //     elevation: 5,
     // },
     header: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         height: 55,
         marginTop: 24,
-        position: "relative",
+        position: 'relative',
         borderBottomColor: COLORS.black,
         borderBottomWidth: 0.5,
     },
     title: {
         fontSize: 24,
-        fontWeight: "500",
+        fontWeight: '500',
         zIndex: 10,
     },
     cancelBtn: {
-        position: "absolute",
+        position: 'absolute',
         right: 24,
     },
     backBtn: {
-        position: "absolute",
+        position: 'absolute',
         left: 24,
     },
-});
+})

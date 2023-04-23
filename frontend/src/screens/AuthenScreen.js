@@ -19,10 +19,10 @@ const AuthenScreen = ({ navigation }) => {
                 </Button>
             </View>
         </View>
-    )
-}
+    );
+};
 
-export default AuthenScreen
+export default AuthenScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
     img: {
         width: "100%",
-        height: 400
+        height: 400,
     },
     button: {
         alignItems: "center",

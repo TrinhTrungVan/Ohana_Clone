@@ -11,22 +11,22 @@ import {
 } from 'react-native'
 import postServices from '../api/services/postServices'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import PostItem from '../components/PostItem'
 import { useIsFocused } from '@react-navigation/native'
 import COLORS from '../constants/color'
+import MyPostItem from '../components/MyPostItem'
 
-const SavedScreen = ({ navigation }) => {
+const MyPostsScreen = ({ navigation }) => {
     const isFocused = useIsFocused()
     const [data, setData] = useState([])
 
     useEffect(() => {
-        const getLikedPost = async () => {
+        const getPosts = async () => {
             const value = await AsyncStorage.getItem('@userLogin')
             const user = JSON.parse(value)
-            const res = await postServices.getLikedPost(user._id)
+            const res = await postServices.getPostOfUser(user._id)
             setData(res)
         }
-        getLikedPost()
+        getPosts()
     }, [isFocused])
 
     if (data.length == 0) {
@@ -41,12 +41,12 @@ const SavedScreen = ({ navigation }) => {
             <StatusBar animated={true} barStyle={'dark-content'} />
             <ScrollView contentContainerStyle={styles.resultContainer}>
                 {data.map((post, index) => (
-                    <TouchableOpacity
-                        key={index}
-                        onPress={() => navigation.navigate('Post Detail', { id: post._id })}
-                    >
-                        <PostItem data={post} />
-                    </TouchableOpacity>
+                    // <TouchableOpacity
+                    //     key={index}
+                    //     onPress={() => navigation.navigate('Post Detail', { id: post._id })}
+                    // >
+                    <MyPostItem data={post} navigation={navigation} key={index} />
+                    // </TouchableOpacity>
                 ))}
                 <View style={{ height: 120 }} />
             </ScrollView>
@@ -54,7 +54,7 @@ const SavedScreen = ({ navigation }) => {
     )
 }
 
-export default SavedScreen
+export default MyPostsScreen
 
 const styles = StyleSheet.create({
     container: {
@@ -64,8 +64,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#8fcbbc',
     },
     resultContainer: {
-        flexGrow: 1,
-        //flex: 1,
+        width: '100%',
         alignItems: 'center',
     },
     text: {
