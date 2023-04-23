@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { WebView } from 'react-native-webview'
 import { StyleSheet, View } from 'react-native'
-import Button from '../components/Button'
 
 function VnpayScreen({ route, navigation }) {
     const [webView, setWebView] = useState({})
@@ -37,12 +36,8 @@ function VnpayScreen({ route, navigation }) {
             <WebView
                 source={{ uri: uri }}
                 onNavigationStateChange={handleNavigationStateChange}
-                // scalesPageToFit={true}
-                // allowFileAccess={true}
-                // originWhitelist={['*']}
                 startInLoadingState={true}
             />
-            <Button type='Logout' onPress={() => navigation.navigate("Post Detail")}>Trở lại</Button>
         </View>
     )
 }
@@ -51,8 +46,6 @@ export default VnpayScreen
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
-        // alignItems: 'center',
         flex: 1,
         width: "100%",
         height: "100%"

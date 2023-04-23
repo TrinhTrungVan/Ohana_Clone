@@ -4,6 +4,7 @@ import userRouter from './userRoute.js'
 import conversationRouter from './conversationRouter.js'
 import sendEmailRouter from './sendEmailRoute.js'
 import chatRouter from './chatRoute.js'
+import paymentRouter from "./paymentRoute.js"
 
 const route = (app) => {
     app.use('/api/auth', authRouter)
@@ -12,6 +13,7 @@ const route = (app) => {
     app.use('/api/conversation', conversationRouter)
     app.use('/api/email', sendEmailRouter)
     app.use('/api/chat', chatRouter)
+    app.use("/api/payment", paymentRouter)
 }
 
 export default route
