@@ -15,15 +15,15 @@ const AppNavigation = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name='Auth'
-                component={AuthNavigation}
+                name='Main'
+                component={MainNavigation}
                 options={{
                     headerShown: false,
                 }}
             />
             <Stack.Screen
-                name='Main'
-                component={MainNavigation}
+                name='Auth'
+                component={AuthNavigation}
                 options={{
                     headerShown: false,
                 }}

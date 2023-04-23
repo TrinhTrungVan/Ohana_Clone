@@ -3,18 +3,20 @@ import axiosPayment from '../axiosPayment'
 import axios from 'axios'
 export const createPayment = async (pay) => {
     try {
-        const res = await fetch('http://10.0.2.2:8888/order/create_payment_url', 
+        const res = await axios.post('http://10.0.2.2:2001/api/payment/create_payment_url', pay,
         {   
-            method: "POST",
+            // method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
                 // Token: accessToken
             }, 
-            body: JSON.stringify(pay)
+            // body: JSON.stringify(pay)
         })
-        const json = await res.json()
-        return json
+        console.log(res.data)
+        return res.data
+        // const json = await res.json()
+        // return json
     }
     catch (e) {
         console.log('errorPayment', e)
